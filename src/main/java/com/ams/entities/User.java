@@ -9,11 +9,15 @@ public class User {
 	private String address;
 	private String phone;
 	private String name;
-	private char gender;
+	//private char gender;
+	private String gender;
 	private String image;
+	
+	
 	public int getId() {
 		return id;
 	}
+	
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -35,6 +39,7 @@ public class User {
 	public void setEnable(boolean enable) {
 		this.enable = enable;
 	}
+
 	public String getEmail() {
 		return email;
 	}
@@ -59,10 +64,10 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public char getGender() {
+	public String getGender() {
 		return gender;
 	}
-	public void setGender(char gender) {
+	public void setGender(String gender) {
 		this.gender = gender;
 	}
 	public String getImage() {
