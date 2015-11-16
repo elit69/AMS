@@ -7,7 +7,7 @@ public class Article {
 	private int userid;
 	private String content;
 	private String pubdate;
-	private int enable;
+	private boolean enable;
 	private String image;
 	public int getId() {
 		return id;
@@ -39,10 +39,10 @@ public class Article {
 	public void setPubdate(String pubdaye) {
 		this.pubdate = pubdaye;
 	}
-	public int getEnable() {
+	public boolean getEnable() {
 		return enable;
 	}
-	public void setEnable(int enable) {
+	public void setEnable(boolean enable) {
 		this.enable = enable;
 	}
 	public String getImage() {
