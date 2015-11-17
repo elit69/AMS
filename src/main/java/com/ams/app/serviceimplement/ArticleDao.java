@@ -81,7 +81,19 @@ public class ArticleDao implements ArticleService {
 	}
 
 	public boolean delete(int artId) {
-		// TODO Auto-generated method stub
+		String sql = "DELETE FROM tbarticle WHERE id =?";
+		try (
+				Connection cnn = dataSource.getConnection();
+				PreparedStatement ps = cnn.prepareStatement(sql);
+			) 
+		{
+			ps.setInt(1, art.getTitle());
+			if(ps.executeUpdate()>0) return true;
+
+		} catch (SQLException e) {
+			System.out.println(e);
+		} 
+		return false;
 		return false;
 	}
 
