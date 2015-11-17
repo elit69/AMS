@@ -51,3 +51,5 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+src/main/java/com/ams/app/configuration/WebConfig.java
