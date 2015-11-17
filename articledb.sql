@@ -11,14 +11,14 @@ Target Server Type    : PGSQL
 Target Server Version : 90305
 File Encoding         : 65001
 
-Date: 2015-11-17 20:44:08
+Date: 2015-11-17 23:26:50
 */
 
 
 -- ----------------------------
 -- Sequence structure for tbarticle_id_seq
 -- ----------------------------
-DROP SEQUENCE if exists  "tbarticle_id_seq" CASCADE;
+DROP SEQUENCE "tbarticle_id_seq";
 CREATE SEQUENCE "tbarticle_id_seq"
  INCREMENT 1
  MINVALUE 1
@@ -30,7 +30,7 @@ SELECT setval('"public"."tbarticle_id_seq"', 20, true);
 -- ----------------------------
 -- Sequence structure for tbrole_id_seq
 -- ----------------------------
-DROP SEQUENCE if exists  "tbrole_id_seq" CASCADE;
+DROP SEQUENCE "tbrole_id_seq";
 CREATE SEQUENCE "tbrole_id_seq"
  INCREMENT 1
  MINVALUE 1
@@ -42,7 +42,7 @@ SELECT setval('"public"."tbrole_id_seq"', 3, true);
 -- ----------------------------
 -- Sequence structure for tbuser_id_seq
 -- ----------------------------
-DROP SEQUENCE if exists  "tbuser_id_seq" CASCADE;
+DROP SEQUENCE "tbuser_id_seq";
 CREATE SEQUENCE "tbuser_id_seq"
  INCREMENT 1
  MINVALUE 1
@@ -185,13 +185,114 @@ CREATE OR REPLACE VIEW "NewView" AS
 CREATE OR REPLACE VIEW "v_list_all_article" AS 
  SELECT tbarticle.id,
     tbarticle.title,
-    tbuser.name,
     tbarticle.publish_date,
     tbarticle.enable,
     tbarticle.image,
-    tbarticle.content
+    tbarticle.content,
+    tbarticle.userid,
+    tbuser.name
    FROM (tbarticle
      JOIN tbuser ON ((tbarticle.userid = tbuser.id)));
+
+-- ----------------------------
+-- Function structure for search_article_content
+-- ----------------------------
+CREATE OR REPLACE FUNCTION "search_article_content"(keyword varchar, lm int4, o int4)
+  RETURNS SETOF "public"."v_list_all_article" AS $BODY$
+BEGIN
+  RETURN QUERY  SELECT
+*
+  FROM
+    v_list_all_article
+  WHERE
+    LOWER(CONTENT) LIKE LOWER('%' || keyword || '%')
+  ORDER BY
+    ID
+  LIMIT lm OFFSET o ;
+  END $BODY$
+  LANGUAGE 'plpgsql' VOLATILE COST 100
+ ROWS 1000
+;
+
+-- ----------------------------
+-- Function structure for search_article_content_json
+-- ----------------------------
+CREATE OR REPLACE FUNCTION "search_article_content_json"(keyword varchar, lm int4, o int4)
+  RETURNS "pg_catalog"."json" AS $BODY$
+SELECT
+    array_to_json (ARRAY_AGG(row_to_json(T)))
+  FROM
+    (
+      SELECT
+        ID,
+        title,
+        userid,
+        CONTENT,
+        publish_date,
+        ENABLE,
+        image,
+        name
+      FROM
+        v_list_all_article
+      WHERE
+        LOWER(CONTENT) LIKE LOWER('%' || keyword || '%')
+      ORDER BY
+        ID
+      LIMIT lm OFFSET o
+    ) T ;
+$BODY$
+  LANGUAGE 'sql' VOLATILE COST 100
+;
+
+-- ----------------------------
+-- Function structure for search_article_title
+-- ----------------------------
+CREATE OR REPLACE FUNCTION "search_article_title"(keyword varchar, lm int4, o int4)
+  RETURNS SETOF "public"."v_list_all_article" AS $BODY$
+BEGIN
+  RETURN QUERY  SELECT
+*
+  FROM
+    v_list_all_article
+  WHERE
+    LOWER(TITLE) LIKE LOWER('%' || keyword || '%')
+  ORDER BY
+    ID
+  LIMIT lm OFFSET o ;
+  END $BODY$
+  LANGUAGE 'plpgsql' VOLATILE COST 100
+ ROWS 1000
+;
+
+-- ----------------------------
+-- Function structure for search_article_title_json
+-- ----------------------------
+CREATE OR REPLACE FUNCTION "search_article_title_json"(keyword varchar, lm int4, o int4)
+  RETURNS "pg_catalog"."json" AS $BODY$
+SELECT
+    array_to_json (ARRAY_AGG(row_to_json(T)))
+  FROM
+    (
+      SELECT
+        ID,
+        title,
+        userid,
+        CONTENT,
+        publish_date,
+        ENABLE,
+        image,
+        name
+      FROM
+        v_list_all_article
+      WHERE
+        LOWER(CONTENT) LIKE LOWER('%' || keyword || '%')
+      ORDER BY
+        ID
+      LIMIT lm OFFSET o
+    ) T ;
+$BODY$
+  LANGUAGE 'sql' VOLATILE COST 100
+;
 
 -- ----------------------------
 -- Alter Sequences Owned By 
