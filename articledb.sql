@@ -1,36 +1,36 @@
 /*
 Navicat PGSQL Data Transfer
 
-Source Server         : Spring
-Source Server Version : 90303
+Source Server         : Postgres
+Source Server Version : 90305
 Source Host           : localhost:5432
 Source Database       : articledb
 Source Schema         : public
 
 Target Server Type    : PGSQL
-Target Server Version : 90303
+Target Server Version : 90305
 File Encoding         : 65001
 
-Date: 2015-11-17 08:36:22
+Date: 2015-11-17 20:44:08
 */
 
 
 -- ----------------------------
 -- Sequence structure for tbarticle_id_seq
 -- ----------------------------
-DROP SEQUENCE IF EXISTS "tbarticle_id_seq";
+DROP SEQUENCE if exists  "tbarticle_id_seq" CASCADE;
 CREATE SEQUENCE "tbarticle_id_seq"
  INCREMENT 1
  MINVALUE 1
  MAXVALUE 9223372036854775807
- START 14
+ START 20
  CACHE 1;
-SELECT setval('"public"."tbarticle_id_seq"', 14, true);
+SELECT setval('"public"."tbarticle_id_seq"', 20, true);
 
 -- ----------------------------
 -- Sequence structure for tbrole_id_seq
 -- ----------------------------
-DROP SEQUENCE IF EXISTS "tbrole_id_seq";
+DROP SEQUENCE if exists  "tbrole_id_seq" CASCADE;
 CREATE SEQUENCE "tbrole_id_seq"
  INCREMENT 1
  MINVALUE 1
@@ -42,14 +42,14 @@ SELECT setval('"public"."tbrole_id_seq"', 3, true);
 -- ----------------------------
 -- Sequence structure for tbuser_id_seq
 -- ----------------------------
-DROP SEQUENCE IF EXISTS "tbuser_id_seq";
+DROP SEQUENCE if exists  "tbuser_id_seq" CASCADE;
 CREATE SEQUENCE "tbuser_id_seq"
  INCREMENT 1
  MINVALUE 1
  MAXVALUE 9223372036854775807
- START 13
+ START 6
  CACHE 1;
-SELECT setval('"public"."tbuser_id_seq"', 13, true);
+SELECT setval('"public"."tbuser_id_seq"', 6, true);
 
 -- ----------------------------
 -- Table structure for tbarticle
@@ -72,20 +72,26 @@ WITH (OIDS=FALSE)
 -- Records of tbarticle
 -- ----------------------------
 BEGIN;
-INSERT INTO "tbarticle" VALUES ('1', 'sdf', '1', 'sdf', '2010-02-01 00:00:00', 't', null);
-INSERT INTO "tbarticle" VALUES ('2', 'sdf', '1', 'sdf', '2010-02-01 00:00:00', 't', null);
-INSERT INTO "tbarticle" VALUES ('3', 'sdf', '1', 'sdf', '2010-02-01 00:00:00', 't', null);
-INSERT INTO "tbarticle" VALUES ('4', 'sdf', '1', 'sdf', '2010-02-01 00:00:00', 't', null);
-INSERT INTO "tbarticle" VALUES ('5', 'sdf', '1', 'sdf', '2010-02-01 00:00:00', 't', null);
-INSERT INTO "tbarticle" VALUES ('6', 'sdf', '1', 'sdf', '2010-02-01 00:00:00', 't', null);
-INSERT INTO "tbarticle" VALUES ('7', 'sdf', '1', 'sdf', '2010-02-01 00:00:00', 't', null);
-INSERT INTO "tbarticle" VALUES ('8', 'sdf', '1', 'sdf', '2010-02-01 00:00:00', 't', null);
-INSERT INTO "tbarticle" VALUES ('9', 'sdf', '1', 'sdf', '2010-02-01 00:00:00', 't', null);
-INSERT INTO "tbarticle" VALUES ('10', 'sdf', '1', 'sdf', '2010-02-01 00:00:00', 't', null);
-INSERT INTO "tbarticle" VALUES ('11', 'sdf', '1', 'sdf', '2010-02-01 00:00:00', 't', null);
-INSERT INTO "tbarticle" VALUES ('12', 'sdf', '1', 'sdf', '2010-02-01 00:00:00', 't', null);
-INSERT INTO "tbarticle" VALUES ('13', 'sdf', '1', 'sdf', '2010-02-01 00:00:00', 't', null);
-INSERT INTO "tbarticle" VALUES ('14', 'sdf', '1', 'sdf', '2010-02-01 00:00:00', 't', null);
+INSERT INTO "tbarticle" VALUES ('1', 'The Pr', '2', 'The Project Gutenberg EBook of War and Peace, by Leo Tolstoy', '2015-11-17 00:00:00', 't', 'some image');
+INSERT INTO "tbarticle" VALUES ('2', 'This e', '3', 'This eBook is for the use of anyone anywhere at no cost and with almost', '2015-11-17 00:00:00', 't', 'some image');
+INSERT INTO "tbarticle" VALUES ('3', 'no res', '1', 'no restrictions whatsoever.  You may copy it, give it away or re-use it', '2015-11-17 00:00:00', 't', 'some image');
+INSERT INTO "tbarticle" VALUES ('4', 'under ', '4', 'under the terms of the Project Gutenberg License included with this', '2015-11-17 00:00:00', 't', 'some image');
+INSERT INTO "tbarticle" VALUES ('5', 'eBook ', '1', 'eBook or online at www.gutenberg.org', '2015-11-17 00:00:00', 't', 'some image');
+INSERT INTO "tbarticle" VALUES ('6', 'Title:', '4', 'Title: War and Peace', '2015-11-17 00:00:00', 't', 'some image');
+INSERT INTO "tbarticle" VALUES ('7', 'Author', '3', 'Author: Leo Tolstoy', '2015-11-17 00:00:00', 't', 'some image');
+INSERT INTO "tbarticle" VALUES ('8', 'Transl', '5', 'Translators: Louise and Aylmer Maude', '2015-11-17 00:00:00', 't', 'some image');
+INSERT INTO "tbarticle" VALUES ('9', 'Postin', '3', 'Posting Date: January 10, 2009 [EBook #2600]', '2015-11-17 00:00:00', 't', 'some image');
+INSERT INTO "tbarticle" VALUES ('10', 'Last U', '2', 'Last Updated: March 15, 2013', '2015-11-17 00:00:00', 't', 'some image');
+INSERT INTO "tbarticle" VALUES ('11', 'Langua', '2', 'Language: English', '2015-11-17 00:00:00', 't', 'some image');
+INSERT INTO "tbarticle" VALUES ('12', 'Charac', '4', 'Character set encoding: ASCII', '2015-11-17 00:00:00', 't', 'some image');
+INSERT INTO "tbarticle" VALUES ('13', '*** ST', '4', '*** START OF THIS PROJECT GUTENBERG EBOOK WAR AND PEACE ***', '2015-11-17 00:00:00', 't', 'some image');
+INSERT INTO "tbarticle" VALUES ('14', 'An Ano', '2', 'An Anonymous Volunteer, and David Widger', '2015-11-17 00:00:00', 't', 'some image');
+INSERT INTO "tbarticle" VALUES ('15', 'WAR AN', '4', 'WAR AND PEACE', '2015-11-17 00:00:00', 't', 'some image');
+INSERT INTO "tbarticle" VALUES ('16', 'By Leo', '4', 'By Leo Tolstoy/Tolstoi', '2015-11-17 00:00:00', 't', 'some image');
+INSERT INTO "tbarticle" VALUES ('17', 'CONTEN', '5', 'CONTENTS', '2015-11-17 00:00:00', 't', 'some image');
+INSERT INTO "tbarticle" VALUES ('18', 'BOOK O', '3', 'BOOK ONE: 1805', '2015-11-17 00:00:00', 't', 'some image');
+INSERT INTO "tbarticle" VALUES ('19', 'CHAPTE', '6', 'CHAPTER I', '2015-11-17 00:00:00', 't', 'some image');
+INSERT INTO "tbarticle" VALUES ('20', 'CHAPTE', '3', 'CHAPTER II', '2015-11-17 00:00:00', 't', 'some image');
 COMMIT;
 
 -- ----------------------------
@@ -132,9 +138,12 @@ WITH (OIDS=FALSE)
 -- Records of tbuser
 -- ----------------------------
 BEGIN;
-INSERT INTO "tbuser" VALUES ('1', 'admin', '1', 't', null, null, null, null, null, null);
-INSERT INTO "tbuser" VALUES ('2', 'author', '1', 't', null, null, null, null, null, null);
-INSERT INTO "tbuser" VALUES ('13', 'user', '1', 't', null, null, null, null, null, null);
+INSERT INTO "tbuser" VALUES ('1', 'admin', '1', 't', 'admin@gmail.com', 'btb', '3452', 'admin00', 'm', 'default.jpg');
+INSERT INTO "tbuser" VALUES ('2', 'author', '1', 't', 'author@gmail.com', 'sr', '2322', 'author00', 'f', 'default.jpg');
+INSERT INTO "tbuser" VALUES ('3', 'admin1', '1', 't', 'admin1@gmail.com', 'pp', '8313', 'admin01', 'm', 'default.jpg');
+INSERT INTO "tbuser" VALUES ('4', 'user1', '1', 'f', 'admin1@gmail.com', 'pp', '8331', 'author01', 'm', 'default.jpg');
+INSERT INTO "tbuser" VALUES ('5', 'admin2', '1', 'f', 'admin2@gmail.com', 'sr', '2242', 'admin02', 'f', 'default.jpg');
+INSERT INTO "tbuser" VALUES ('6', 'author2', '1', 'f', 'author2@gmail.com', 'sr', '2342', 'author02', 'f', 'default.jpg');
 COMMIT;
 
 -- ----------------------------
@@ -157,6 +166,20 @@ INSERT INTO "tbuser_role" VALUES ('1', '2');
 COMMIT;
 
 -- ----------------------------
+-- View structure for NewView
+-- ----------------------------
+CREATE OR REPLACE VIEW "NewView" AS 
+ SELECT art.id,
+    art.title,
+    us.name,
+    art.content,
+    art.publish_date,
+    art.image
+   FROM (tbarticle art
+     JOIN tbuser us ON ((art.userid = us.id)))
+  WHERE (art.enable = true);
+
+-- ----------------------------
 -- View structure for v_list_all_article
 -- ----------------------------
 CREATE OR REPLACE VIEW "v_list_all_article" AS 
@@ -168,7 +191,7 @@ CREATE OR REPLACE VIEW "v_list_all_article" AS
     tbarticle.image,
     tbarticle.content
    FROM (tbarticle
-   JOIN tbuser ON ((tbarticle.userid = tbuser.id)));
+     JOIN tbuser ON ((tbarticle.userid = tbuser.id)));
 
 -- ----------------------------
 -- Alter Sequences Owned By 
@@ -212,18 +235,3 @@ ALTER TABLE "tbarticle" ADD FOREIGN KEY ("userid") REFERENCES "tbuser" ("id") ON
 -- ----------------------------
 ALTER TABLE "tbuser_role" ADD FOREIGN KEY ("user_id") REFERENCES "tbuser" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "tbuser_role" ADD FOREIGN KEY ("id") REFERENCES "tbrole" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
-
-CREATE VIEW "public"."NewView" AS 
- SELECT art.id,
-    art.title,
-    us.name,
-    art.content,
-    art.publish_date,
-    art.image
-   FROM (tbarticle art
-   JOIN tbuser us ON ((art.userid = us.id)))
-  WHERE (art.enable = true);;
-
-ALTER TABLE "public"."NewView" OWNER TO "postgres";
-
-
