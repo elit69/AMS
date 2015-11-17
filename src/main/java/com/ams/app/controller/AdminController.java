@@ -36,7 +36,6 @@ public class AdminController {
 	
 	@RequestMapping(value="/",method=RequestMethod.GET)
 	public ModelAndView viewListArticle(ModelAndView mav){
-		System.out.println("olo");
 		mav.setViewName("article");
 		return mav;
 	}
