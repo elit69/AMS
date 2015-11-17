@@ -24,7 +24,7 @@ public class AdminController {
 	@RequestMapping(value="/",method=RequestMethod.GET)
 	public ModelAndView viewListArticle(ModelAndView mav){
 		System.out.println("olo");
-		mav.setViewName("p_list_article");
+		mav.setViewName("article");
 		return mav;
 	}
 	
@@ -34,6 +34,7 @@ public class AdminController {
 		List<ArticleDto> list = artservice.list();
 		Map<String, Object> map = new HashMap<String,Object>();
 		if(list.isEmpty()){
+			map.put("MESSAGE", "LIST EMPTY");
 			return new ResponseEntity<Map<String,Object>>(map,HttpStatus.OK);
 		}else{
 			map.put("STATUS", HttpStatus.OK);

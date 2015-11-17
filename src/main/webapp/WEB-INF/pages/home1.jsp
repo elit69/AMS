@@ -12,8 +12,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- CSS Library -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/lib/bootstrap.min.css" />
+<link rel="stylesheet"	href="${pageContext.request.contextPath}/resources/css/lib/bootstrap.min.css" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/lib/font-awesome-4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet"

@@ -56,7 +56,22 @@ public class ArticleDao implements ArticleService {
 	}
 
 	public boolean add(ArticleDto art) {
-		// TODO Auto-generated method stub
+		String sql = "INSERT INTO tblarticle(title,userid,content,publish_date,enable,image) VALUES(?,?,?,NOW(),?,?)";
+		try (
+				Connection cnn = dataSource.getConnection();
+				PreparedStatement ps = cnn.prepareStatement(sql);
+			) 
+		{
+			ps.setString(1, art.getTitle());
+			ps.setInt(2, art.getUserid());
+			ps.setString(3, art.getContent());
+			ps.setBoolean(4, art.getEnable());
+			ps.setString(5, art.getImage());
+			if(ps.executeUpdate()>0) return true;
+
+		} catch (SQLException e) {
+			System.out.println(e);
+		} 
 		return false;
 	}
 
