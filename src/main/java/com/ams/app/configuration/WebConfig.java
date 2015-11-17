@@ -40,12 +40,12 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setUrl("jdbc:postgresql://localhost:5432/articledb");
         dataSource.setUsername("postgres");
-        dataSource.setPassword("123");
+        dataSource.setPassword("12345");
         return dataSource;
     }
 	
 	//ClientDao Bean
-	@Bean
+	/*@Bean
     public DataSource getMyDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
@@ -53,9 +53,9 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         dataSource.setUsername("postgres");
         dataSource.setPassword("123456");
         return dataSource;
-    }
+    }*/
 	@Bean
 	public ClientDao getClientDao(){
-		return new ClientDao(this.getMyDataSource());
+		return new ClientDao(this.getDataSource());
 	}
 }
