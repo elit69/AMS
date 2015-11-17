@@ -2,8 +2,11 @@ package com.ams.app.services;
 
 import java.util.ArrayList;
 
+import org.springframework.stereotype.Service;
+
 import com.ams.app.entities.ArticleDto;
 
+@Service
 public interface ArticleService {
 	public ArrayList<ArticleDto> list();
 	public boolean add(ArticleDto art);

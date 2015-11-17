@@ -30,15 +30,16 @@ import com.ams.app.services.UserService;
 
 @RestController
 @RequestMapping(value = "/admin/api")
-public class AdminController {
+public class AdminArticleController {
 	private static final Logger logger = LoggerFactory
-			.getLogger(AdminController.class);
+			.getLogger(AdminArticleController.class);
 	@Autowired
+	@Qualifier("artservice")
 	private ArticleService artservice;
 
 	// User Service
 	@Autowired
-
+	@Qualifier("userService")
 	private UserService userService;
 
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
