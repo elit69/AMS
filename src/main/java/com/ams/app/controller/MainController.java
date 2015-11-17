@@ -12,7 +12,7 @@ public class MainController {
 	public String homePage(ModelMap model) {
 		model.addAttribute("message", "hello world");
 		System.out.println("home page");
-		return "home";
+		return "home1";
 	}
 
 }
