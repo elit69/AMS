@@ -212,3 +212,18 @@ ALTER TABLE "tbarticle" ADD FOREIGN KEY ("userid") REFERENCES "tbuser" ("id") ON
 -- ----------------------------
 ALTER TABLE "tbuser_role" ADD FOREIGN KEY ("user_id") REFERENCES "tbuser" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "tbuser_role" ADD FOREIGN KEY ("id") REFERENCES "tbrole" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+CREATE VIEW "public"."NewView" AS 
+ SELECT art.id,
+    art.title,
+    us.name,
+    art.content,
+    art.publish_date,
+    art.image
+   FROM (tbarticle art
+   JOIN tbuser us ON ((art.userid = us.id)))
+  WHERE (art.enable = true);;
+
+ALTER TABLE "public"."NewView" OWNER TO "postgres";
+
+
