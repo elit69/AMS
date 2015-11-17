@@ -25,7 +25,7 @@ public class ArticleDao implements ArticleService {
 	
 	
 	public ArrayList<ArticleDto> list() {
-		String sql = "select * from v_list_all_user";
+		String sql = "select * from v_list_all_article";
 		try (Connection cnn = dataSource.getConnection();
 				PreparedStatement ps = cnn.prepareStatement(sql);
 				ResultSet rs = ps.executeQuery();
