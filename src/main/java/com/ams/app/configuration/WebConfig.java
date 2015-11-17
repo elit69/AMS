@@ -14,7 +14,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 
 @Configuration
-@ComponentScan(basePackages="com.ams.controller")
+@ComponentScan(basePackages="com.ams.app")
 @EnableWebMvc
 public class WebConfig extends WebMvcConfigurerAdapter {
 
@@ -32,15 +32,15 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 	}
 	
-/*	@Bean
+	@Bean
     public DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setUrl("jdbc:postgresql://localhost:5432/articledb");
         dataSource.setUsername("postgres");
-        dataSource.setPassword("1234");
+        dataSource.setPassword("12345");
         return dataSource;
-    }*/
+    }
 	
 
 	
