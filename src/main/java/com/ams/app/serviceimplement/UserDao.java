@@ -9,10 +9,13 @@ import java.util.ArrayList;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import com.ams.app.entities.UserDto;
 import com.ams.app.services.UserService;
 
+@Repository
 public class UserDao implements UserService{
 	@Autowired
 	private DataSource dataSource;

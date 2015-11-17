@@ -87,13 +87,12 @@ public class ArticleDao implements ArticleService {
 				PreparedStatement ps = cnn.prepareStatement(sql);
 			) 
 		{
-			ps.setInt(1, art.getTitle());
+			ps.setInt(1, artId);
 			if(ps.executeUpdate()>0) return true;
 
 		} catch (SQLException e) {
 			System.out.println(e);
 		} 
-		return false;
 		return false;
 	}
 
