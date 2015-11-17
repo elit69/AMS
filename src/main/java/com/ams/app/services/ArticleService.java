@@ -12,6 +12,6 @@ public interface ArticleService {
 	public boolean add(ArticleDto art);
 	public boolean update(ArticleDto art);
 	public boolean delete(int artId);
-	public ArticleDto show(int artId);
+	public String show(int artId);
 	public ArrayList<ArticleDto> search(String keyword, String type);
 }

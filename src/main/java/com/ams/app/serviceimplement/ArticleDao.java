@@ -65,8 +65,9 @@ public class ArticleDao implements ArticleService {
 			ps.setString(1, art.getTitle());
 			ps.setInt(2, art.getUserid());
 			ps.setString(3, art.getContent());
-			ps.setBoolean(4, art.getEnable());
-			ps.setString(5, art.getImage());
+			ps.setString(4, art.getPubdate());
+			ps.setBoolean(5, art.getEnable());
+			ps.setString(6, art.getImage());
 			if(ps.executeUpdate()>0) return true;
 
 		} catch (SQLException e) {
@@ -76,7 +77,22 @@ public class ArticleDao implements ArticleService {
 	}
 
 	public boolean update(ArticleDto art) {
-		// TODO Auto-generated method stub
+		String sql = "UPDATE tbarticle set title=?,userid=?,content=?,publish_date=?,enable=?,image=? WHERE id =?";
+		try (
+				Connection cnn = dataSource.getConnection();
+				PreparedStatement ps = cnn.prepareStatement(sql);
+			) 
+		{
+			ps.setString(1, art.getTitle());
+			ps.setInt(2, art.getUserid());
+			ps.setString(2, art.getContent());
+			ps.setBoolean(4, art.getEnable());
+			ps.setString(5, art.getImage());
+			if(ps.executeUpdate()>0) return true;
+
+		} catch (SQLException e) {
+			System.out.println(e);
+		} 
 		return false;
 	}
 
@@ -96,8 +112,25 @@ public class ArticleDao implements ArticleService {
 		return false;
 	}
 
-	public ArticleDto show(int artId) {
-		// TODO Auto-generated method stub
+	public String show(int artId) {
+		String a=null;
+		String sql = "SELECT array_to_json (ARRAY_AGG(row_to_json(T))) FROM ( SELECT tbarticle. ID, tbarticle.title, tbuser. NAME, tbarticle.publish_date, tbarticle. ENABLE, tbarticle.image, tbarticle. CONTENT FROM ( tbarticle JOIN tbuser ON ((tbarticle.userid = tbuser. ID))) WHERE tbarticle. ID = ? ) T";
+		try (Connection cnn = dataSource.getConnection();
+				PreparedStatement ps = cnn.prepareStatement(sql);
+				
+		)
+		{
+			ps.setInt(1, artId);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			a = rs.getString(1);
+					
+			System.out.println(a);
+			return a;
+			
+		} catch (SQLException e) {
+			System.out.println(e);
+		} 
 		return null;
 	}
 
