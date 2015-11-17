@@ -5,6 +5,7 @@ public class Article {
 	private int id;
 	private String title;
 	private int userid;
+	private String uername;
 	private String content;
 	private String pubdate;
 	private boolean enable;
@@ -50,6 +51,13 @@ public class Article {
 	}
 	public void setImage(String image) {
 		this.image = image;
+	}
+	
+	public String getUername() {
+		return uername;
+	}
+	public void setUername(String uername) {
+		this.uername = uername;
 	}
 	@Override
 	public String toString() {

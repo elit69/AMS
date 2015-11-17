@@ -85,7 +85,6 @@ public class UserServiceImpl implements UserService{
 			}
 		}
 		return false;
-		return false;
 	}
 
 	public boolean updateUser(User usr) {
@@ -109,6 +108,36 @@ public class UserServiceImpl implements UserService{
 	}
 
 	public ArrayList<User> searchUser(String keyword, String type) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean add(User usr) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean update(User usr) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean delete(int usrId) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public User show(int usrId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public User show(String usrName) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public ArrayList<User> search(String keyword, String type) {
 		// TODO Auto-generated method stub
 		return null;
 	}
