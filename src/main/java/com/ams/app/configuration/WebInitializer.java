@@ -1,4 +1,4 @@
-package com.ams.config;
+package com.ams.app.configuration;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;

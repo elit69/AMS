@@ -1,3 +1,4 @@
+package com.ams.app.controller;
 /*package com.ams.controller;
 
 import org.springframework.stereotype.Controller;

@@ -1,6 +1,6 @@
-package com.ams.entities;
+package com.ams.app.entities;
 
-public class Article {
+public class ArticleDto {
 	
 	private int id;
 	private String title;

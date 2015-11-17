@@ -1,4 +1,4 @@
-package com.ams.services.impl;
+package com.ams.app.serviceimplement;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,29 +10,29 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.ams.entities.User;
-import com.ams.services.UserService;
+import com.ams.app.entities.UserDto;
+import com.ams.app.services.UserService;
 
-public class UserServiceImpl implements UserService{
+public class UserDao implements UserService{
 	@Autowired
 	private DataSource dataSource;
 	private Connection con;
 	
-	public UserServiceImpl(DataSource dataSource){
+	public UserDao(DataSource dataSource){
 		this.dataSource=dataSource;
 	}
 	
-	public ArrayList<User> list() {
+	public ArrayList<UserDto> list() {
 		System.out.println("get all students class");
-		User user=null;
+		UserDto user=null;
 		try{
 			con=dataSource.getConnection();
 			String sql="SELECT * FROM tbuser ORDER BY id";
 			PreparedStatement ps=con.prepareStatement(sql);
 			ResultSet rs=ps.executeQuery();
-			ArrayList<User> users=new ArrayList<User>();
+			ArrayList<UserDto> users=new ArrayList<UserDto>();
 			while(rs.next()){
-				user=new User();
+				user=new UserDto();
 				user.setId(rs.getInt(1));
 				user.setUsername(rs.getString(2));
 				user.setPassword(rs.getString(3));
@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService{
 		
 	}
 
-	public boolean addUser(User user) {
+	public boolean addUser(UserDto user) {
 		try{
 			con=dataSource.getConnection();
 			String sql="INSERT INTO tbuser VALUES(nextval('sq_user'),?,?,?,?,?,?,?,?,?,?)";
@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService{
 		return false;
 	}
 
-	public boolean updateUser(User usr) {
+	public boolean updateUser(UserDto usr) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -97,27 +97,27 @@ public class UserServiceImpl implements UserService{
 		return false;
 	}
 
-	public User showUser(int usrId) {
+	public UserDto showUser(int usrId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public User showUser(String usrName) {
+	public UserDto showUser(String usrName) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public ArrayList<User> searchUser(String keyword, String type) {
+	public ArrayList<UserDto> searchUser(String keyword, String type) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public boolean add(User usr) {
+	public boolean add(UserDto usr) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public boolean update(User usr) {
+	public boolean update(UserDto usr) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -127,17 +127,17 @@ public class UserServiceImpl implements UserService{
 		return false;
 	}
 
-	public User show(int usrId) {
+	public UserDto show(int usrId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public User show(String usrName) {
+	public UserDto show(String usrName) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public ArrayList<User> search(String keyword, String type) {
+	public ArrayList<UserDto> search(String keyword, String type) {
 		// TODO Auto-generated method stub
 		return null;
 	}

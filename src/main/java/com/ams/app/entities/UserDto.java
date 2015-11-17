@@ -1,6 +1,6 @@
-package com.ams.entities;
+package com.ams.app.entities;
 
-public class User {
+public class UserDto {
 	private int id;
 	private String username;
 	private String password;
