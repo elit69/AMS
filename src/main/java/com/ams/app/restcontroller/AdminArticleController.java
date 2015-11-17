@@ -1,4 +1,4 @@
-package com.ams.app.controller;
+package com.ams.app.restcontroller;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -8,12 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,14 +24,15 @@ import com.ams.app.services.ArticleService;
 import com.ams.app.services.UserService;
 
 @RestController
-@RequestMapping(value = "/admin/article/api")
+@RequestMapping(value = "/admin/api/article")
 public class AdminArticleController {
-	private static final Logger logger = LoggerFactory.getLogger(AdminArticleController.class);
+
 	@Autowired
-	@Qualifier("artservice")
 	private ArticleService artservice;
 
-	
+	@Autowired
+	private UserService userservice;
+	// SOPHEAK
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView viewListArticle(ModelAndView mav) {
 		mav.setViewName("/admin/article");
@@ -58,5 +54,6 @@ public class AdminArticleController {
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 		}
 	}
+
 
 }

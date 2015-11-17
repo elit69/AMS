@@ -13,7 +13,7 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
+
 
 import com.ams.app.entities.ArticleDto;
 import com.ams.app.services.ArticleService;
@@ -23,8 +23,7 @@ public class ArticleDao implements ArticleService {
 	
 	@Autowired
 	private DataSource dataSource;
-	
-	
+
 	public ArrayList<ArticleDto> list() {
 		String sql = "select * from v_list_all_article";
 		try (Connection cnn = dataSource.getConnection();

@@ -58,7 +58,7 @@
 	<script>
 		var app = angular.module('myApp', []);
 		app.controller('myController', function($scope, $http) {
-			$http.get('${pageContext.request.contextPath}/admin/api/list')
+			$http.get('${pageContext.request.contextPath}/admin/api/article/list')
 					.success(function(data) {
 						$scope.list = data.RESPONSE_DATA;
 					})

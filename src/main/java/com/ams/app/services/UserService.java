@@ -2,11 +2,10 @@ package com.ams.app.services;
 
 import java.util.ArrayList;
 
-import org.springframework.stereotype.Service;
-
 import com.ams.app.entities.UserDto;
-@Service
+
 public interface UserService {
+	
 	public ArrayList<UserDto> getAllUser();
 	public boolean insertUser(UserDto user);
 	public boolean updateUser(UserDto user);
