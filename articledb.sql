@@ -18,7 +18,7 @@ Date: 2015-11-17 23:26:50
 -- ----------------------------
 -- Sequence structure for tbarticle_id_seq
 -- ----------------------------
-DROP SEQUENCE "tbarticle_id_seq";
+DROP SEQUENCE IF EXISTS "tbarticle_id_seq" CASCADE;
 CREATE SEQUENCE "tbarticle_id_seq"
  INCREMENT 1
  MINVALUE 1
@@ -30,7 +30,7 @@ SELECT setval('"public"."tbarticle_id_seq"', 20, true);
 -- ----------------------------
 -- Sequence structure for tbrole_id_seq
 -- ----------------------------
-DROP SEQUENCE "tbrole_id_seq";
+DROP SEQUENCE IF EXISTS "tbrole_id_seq" CASCADE;
 CREATE SEQUENCE "tbrole_id_seq"
  INCREMENT 1
  MINVALUE 1
@@ -42,7 +42,7 @@ SELECT setval('"public"."tbrole_id_seq"', 3, true);
 -- ----------------------------
 -- Sequence structure for tbuser_id_seq
 -- ----------------------------
-DROP SEQUENCE "tbuser_id_seq";
+DROP SEQUENCE IF EXISTS "tbuser_id_seq" CASCADE;
 CREATE SEQUENCE "tbuser_id_seq"
  INCREMENT 1
  MINVALUE 1
@@ -54,7 +54,7 @@ SELECT setval('"public"."tbuser_id_seq"', 6, true);
 -- ----------------------------
 -- Table structure for tbarticle
 -- ----------------------------
-DROP TABLE IF EXISTS "tbarticle";
+DROP TABLE IF EXISTS "tbarticle" CASCADE;
 CREATE TABLE "tbarticle" (
 "id" int8 DEFAULT nextval('tbarticle_id_seq'::regclass) NOT NULL,
 "title" varchar COLLATE "default" NOT NULL,
@@ -97,7 +97,7 @@ COMMIT;
 -- ----------------------------
 -- Table structure for tbrole
 -- ----------------------------
-DROP TABLE IF EXISTS "tbrole";
+DROP TABLE IF EXISTS "tbrole" CASCADE;
 CREATE TABLE "tbrole" (
 "id" int4 DEFAULT nextval('tbrole_id_seq'::regclass) NOT NULL,
 "role" varchar(20) COLLATE "default" NOT NULL
@@ -117,7 +117,7 @@ COMMIT;
 -- ----------------------------
 -- Table structure for tbuser
 -- ----------------------------
-DROP TABLE IF EXISTS "tbuser";
+DROP TABLE IF EXISTS "tbuser" CASCADE;
 CREATE TABLE "tbuser" (
 "id" int4 DEFAULT nextval('tbuser_id_seq'::regclass) NOT NULL,
 "username" varchar COLLATE "default" NOT NULL,
