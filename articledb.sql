@@ -11,7 +11,7 @@ Target Server Type    : PGSQL
 Target Server Version : 90303
 File Encoding         : 65001
 
-Date: 2015-11-17 08:32:46
+Date: 2015-11-17 08:36:22
 */
 
 
@@ -165,7 +165,8 @@ CREATE OR REPLACE VIEW "v_list_all_article" AS
     tbuser.name,
     tbarticle.publish_date,
     tbarticle.enable,
-    tbarticle.image
+    tbarticle.image,
+    tbarticle.content
    FROM (tbarticle
    JOIN tbuser ON ((tbarticle.userid = tbuser.id)));
 
