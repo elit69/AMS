@@ -41,8 +41,9 @@ public class AdminUserController {
 		return "/admin/user/useredit";
 	}
 
-	@RequestMapping(value = { "/", "/list" }, method = RequestMethod.GET)
+	@RequestMapping(value = {"/list" }, method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> listUser() {
+		System.out.println("list user controller.");
 		ArrayList<UserDto> users = userService.getAllUser();
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (users.isEmpty()) {
@@ -56,7 +57,7 @@ public class AdminUserController {
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@RequestMapping(value ="/add", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> addUser(@RequestBody UserDto user) {
 		
 		System.out.println(user.getEmail());
