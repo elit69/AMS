@@ -65,7 +65,7 @@ public class AdminUserController {
 		}
 	}
 
-	@RequestMapping(value = "/uploadimage", method = RequestMethod.POST)
+	/*@RequestMapping(value = "/uploadimage", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> uploadImage(
 			@RequestParam("file") MultipartFile file, HttpServletRequest request) {
 
@@ -117,7 +117,7 @@ public class AdminUserController {
 		}
 		return null;
 	}
-
+*/
 	@RequestMapping(value = "/edituser", method = RequestMethod.POST)
 	public String editUser(UserDto user,ModelMap model) {
 		model.addAttribute("user",user);

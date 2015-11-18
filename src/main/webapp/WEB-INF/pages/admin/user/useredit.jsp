@@ -42,7 +42,7 @@
 			<input type="radio" name="enable" value="1"/>Enable
 			<input type="radio" name="enable" value="0" checked/>Disable<br/><br/>
 		</c:otherwise>
-		Image <input type="file" name="file" id="image" value="${user.image }"/><br/><br/>
+		<%-- Image <input type="file" name="file" id="image" value="${user.image }"/><br/><br/> --%>
 		
 		<input type="button" value="Submit" onclick="updateUser()" />
 		<input type="reset" value="Clear"  />
@@ -50,14 +50,9 @@
 	
 	<script type="text/javascript">
 		var img=0;
-		var temp_image="";
+		//var temp_image="";
 		function updateUser(){
 			alert("update user");
-			if(img==0){
-				temp_image=$("#image").val();
-			}else{
-				temp_image=$("#image").val().split("\\").pop();
-			}
 			json = {
 					id : $("#id").val(),
 					name : $("#name").val(),
@@ -68,7 +63,7 @@
 					address : $("#address").val(),
 					phone : $("#phone").val(),
 					enable : $('input:radio[name=enable]:checked').val(),
-					image : temp_image
+					image : "default.jpg"
 				};
 
 				$.ajax({
@@ -87,12 +82,12 @@
 				});
 		}
 		
-		$("#image").change(function() {
+		/* $("#image").change(function() {
 			//alert("change image");
 			img = 1;
-		});
+		}); */
 		
-		function uploadImage() {
+		/* function uploadImage() {
 			alert("upload image");
 			var data1;
 			data1 = new FormData();
@@ -108,7 +103,7 @@
 					alert("success uploading");
 				}
 			}); 
-		} 
+		}  */
 		
 		
 		

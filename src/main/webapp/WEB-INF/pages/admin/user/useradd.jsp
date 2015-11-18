@@ -24,7 +24,7 @@
 		Password <input type="text" id="password" /><br/><br/>
 		Address <input type="text" id="address" /><br/><br/>
 		Phone <input type="text" id="phone" /><br/><br/>
-		Image <input type="file" name="file" id="image" /><br/><br/>
+		<!-- Image <input type="file" name="file" id="image" /><br/><br/> -->
 		Enable <input type="radio" name="enable" value="1" />Enable
 			   <input type="radio" name="enable" value="0" />Disable<br/><br/>
 			
@@ -44,7 +44,7 @@
 					address : $("#address").val(),
 					phone : $("#phone").val(),
 					enable : $('input:radio[name=enable]:checked').val(),
-					image : $("#image").val().split("\\").pop()
+					image : "default.jpg" 	//.split("\\").pop()
 				};
 
 				$.ajax({
@@ -54,7 +54,7 @@
 					data : json,
 					success : function(data) {
 						alert("Success :" + data.MESSAGE);
-						uploadImage();
+						//uploadImage();
 					},
 					error : function(data) {
 						alert("Unsuccess: " + data.MESSAGE);
@@ -63,7 +63,7 @@
 				});
 		}
 		
-		function uploadImage() {
+		/* function uploadImage() {
 			alert("upload image");
 			var data1;
 			data1 = new FormData();
@@ -79,7 +79,7 @@
 					alert("success uploading");
 				}
 			}); 
-		} 
+		}  */
 		
 		
 		
