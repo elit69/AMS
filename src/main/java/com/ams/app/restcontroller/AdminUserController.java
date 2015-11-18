@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import com.ams.app.entities.UserDto;
 import com.ams.app.services.UserService;
@@ -61,6 +63,8 @@ public class AdminUserController {
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> addUser(@RequestBody UserDto user) {
+		
+		System.out.println(user.getEmail());
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (userService.insertUser(user)) {
 			map.put("STATUS", HttpStatus.CREATED.value());
@@ -71,10 +75,13 @@ public class AdminUserController {
 			map.put("MESSAGE", "USER HAS NOT BEEN CREATED.");
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_FOUND);
 		}
+		
+		//return new ResponseEntity<Map<String, Object>>(map, HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Map<String, Object>> deleteUser(@PathVariable("id") int id) {
+		System.out.println("delete controller.");
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (userService.deleteUser(id)) {
 			map.put("STATUS", HttpStatus.GONE.value());
@@ -104,6 +111,7 @@ public class AdminUserController {
 
 	@RequestMapping(value = "/get_user/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getUser(@PathVariable("id") int id) {
+		System.out.println("detail controller");
 		Map<String, Object> map = new HashMap<String, Object>();
 		UserDto student = userService.getUser(id);
 		if (student != null) {
