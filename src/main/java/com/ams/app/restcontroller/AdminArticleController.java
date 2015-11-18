@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.ams.app.entities.ArticleDto;
 import com.ams.app.services.ArticleService;
 
@@ -45,9 +43,9 @@ public class AdminArticleController {
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 		}
 	}
+	
 	@RequestMapping(value="/add", method= RequestMethod.POST )
-	public ResponseEntity<Map<String,Object>> 
-				addNewStudent(@RequestBody ArticleDto art){
+	public ResponseEntity<Map<String, Object>> addArticle(@RequestBody ArticleDto art){
 		Map<String, Object> map  = new HashMap<String, Object>();
 		if(artservice.add(art)){
 			map.put("MESSAGE","ARTICLE HAS BEEN INSERTED.");
@@ -61,6 +59,7 @@ public class AdminArticleController {
 								(map, HttpStatus.NOT_FOUND);
 		}
 	}
+	
 	@RequestMapping(value="/delete/{id}",method=RequestMethod.DELETE)
 	public ResponseEntity<Map<String, Object>> deleteArticle(@PathVariable("id") int id){
 		System.out.println("delete article");
@@ -77,6 +76,7 @@ public class AdminArticleController {
 								(map, HttpStatus.NOT_FOUND);
 		}
 	}
+	
 	@RequestMapping(value="/update/{id}",method=RequestMethod.PUT)
 	public ResponseEntity<Map<String, Object>> updateArticle(@RequestBody ArticleDto art , @PathVariable("id") int id){
 		System.out.println("update article");

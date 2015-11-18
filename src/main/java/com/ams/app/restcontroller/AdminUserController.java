@@ -14,7 +14,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,8 +34,14 @@ public class AdminUserController {
 	@Autowired
 	private UserService userService;
 
-	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> getAllUsers() {
+		@RequestMapping(value = "/edituser", method = RequestMethod.POST)
+	public String editUser(UserDto user,ModelMap model) {
+		model.addAttribute("user",user);
+		return "/admin/user/useredit";
+	}
+
+	@RequestMapping(value = {"/", "/list"}, method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> listUser() {
 		ArrayList<UserDto> users = userService.getAllUser();
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (users.isEmpty()) {
@@ -48,9 +55,9 @@ public class AdminUserController {
 		map.put("RESPONSE_DATA", users);
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 	}
-
-	@RequestMapping(value = "/adduser", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> insertUser(UserDto user) {
+	
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> addUser(@RequestBody UserDto user) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (userService.insertUser(user)) {
 			map.put("STATUS", HttpStatus.CREATED.value());
@@ -63,9 +70,56 @@ public class AdminUserController {
 			return new ResponseEntity<Map<String, Object>>(map,
 					HttpStatus.NOT_FOUND);
 		}
+	}	
+
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Map<String, Object>> deleteUser(@PathVariable("id") int id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (userService.deleteUser(id)) {
+			map.put("STATUS", HttpStatus.GONE.value());
+			map.put("MESSAGE", "USER HAS BEEN DELETED.");
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+		} else {
+			map.put("STATUS", HttpStatus.NOT_FOUND.value());
+			map.put("MESSAGE", "USER HAS NOT BEEN DELETED.");
+			return new ResponseEntity<Map<String, Object>>(map,
+					HttpStatus.NOT_FOUND);
+		}
 	}
 
-	/*@RequestMapping(value = "/uploadimage", method = RequestMethod.POST)
+	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Map<String, Object>> updateUser(@RequestBody UserDto user , @PathVariable("id") int id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (userService.updateUser(user)) {
+			map.put("STATUS", HttpStatus.FOUND.value());
+			map.put("MESSAGE", "USER HAS BEEN UPDATED.");
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+		} else {
+			map.put("STATUS", HttpStatus.NOT_FOUND.value());
+			map.put("MESSAGE", "USER HAS NOT BEEN UPDATED.");
+			return new ResponseEntity<Map<String, Object>>(map,
+					HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@RequestMapping(value = "/get_user/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> getUser(@PathVariable("id") int id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		UserDto student = userService.getUser(id);
+		if (student != null) {
+			map.put("STATUS", HttpStatus.FOUND.value());
+			map.put("MESSAGE", "USER HAS BEEN FOUND.");
+			map.put("RESPONSE_DATA", student);
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+		} else {
+			map.put("STATUS", HttpStatus.NOT_FOUND.value());
+			map.put("MESSAGE", "USER NOT FOUND...");
+			return new ResponseEntity<Map<String, Object>>(map,
+					HttpStatus.NOT_FOUND);
+		}
+	}
+
+	@RequestMapping(value = "/uploadimage", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> uploadImage(
 			@RequestParam("file") MultipartFile file, HttpServletRequest request) {
 
@@ -116,60 +170,5 @@ public class AdminUserController {
 					HttpStatus.NOT_ACCEPTABLE);
 		}
 		return null;
-	}
-*/
-	@RequestMapping(value = "/edituser", method = RequestMethod.POST)
-	public String editUser(UserDto user,ModelMap model) {
-		model.addAttribute("user",user);
-		return "/admin/user/useredit";
-	}
-	
-	@RequestMapping(value = "/updateuser", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> updateUser(UserDto user) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		if (userService.updateUser(user)) {
-			map.put("STATUS", HttpStatus.FOUND.value());
-			map.put("MESSAGE", "USER HAS BEEN UPDATED.");
-			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
-		} else {
-			map.put("STATUS", HttpStatus.NOT_FOUND.value());
-			map.put("MESSAGE", "USER HAS NOT BEEN UPDATED.");
-			return new ResponseEntity<Map<String, Object>>(map,
-					HttpStatus.NOT_FOUND);
-		}
-	}
-
-	@RequestMapping(value = "/deleteuser", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> deleteUser(
-			@RequestParam("id") int id) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		if (userService.deleteUser(id)) {
-			map.put("STATUS", HttpStatus.GONE.value());
-			map.put("MESSAGE", "USER HAS BEEN DELETED.");
-			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
-		} else {
-			map.put("STATUS", HttpStatus.NOT_FOUND.value());
-			map.put("MESSAGE", "USER HAS NOT BEEN DELETED.");
-			return new ResponseEntity<Map<String, Object>>(map,
-					HttpStatus.NOT_FOUND);
-		}
-	}
-
-	@RequestMapping(value = "/detailuser", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> detailUser(
-			@RequestParam("id") int id) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		UserDto student = userService.getUser(id);
-		if (student != null) {
-			map.put("STATUS", HttpStatus.FOUND.value());
-			map.put("MESSAGE", "USER HAS BEEN FOUND.");
-			map.put("RESPONSE_DATA", student);
-			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
-		} else {
-			map.put("STATUS", HttpStatus.NOT_FOUND.value());
-			map.put("MESSAGE", "USER NOT FOUND...");
-			return new ResponseEntity<Map<String, Object>>(map,
-					HttpStatus.NOT_FOUND);
-		}
 	}
 }
