@@ -27,7 +27,7 @@ public class MainController {
 	}
 	
 	@RequestMapping(value = "/formuseradd", method = RequestMethod.GET)
-	public String formAddUser(ModelMap model,@RequestParam("edit") boolean edit) {
+	public String formAddUser(ModelMap model) {
 		System.out.println("show form user add controller");
 		return "/admin/user/useradd";
 	}
