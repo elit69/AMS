@@ -1,17 +1,17 @@
 /*
 Navicat PGSQL Data Transfer
 
-Source Server         : Postgres
-Source Server Version : 90305
+Source Server         : postgres
+Source Server Version : 90303
 Source Host           : localhost:5432
 Source Database       : articledb
 Source Schema         : public
 
 Target Server Type    : PGSQL
-Target Server Version : 90305
+Target Server Version : 90303
 File Encoding         : 65001
 
-Date: 2015-11-17 23:26:50
+Date: 2015-11-18 10:18:29
 */
 
 
@@ -166,9 +166,9 @@ INSERT INTO "tbuser_role" VALUES ('1', '2');
 COMMIT;
 
 -- ----------------------------
--- View structure for NewView
+-- View structure for v_article
 -- ----------------------------
-CREATE OR REPLACE VIEW "NewView" AS 
+CREATE OR REPLACE VIEW "v_article" AS 
  SELECT art.id,
     art.title,
     us.name,
@@ -176,13 +176,27 @@ CREATE OR REPLACE VIEW "NewView" AS
     art.publish_date,
     art.image
    FROM (tbarticle art
-     JOIN tbuser us ON ((art.userid = us.id)))
+   JOIN tbuser us ON ((art.userid = us.id)))
   WHERE (art.enable = true);
 
 -- ----------------------------
 -- View structure for v_list_all_article
 -- ----------------------------
 CREATE OR REPLACE VIEW "v_list_all_article" AS 
+ SELECT tbarticle.id,
+    tbarticle.title,
+    tbuser.name,
+    tbarticle.publish_date,
+    tbarticle.enable,
+    tbarticle.image,
+    tbarticle.content
+   FROM (tbarticle
+   JOIN tbuser ON ((tbarticle.userid = tbuser.id)));
+
+-- ----------------------------
+-- View structure for v_list_all_article_lit
+-- ----------------------------
+CREATE OR REPLACE VIEW "v_list_all_article_lit" AS 
  SELECT tbarticle.id,
     tbarticle.title,
     tbarticle.publish_date,
@@ -192,18 +206,18 @@ CREATE OR REPLACE VIEW "v_list_all_article" AS
     tbarticle.userid,
     tbuser.name
    FROM (tbarticle
-     JOIN tbuser ON ((tbarticle.userid = tbuser.id)));
+   JOIN tbuser ON ((tbarticle.userid = tbuser.id)));
 
 -- ----------------------------
 -- Function structure for search_article_content
 -- ----------------------------
 CREATE OR REPLACE FUNCTION "search_article_content"(keyword varchar, lm int4, o int4)
-  RETURNS SETOF "public"."v_list_all_article" AS $BODY$
+  RETURNS SETOF "public"."v_list_all_article_lit" AS $BODY$
 BEGIN
   RETURN QUERY  SELECT
 *
   FROM
-    v_list_all_article
+    v_list_all_article_lit
   WHERE
     LOWER(CONTENT) LIKE LOWER('%' || keyword || '%')
   ORDER BY
@@ -233,7 +247,7 @@ SELECT
         image,
         name
       FROM
-        v_list_all_article
+        v_list_all_article_lit
       WHERE
         LOWER(CONTENT) LIKE LOWER('%' || keyword || '%')
       ORDER BY
@@ -248,12 +262,12 @@ $BODY$
 -- Function structure for search_article_title
 -- ----------------------------
 CREATE OR REPLACE FUNCTION "search_article_title"(keyword varchar, lm int4, o int4)
-  RETURNS SETOF "public"."v_list_all_article" AS $BODY$
+  RETURNS SETOF "public"."v_list_all_article_lit" AS $BODY$
 BEGIN
   RETURN QUERY  SELECT
 *
   FROM
-    v_list_all_article
+    v_list_all_article_lit
   WHERE
     LOWER(TITLE) LIKE LOWER('%' || keyword || '%')
   ORDER BY
@@ -283,7 +297,7 @@ SELECT
         image,
         name
       FROM
-        v_list_all_article
+        v_list_all_article_lit
       WHERE
         LOWER(CONTENT) LIKE LOWER('%' || keyword || '%')
       ORDER BY

@@ -20,7 +20,6 @@ public class UserDao implements UserService {
 	@Autowired
 	private DataSource dataSource;
 	private Connection con;
-
 	@Override
 	public ArrayList<UserDto> getAllUser() {
 		UserDto user = null;
@@ -63,7 +62,8 @@ public class UserDao implements UserService {
 	public boolean insertUser(UserDto user) {
 		try {
 			con = dataSource.getConnection();
-			String sql = "INSERT INTO tbuser VALUES(nextval('sq_user'),?,?,?,?,?,?,?,?,?)";
+			String sql = "INSERT INTO tbuser(username,password,enable,email,address,phone,name,gender,image) "
+					+ "VALUES(?,?,?,?,?,?,?,?,?)";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, user.getUsername());
 			ps.setString(2, user.getPassword());

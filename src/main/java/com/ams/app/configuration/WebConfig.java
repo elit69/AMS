@@ -33,17 +33,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	public void addResourceHandlers(ResourceHandlerRegistry registry){
 		registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
 	}
-	
-	/*@Bean
-    public DataSource getDataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/articledb");
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("123");
-        return dataSource;
-    }
-	*/
+
 	@Bean
     public DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
@@ -53,6 +43,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         dataSource.setPassword("12345");
         return dataSource;
     }
+
 	
 	//ClientDao Bean
 	/*@Bean
@@ -64,6 +55,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         dataSource.setPassword("123456");
         return dataSource;
     }*/
+	
 	@Bean
 	public ClientDao getClientDao(){
 		return new ClientDao(this.getDataSource());
