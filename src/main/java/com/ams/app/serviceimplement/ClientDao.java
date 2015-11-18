@@ -36,8 +36,8 @@ public class ClientDao implements ClientService{
 				article=new ArticleDto();
 				article.setId(rs.getInt(1));
 				article.setTitle(rs.getString(2));
-				article.setUername(rs.getString(3));
-				article.setPubdate(rs.getString(4));
+				article.setUsername(rs.getString(3));
+				article.setPdate(rs.getDate(4));
 				list.add(article);
 			}
 		}catch(Exception ex){
@@ -68,8 +68,8 @@ public class ClientDao implements ClientService{
 				article=new ArticleDto();
 				article.setId(rs.getInt(1));
 				article.setTitle(rs.getString(2));
-				article.setUername(rs.getString(3));
-				article.setPubdate(rs.getString(4));
+				article.setUsername(rs.getString(3));
+				article.setPdate(rs.getDate(4));
 				list.add(article);
 			}
 		}catch(Exception ex){
