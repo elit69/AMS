@@ -16,6 +16,9 @@
 <link rel="stylesheet"	href="${pageContext.request.contextPath}/resources/css/lib/bootstrap-select.min.css" />
 <link rel="stylesheet"	href="${pageContext.request.contextPath}/resources/css/userstyle.css" />
 <script src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"/>
 </head>
 <body>
 	<h1>Users Information</h1> <br/><br/>
@@ -110,13 +113,11 @@
 			//alert(id);
 			var str="";
 			$.ajax({
-				type : "POST",
-				url : "admin/api/user/detailuser",
-				data : {
-					id : id
-				},
+				type : "GET",
+				url : "admin/api/user/get_user/"+id,
 				success : function(data) {
-					//alert("Success detail:" + data.MESSAGE);
+					alert("Success detail:" + data.MESSAGE);
+					//alert(data.RESPONSE_DATA.name);
 					str="Name: "+data.RESPONSE_DATA.name+"<br/>"
 						+"Gender: "+data.RESPONSE_DATA.gender+"<br/>"
 						+"Email: "+data.RESPONSE_DATA.email+"<br/>"
@@ -137,7 +138,7 @@
 			//alert("edit user.");
 			$.ajax({
 				type : "POST",
-				url : "admin/api/user/detailuser",
+				url : "admin/api/user/detail",
 				data : {
 					id : id
 				},
@@ -145,7 +146,7 @@
 					//alert("Success detail:" + data.MESSAGE);
 					$.ajax({
 						type : "POST",
-						url : "admin/api/user/edituser",
+						url : "admin/api/user/edit",
 						data : {
 							data : data
 						},
@@ -171,12 +172,8 @@
 		function deleteuser(id){
 			alert("delete user.");
 			$.ajax({
-				type : "POST",
-				url : "admin/api/user/deleteuser",
-				dataType : 'json',
-				data : {
-					id : id
-				},
+				type : "DELETE",
+				url : "admin/api/user/delete/"+id,			
 				success : function(data) {
 					alert("Success: " + data.MESSAGE);
 					startPage();

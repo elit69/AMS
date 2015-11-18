@@ -25,8 +25,8 @@
 		Address <input type="text" id="address" /><br/><br/>
 		Phone <input type="text" id="phone" /><br/><br/>
 		<!-- Image <input type="file" name="file" id="image" /><br/><br/> -->
-		Enable <input type="radio" name="enable" value="1" />Enable
-			   <input type="radio" name="enable" value="0" />Disable<br/><br/>
+		Enable <input type="radio" name="enable" value="true" />Enable
+			   <input type="radio" name="enable" value="false" />Disable<br/><br/>
 			
 		<input type="button" value="Submit" onclick="addUser()" />
 		<input type="reset" value="Clear"  />
@@ -43,15 +43,16 @@
 					password : $("#password").val(),
 					address : $("#address").val(),
 					phone : $("#phone").val(),
-					enable : $('input:radio[name=enable]:checked').val(),
+					enable : false,//$('input:radio[name=enable]:checked').val(),
 					image : "default.jpg" 	//.split("\\").pop()
 				};
 
 				$.ajax({
 					type : "POST",
-					url : "admin/api/user/adduser",
-					dataType : 'json',
-					data : json,
+					url : "admin/api/user/add",
+					//dataType : 'json',
+					data : JSON.stringify(json),
+					contentType: 'application/json',
 					success : function(data) {
 						alert("Success :" + data.MESSAGE);
 						//uploadImage();
