@@ -10,50 +10,57 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Add User</title>
+<script	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<link rel="stylesheet"	href="${pageContext.request.contextPath}/resources/css/lib/bootstrap.min.css" />
+<link rel="stylesheet"	href="${pageContext.request.contextPath}/resources/css/lib/bootstrap-select.min.css" />
+<link rel="stylesheet"	href="${pageContext.request.contextPath}/resources/css/userstyle.css" />
+<script src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
+
+<title>Update User</title>
 <script	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 </head>
 <body>
 	<form action="#" method="POST" enctype="multipart/form-data">
-		ID <input type="hidden" id="id" value="${user.id }" /><br/><br/>
-		Name <input type="text" id="name" value="${user.name }" /><br/><br/>
-		Gender
-		<c:choose>
-			<c:when test="${user.gender=='f'}">
-				<input type="radio" name="gender" value="f" checked/> Female
-				<input type="radio" name="gender" value="m" /> Male <br/><br/>
-			</c:when>
-			<c:otherwise>
-				<input type="radio" name="gender" value="f" /> Female <br/><br/>
-				<input type="radio" name="gender" value="m" checked/> Male <br/><br/>
-			</c:otherwise>
-		</c:choose>   
-		Email <input type="text" id="email" value="${user.email }"/><br/><br/>
-		User Name <input type="text" id="username" value="${user.username }"/><br/><br/>
-		Password <input type="text" id="password" value="${user.password }"/><br/><br/>
-		Address <input type="text" id="address" value="${user.address }"/><br/><br/>
-		Phone <input type="text" id="phone" value="${user.phone }"/><br/><br/>
+		ID <input type="hidden" id="id"  /><br/><br/>
+		Name <input type="text" id="name" /><br/><br/>
+		Gender	<input type="radio" name="gender" value="f" checked/> Female
+				<input type="radio" name="gender" value="m" /> Male <br/><br/> 
+		Email <input type="text" id="email" /><br/><br/>
+		User Name <input type="text" id="username" /><br/><br/>
+		Password <input type="text" id="password" /><br/><br/>
+		Address <input type="text" id="address" /><br/><br/>
+		Phone <input type="text" id="phone" /><br/><br/>
 		Enable
-		<c:when test="${user.enable==1}">
-			<input type="radio" name="enable" value="1"/ checked>Enable
+			<input type="radio" name="enable" value="1" checked>Enable
 			<input type="radio" name="enable" value="0"/>Disable<br/><br/>
-		</c:when>
-		<c:otherwise>
-			<input type="radio" name="enable" value="1"/>Enable
-			<input type="radio" name="enable" value="0" checked/>Disable<br/><br/>
-		</c:otherwise>
 		<%-- Image <input type="file" name="file" id="image" value="${user.image }"/><br/><br/> --%>
-		
-		<input type="button" value="Submit" onclick="updateUser()" />
-		<input type="reset" value="Clear"  />
+		<br/><br/>
+		<input type="button" class="btn btn-primary" value="Update" onclick="updateUser()" />
+		<input type="reset" class="btn btn-warning" value="Clear"  />
 	</form>
 	
 	<script type="text/javascript">
+		startPage();
+		function startPage(){
+			alert("${id}");
+			$.ajax({
+				type : "GET",
+				url : "api/admin/user/get_user/"+"${id}",
+				success : function(data) {
+					alert("Success detail:" + data.MESSAGE);
+					//alert(data.RESPONSE_DATA.name);
+				},
+				error : function(data) {
+					alert("Unsuccess:" + data.MESSAGE);
+					console.log("ERROR..." + data);
+				}
+			}); 
+		}
 		var img=0;
 		//var temp_image="";
 		function updateUser(){
 			alert("update user");
-			json = {
+			/*json = {
 					id : $("#id").val(),
 					name : $("#name").val(),
 					gender : $('input:radio[name=gender]:checked').val(),
@@ -79,7 +86,7 @@
 						alert("Unsuccess: " + data.MESSAGE);
 						console.log("ERROR..." + data);
 					}
-				});
+				}); */
 		}
 		
 		/* $("#image").change(function() {

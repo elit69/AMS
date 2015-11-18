@@ -137,38 +137,7 @@
 		}
 		
 		function edituser(id){
-			//alert("edit user.");
-			$.ajax({
-				type : "POST",
-				url : "admin/api/user/detailuser",
-				data : {
-					id : id
-				},
-				success : function(data) {
-					//alert("Success detail:" + data.MESSAGE);
-					$.ajax({
-						type : "POST",
-						url : "admin/api/user/edituser",
-						data : {
-							data : data
-						},
-						success : function(data) {
-							//alert("Success detail:" + data.MESSAGE);
-							startPage();
-						},
-						error : function(data) {
-							alert("Unsuccess:" + data.MESSAGE);
-							console.log("ERROR..." + data);
-						}
-					}); 
-					
-				},
-				error : function(data) {
-					alert("Unsuccess:" + data.MESSAGE);
-					console.log("ERROR..." + data);
-				}
-			}); 
-			
+			location.href="${pageContext.request.contextPath}/formedituser/"+id;			
 		}
 		
 		function deleteuser(id){

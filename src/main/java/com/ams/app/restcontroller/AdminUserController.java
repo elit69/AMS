@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.ams.app.entities.UserDto;
 import com.ams.app.services.UserService;
 
@@ -34,14 +35,8 @@ public class AdminUserController {
 
 	@Autowired
 	private UserService userService;
-
-	@RequestMapping(value = "/edituser", method = RequestMethod.POST)
-	public String editUser(UserDto user, ModelMap model) {
-		model.addAttribute("user", user);
-		return "/admin/user/useredit";
-	}
-
-	@RequestMapping(value = {"/list" }, method = RequestMethod.GET)
+	
+	@RequestMapping(value = {"/list" },method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> listUser() {
 		System.out.println("list user controller.");
 		ArrayList<UserDto> users = userService.getAllUser();
