@@ -1,7 +1,7 @@
 /*
 Navicat PGSQL Data Transfer
 
-Source Server         : postgres
+Source Server         : Spring
 Source Server Version : 90303
 Source Host           : localhost:5432
 Source Database       : articledb
@@ -11,14 +11,14 @@ Target Server Type    : PGSQL
 Target Server Version : 90303
 File Encoding         : 65001
 
-Date: 2015-11-18 10:18:29
+Date: 2015-11-18 17:05:48
 */
 
 
 -- ----------------------------
 -- Sequence structure for tbarticle_id_seq
 -- ----------------------------
-DROP SEQUENCE IF EXISTS "tbarticle_id_seq" CASCADE;
+DROP SEQUENCE IF EXISTS "tbarticle_id_seq";
 CREATE SEQUENCE "tbarticle_id_seq"
  INCREMENT 1
  MINVALUE 1
@@ -30,7 +30,7 @@ SELECT setval('"public"."tbarticle_id_seq"', 20, true);
 -- ----------------------------
 -- Sequence structure for tbrole_id_seq
 -- ----------------------------
-DROP SEQUENCE IF EXISTS "tbrole_id_seq" CASCADE;
+DROP SEQUENCE IF EXISTS "tbrole_id_seq";
 CREATE SEQUENCE "tbrole_id_seq"
  INCREMENT 1
  MINVALUE 1
@@ -42,7 +42,7 @@ SELECT setval('"public"."tbrole_id_seq"', 3, true);
 -- ----------------------------
 -- Sequence structure for tbuser_id_seq
 -- ----------------------------
-DROP SEQUENCE IF EXISTS "tbuser_id_seq" CASCADE;
+DROP SEQUENCE IF EXISTS "tbuser_id_seq";
 CREATE SEQUENCE "tbuser_id_seq"
  INCREMENT 1
  MINVALUE 1
@@ -54,7 +54,7 @@ SELECT setval('"public"."tbuser_id_seq"', 6, true);
 -- ----------------------------
 -- Table structure for tbarticle
 -- ----------------------------
-DROP TABLE IF EXISTS "tbarticle" CASCADE;
+DROP TABLE IF EXISTS "tbarticle";
 CREATE TABLE "tbarticle" (
 "id" int8 DEFAULT nextval('tbarticle_id_seq'::regclass) NOT NULL,
 "title" varchar COLLATE "default" NOT NULL,
@@ -97,7 +97,7 @@ COMMIT;
 -- ----------------------------
 -- Table structure for tbrole
 -- ----------------------------
-DROP TABLE IF EXISTS "tbrole" CASCADE;
+DROP TABLE IF EXISTS "tbrole";
 CREATE TABLE "tbrole" (
 "id" int4 DEFAULT nextval('tbrole_id_seq'::regclass) NOT NULL,
 "role" varchar(20) COLLATE "default" NOT NULL
@@ -117,7 +117,7 @@ COMMIT;
 -- ----------------------------
 -- Table structure for tbuser
 -- ----------------------------
-DROP TABLE IF EXISTS "tbuser" CASCADE;
+DROP TABLE IF EXISTS "tbuser";
 CREATE TABLE "tbuser" (
 "id" int4 DEFAULT nextval('tbuser_id_seq'::regclass) NOT NULL,
 "username" varchar COLLATE "default" NOT NULL,
@@ -166,9 +166,9 @@ INSERT INTO "tbuser_role" VALUES ('1', '2');
 COMMIT;
 
 -- ----------------------------
--- View structure for v_article
+-- View structure for NewView
 -- ----------------------------
-CREATE OR REPLACE VIEW "v_article" AS 
+CREATE OR REPLACE VIEW "NewView" AS 
  SELECT art.id,
     art.title,
     us.name,
@@ -185,20 +185,6 @@ CREATE OR REPLACE VIEW "v_article" AS
 CREATE OR REPLACE VIEW "v_list_all_article" AS 
  SELECT tbarticle.id,
     tbarticle.title,
-    tbuser.name,
-    tbarticle.publish_date,
-    tbarticle.enable,
-    tbarticle.image,
-    tbarticle.content
-   FROM (tbarticle
-   JOIN tbuser ON ((tbarticle.userid = tbuser.id)));
-
--- ----------------------------
--- View structure for v_list_all_article_lit
--- ----------------------------
-CREATE OR REPLACE VIEW "v_list_all_article_lit" AS 
- SELECT tbarticle.id,
-    tbarticle.title,
     tbarticle.publish_date,
     tbarticle.enable,
     tbarticle.image,
@@ -209,15 +195,38 @@ CREATE OR REPLACE VIEW "v_list_all_article_lit" AS
    JOIN tbuser ON ((tbarticle.userid = tbuser.id)));
 
 -- ----------------------------
+-- Function structure for f_list_article
+-- ----------------------------
+CREATE OR REPLACE FUNCTION "f_list_article"(int4, int4)
+  RETURNS "pg_catalog"."json" AS $BODY$ SELECT
+	array_to_json (ARRAY_AGG(row_to_json(T)))
+FROM
+	(
+		SELECT tbarticle.id,
+    tbarticle.title,
+    tbarticle.publish_date,
+    tbarticle.enable,
+    tbarticle.image,
+    tbarticle.content,
+    tbarticle.userid,
+    tbuser.name
+   FROM (tbarticle
+   JOIN tbuser ON ((tbarticle.userid = tbuser.id)))
+		LIMIT $1 OFFSET $2
+	) T ; $BODY$
+  LANGUAGE 'sql' VOLATILE COST 100
+;
+
+-- ----------------------------
 -- Function structure for search_article_content
 -- ----------------------------
 CREATE OR REPLACE FUNCTION "search_article_content"(keyword varchar, lm int4, o int4)
-  RETURNS SETOF "public"."v_list_all_article_lit" AS $BODY$
+  RETURNS SETOF "public"."v_list_all_article" AS $BODY$
 BEGIN
   RETURN QUERY  SELECT
 *
   FROM
-    v_list_all_article_lit
+    v_list_all_article
   WHERE
     LOWER(CONTENT) LIKE LOWER('%' || keyword || '%')
   ORDER BY
@@ -247,7 +256,7 @@ SELECT
         image,
         name
       FROM
-        v_list_all_article_lit
+        v_list_all_article
       WHERE
         LOWER(CONTENT) LIKE LOWER('%' || keyword || '%')
       ORDER BY
@@ -262,12 +271,12 @@ $BODY$
 -- Function structure for search_article_title
 -- ----------------------------
 CREATE OR REPLACE FUNCTION "search_article_title"(keyword varchar, lm int4, o int4)
-  RETURNS SETOF "public"."v_list_all_article_lit" AS $BODY$
+  RETURNS SETOF "public"."v_list_all_article" AS $BODY$
 BEGIN
   RETURN QUERY  SELECT
 *
   FROM
-    v_list_all_article_lit
+    v_list_all_article
   WHERE
     LOWER(TITLE) LIKE LOWER('%' || keyword || '%')
   ORDER BY
@@ -297,7 +306,7 @@ SELECT
         image,
         name
       FROM
-        v_list_all_article_lit
+        v_list_all_article
       WHERE
         LOWER(CONTENT) LIKE LOWER('%' || keyword || '%')
       ORDER BY
