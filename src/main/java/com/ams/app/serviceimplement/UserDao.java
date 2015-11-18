@@ -21,6 +21,9 @@ public class UserDao implements UserService {
 	private DataSource dataSource;
 	private Connection con;
 
+	public UserDao(DataSource dataSource){
+		this.dataSource=dataSource;
+	}
 	@Override
 	public ArrayList<UserDto> getAllUser() {
 		UserDto user = null;

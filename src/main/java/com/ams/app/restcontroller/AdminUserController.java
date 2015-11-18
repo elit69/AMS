@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -117,6 +118,12 @@ public class AdminUserController {
 		return null;
 	}
 
+	@RequestMapping(value = "/edituser", method = RequestMethod.POST)
+	public String editUser(UserDto user,ModelMap model) {
+		model.addAttribute("user",user);
+		return "/admin/user/useredit";
+	}
+	
 	@RequestMapping(value = "/updateuser", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> updateUser(UserDto user) {
 		Map<String, Object> map = new HashMap<String, Object>();
