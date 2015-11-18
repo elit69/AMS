@@ -24,33 +24,22 @@ public class ArticleDao implements ArticleService {
 	@Autowired
 	private DataSource dataSource;
 
-	public ArrayList<ArticleDto> list() {
-		String sql = "select * from v_list_all_article";
+	public String list(int limit,int offset) {
+		
+		String sql = "select f_list_article(?,?)";
 		try (Connection cnn = dataSource.getConnection();
 				PreparedStatement ps = cnn.prepareStatement(sql);
-				ResultSet rs = ps.executeQuery();
+				
 		)
 		{
-			ArrayList<ArticleDto> a = new ArrayList<ArticleDto>();
-			ArticleDto art=null;
-			while (rs.next()) {
-				art = new ArticleDto();
-				art.setId(rs.getInt("id"));
-				art.setTitle(rs.getString("title"));
-				art.setContent(rs.getString("content"));
-				art.setImage(rs.getString("image"));
-				
-				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-				Date publishedDate = format.parse(rs.getString("publish_date"));
-				art.setPubdate(format.format(publishedDate));
-				art.setEnable(rs.getBoolean("enable"));
-				a.add(art);
-			}
-			return a;
+			ps.setInt(1, limit);
+			ps.setInt(2, offset);
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			return rs.getString(1);
+			
 		} catch (SQLException e) {
 			System.out.println(e);
-		} catch (ParseException e) {
-			e.printStackTrace();
 		}
 		return null;
 	}

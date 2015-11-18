@@ -8,7 +8,7 @@ import com.ams.app.entities.ArticleDto;
 
 @Service
 public interface ArticleService {
-	public ArrayList<ArticleDto> list();
+	public String list(int limit,int offset);
 	public boolean add(ArticleDto art);
 	public boolean update(ArticleDto art);
 	public boolean delete(int artId);

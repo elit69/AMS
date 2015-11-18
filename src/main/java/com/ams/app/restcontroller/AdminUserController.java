@@ -24,7 +24,7 @@ import com.ams.app.entities.UserDto;
 import com.ams.app.services.UserService;
 
 @RestController
-@RequestMapping(value="/admin/api/user")
+@RequestMapping(value="/api/admin/user")
 public class AdminUserController {
 	private static final Logger logger = LoggerFactory
 			.getLogger(AdminArticleController.class);

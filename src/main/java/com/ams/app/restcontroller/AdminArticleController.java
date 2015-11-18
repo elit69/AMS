@@ -12,13 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.ams.app.entities.ArticleDto;
 import com.ams.app.services.ArticleService;
 
 @RestController
-@RequestMapping(value = "/admin/api/article")
+@RequestMapping(value = "/api/admin/article")
 public class AdminArticleController {
 
 	@Autowired
@@ -30,10 +29,10 @@ public class AdminArticleController {
 		return mav;
 	}*/
 
-	@RequestMapping(value = {"/","/list"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/{limit}/{offset}","/list/{limit}/{offset}"}, method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> listArticle() {
 		System.out.println("list article");
-		List<ArticleDto> list = artservice.list();
+		String list = artservice.list(10,10);
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (list.isEmpty()) {
 			map.put("MESSAGE", "LIST EMPTY");
