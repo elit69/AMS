@@ -8,13 +8,9 @@ import com.ams.app.entities.ArticleDto;
 
 @Service
 public interface ArticleService {
-<<<<<<< HEAD
-	public String list(int limit,int offset);
-=======
-	
-	public ArrayList<ArticleDto> list();
 
->>>>>>> origin/master
+	public String list(int limit,int offset);
+
 	public boolean add(ArticleDto art);
 
 	public boolean update(ArticleDto art);

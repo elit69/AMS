@@ -20,20 +20,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-
 import com.ams.app.entities.UserDto;
 import com.ams.app.services.UserService;
 
 @RestController
-<<<<<<< HEAD
+
 @RequestMapping(value="/api/admin/user")
-=======
-@RequestMapping(value = "/admin/api/user")
->>>>>>> origin/master
+
 public class AdminUserController {
 	private static final Logger logger = LoggerFactory.getLogger(AdminArticleController.class);
 
