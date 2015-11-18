@@ -15,8 +15,6 @@ public class MainController {
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String homePage(ModelMap model) {
-		
-		System.out.println("olo");
 		model.addAttribute("message", "hello world");
 		System.out.println("home page");
 		return "home1";

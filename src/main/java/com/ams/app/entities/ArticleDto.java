@@ -7,11 +7,13 @@ public class ArticleDto {
 	private int id;
 	private String title;
 	private int userid;
-	private String username;
+	private String name;
 	private String content;
 	private Date pdate;
 	private boolean enable;
 	private String image;
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -50,11 +52,11 @@ public class ArticleDto {
 		this.image = image;
 	}
 	
-	public String getUsername() {
-		return username;
+	public String getName() {
+		return name;
 	}
-	public void setUsername(String username) {
-		this.username = username;
+	public void setName(String name) {
+		this.name = name;
 	}
 	@Override
 	public String toString() {

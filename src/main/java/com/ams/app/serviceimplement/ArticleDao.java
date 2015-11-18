@@ -127,7 +127,7 @@ public class ArticleDao implements ArticleService {
 				s.setId(rs.getInt("id"));
 				s.setTitle(rs.getString("title"));
 				s.setUserid(rs.getInt("userid"));
-				s.setUsername(rs.getString("name"));
+				s.setName(rs.getString("name"));
 				s.setPdate(rs.getDate("publish_date"));
 				s.setEnable(rs.getBoolean("ENABLE"));
 				s.setImage(rs.getString("image"));
