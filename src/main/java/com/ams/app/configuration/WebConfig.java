@@ -13,8 +13,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.ams.app.serviceimplement.ClientDao;
-import com.ams.app.serviceimplement.UserDao;
-import com.ams.app.services.UserService;
 
 
 @Configuration
@@ -45,11 +43,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         dataSource.setPassword("12345");
         return dataSource;
     }
+
 	
-	@Bean 
-	public UserService getUserService(){
-		return new UserDao(getDataSource());
-	}
 	//ClientDao Bean
 	/*@Bean
     public DataSource getMyDataSource() {
@@ -60,6 +55,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         dataSource.setPassword("123456");
         return dataSource;
     }*/
+	
 	@Bean
 	public ClientDao getClientDao(){
 		return new ClientDao(this.getDataSource());

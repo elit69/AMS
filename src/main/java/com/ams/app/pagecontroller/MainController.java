@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ams.app.services.ArticleService;
-import com.ams.app.services.UserService;
 
 @Controller
 public class MainController {
