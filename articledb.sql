@@ -364,3 +364,13 @@ ALTER TABLE "tbarticle" ADD FOREIGN KEY ("userid") REFERENCES "tbuser" ("id") ON
 -- ----------------------------
 ALTER TABLE "tbuser_role" ADD FOREIGN KEY ("user_id") REFERENCES "tbuser" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE "tbuser_role" ADD FOREIGN KEY ("id") REFERENCES "tbrole" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+CREATE VIEW "public"."v_login_user_role" AS 
+ SELECT a.username,
+    c.role
+   FROM ((tbuser a
+     JOIN tbuser_role b ON ((a.id = b.user_id)))
+     JOIN tbrole c ON ((b.id = c.id)));;
+
+ALTER TABLE "public"."v_login_user_role" OWNER TO "postgres";
+
