@@ -199,7 +199,7 @@ public class AdminArticleController {
 	}
 	
 	@RequestMapping(value = {"/search/{type}/{keyword}/{limit}/{page}","/search/{type}/{keyword}/{limit}"}, method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> searchTypeKeyword(@PathVariable Map<String, String> pathVariables) {		
+	public ResponseEntity<Map<String, Object>> search(@PathVariable Map<String, String> pathVariables) {		
 		List<ArticleDto> listUser = null;
 		Map<String, Object> map = new HashMap<String, Object>();
 		HttpStatus status = null;
@@ -226,7 +226,7 @@ public class AdminArticleController {
 	}
 	
 	@RequestMapping(value = "/toggle/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> searchTypeKeyword(
+	public ResponseEntity<Map<String, Object>> toggle(
 			@PathVariable("id") int id
 			) {
 		System.out.println("toggle " + id);		

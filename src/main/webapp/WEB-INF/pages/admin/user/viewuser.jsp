@@ -12,14 +12,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>View User</title>
 <script	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/> 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"/>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 <link rel="stylesheet"	href="${pageContext.request.contextPath}/resources/css/lib/bootstrap.min.css" />
 <link rel="stylesheet"	href="${pageContext.request.contextPath}/resources/css/lib/bootstrap-select.min.css" />
 <link rel="stylesheet"	href="${pageContext.request.contextPath}/resources/css/userstyle.css" />
 <script src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"/> 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"/>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/lib/jasny-bootstrap.js"></script>
+<link rel="stylesheet"	href="${pageContext.request.contextPath}/resources/css/jasny-bootstrap.css" />
 </head>
 <body>
 	<h1>Users Information</h1> <br/><br/>
@@ -37,9 +38,15 @@
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 					<h4 class="modal-title">Modal Header</h4>
 				</div>
-				<div id="showdetail" class="modal-body">
-					<p>Some text in the modal.</p>
+				<div>
+					<div>
+						<img id="image" style="width:200px; height:200px;"/>
+					</div>
+					<div id="showdetail" class="modal-body">
+						<!-- Some text in the modal. -->
+					</div>
 				</div>
+				
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
 				</div>
@@ -95,7 +102,7 @@
 						+ data.RESPONSE_DATA[i].address
 						+ "</td><td>"
 						+ data.RESPONSE_DATA[i].phone
-						+ "</td><td><img class='img-rounded' src='#"
+						+ "</td><td><img class='img-rounded' style='width:50px; height:50px' src='${pageContext.request.contextPath}/resources/upload/profile/"
 						+data.RESPONSE_DATA[i].image+"' /></td>"
 						+ "<td class='col-sm-3'><input type='button' value='Detail' class='btn btn-info'"
 						+"data-toggle='modal' data-target='#myModal' onclick='detailuser("
@@ -121,6 +128,7 @@
 				success : function(data) {
 					//alert("Success detail:" + data.MESSAGE);
 					//alert(data.RESPONSE_DATA.name);
+					$("#image").attr("src","${pageContext.request.contextPath}/resources/upload/profile/"+data.RESPONSE_DATA.image);
 					str="Name: "+data.RESPONSE_DATA.name+"<br/>"
 						+"Gender: "+data.RESPONSE_DATA.gender+"<br/>"
 						+"Email: "+data.RESPONSE_DATA.email+"<br/>"

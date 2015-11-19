@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ams.app.entities.ArticleDto;
 import com.ams.app.entities.UserDto;
 import com.ams.app.services.UserService;
 
@@ -120,8 +122,35 @@ public class AdminUserController {
 		}
 	}
 	
+	@RequestMapping(value = {"/search/{type}/{keyword}/{limit}/{page}","/search/{type}/{keyword}/{limit}"}, method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> search(@PathVariable Map<String, String> pathVariables) {		
+		List<UserDto> listUser = null;
+		Map<String, Object> map = new HashMap<String, Object>();
+		HttpStatus status = null;
+		if (pathVariables.containsKey("type") && pathVariables.containsKey("keyword") 
+			&& pathVariables.containsKey("limit") && pathVariables.containsKey("page")) {
+			listUser = userService.search(pathVariables.get("type").toString(),
+										pathVariables.get("keyword").toString(),
+										Integer.parseInt(pathVariables.get("limit")),
+										Integer.parseInt(pathVariables.get("page")));
+	    } else if (pathVariables.containsKey("type") && pathVariables.containsKey("keyword") && pathVariables.containsKey("limit")){
+			listUser = userService.search(pathVariables.get("type").toString(),
+					pathVariables.get("keyword").toString(),
+					Integer.parseInt(pathVariables.get("limit")),0);
+	    }	
+		
+		if (listUser.isEmpty()) {
+			map.put("MESSAGE", "RECORD NOT FOUND.");
+			status = HttpStatus.NOT_FOUND;
+		} else {
+			map.put("RESPONSE_DATA", listUser);
+			status = HttpStatus.OK;
+		}
+		return new ResponseEntity<Map<String, Object>>(map, status);
+	}
+	
 	@RequestMapping(value = "/toggle/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> searchTypeKeyword(
+	public ResponseEntity<Map<String, Object>> toggle(
 			@PathVariable("id") int id
 			) {
 		System.out.println("toggle " + id);		

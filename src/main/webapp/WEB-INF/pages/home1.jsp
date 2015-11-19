@@ -142,14 +142,14 @@
 							<tr>
 								<td>/search/{type}/{keyword}/{limit}/{page}</td>
 								<td>GET</td>
-								<th><a href="api/admin/user/search/title/a/5/1">example1</a>
-									<a href="api/admin/user/search/title/a/5/2">example2</a></th>
+								<th><a href="api/admin/user/search/username/admin/5/1">example1</a>
+									<a href="api/admin/user/search/username/admin/5/2">example2</a></th>
 							</tr>
 							<tr>
 								<td>/search/{type}/{keyword}/{limit}/</td>
 								<td>GET</td>
-								<th><a href="api/admin/user/search/title/a/5">example1</a>
-									<a href="api/admin/user/search/title/a/10">example2</a></th>
+								<th><a href="api/admin/user/search/username/admin/5">example1</a>
+									<a href="api/admin/user/search/username/admin/5">example2</a></th>
 							</tr>
 							<tr>
 								<td>/get/{id}</td>
