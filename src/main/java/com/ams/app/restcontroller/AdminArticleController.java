@@ -198,37 +198,23 @@ public class AdminArticleController {
 		}
 	}
 	
-	@RequestMapping(value = "/search/{type}/{keyword}/{limit}/{page}", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> searchTypeKeyword(
-			@PathVariable("type") String type,
-			@PathVariable("keyword") String keyword,
-			@PathVariable("limit") int limit,
-			@PathVariable("page") int page
-			) {
-		System.out.println("search action/type:" + type + "/keyword:" + keyword);
-		List<ArticleDto> listUser = artservice.search(type, keyword, limit, page);
+	@RequestMapping(value = {"/search/{type}/{keyword}/{limit}/{page}","/search/{type}/{keyword}/{limit}"}, method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> searchTypeKeyword(@PathVariable Map<String, String> pathVariables) {		
+		List<ArticleDto> listUser = null;
 		Map<String, Object> map = new HashMap<String, Object>();
 		HttpStatus status = null;
-		if (listUser.isEmpty()) {
-			map.put("MESSAGE", "RECORD NOT FOUND.");
-			status = HttpStatus.NOT_FOUND;
-		} else {
-			map.put("RESPONSE_DATA", listUser);
-			status = HttpStatus.OK;
-		}
-		return new ResponseEntity<Map<String, Object>>(map, status);
-	}
-	
-	@RequestMapping(value = "/search/{type}/{keyword}/{limit}", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> searchTypeKeyword(
-			@PathVariable("type") String type,
-			@PathVariable("keyword") String keyword,
-			@PathVariable("limit") int limit
-			) {
-		System.out.println("search action/type:" + type + "/keyword:" + keyword);
-		List<ArticleDto> listUser = artservice.search(type, keyword, limit, 1);
-		Map<String, Object> map = new HashMap<String, Object>();
-		HttpStatus status = null;
+		if (pathVariables.containsKey("type") && pathVariables.containsKey("keyword") 
+			&& pathVariables.containsKey("limit") && pathVariables.containsKey("page")) {
+			listUser = artservice.search(pathVariables.get("type").toString(),
+										pathVariables.get("keyword").toString(),
+										Integer.parseInt(pathVariables.get("limit")),
+										Integer.parseInt(pathVariables.get("page")));
+	    } else if (pathVariables.containsKey("type") && pathVariables.containsKey("keyword") && pathVariables.containsKey("limit")){
+			listUser = artservice.search(pathVariables.get("type").toString(),
+					pathVariables.get("keyword").toString(),
+					Integer.parseInt(pathVariables.get("limit")),0);
+	    }	
+		
 		if (listUser.isEmpty()) {
 			map.put("MESSAGE", "RECORD NOT FOUND.");
 			status = HttpStatus.NOT_FOUND;
@@ -246,8 +232,9 @@ public class AdminArticleController {
 		System.out.println("toggle " + id);		
 		Map<String, Object> map = new HashMap<String, Object>();
 		HttpStatus status = null;
-		if (artservice.toggleArticleState(id)) {
+		if (artservice.toggle(id)) {
 			map.put("MESSAGE", "TOGGLE SUCCESSFULLY");
+			map.put("RESPONSE_DATA", artservice.show(id));
 			status = HttpStatus.OK;
 		} else {
 			map.put("MESSAGE", "RECORD NOT FOUND.");
