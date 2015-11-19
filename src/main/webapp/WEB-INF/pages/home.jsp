@@ -258,11 +258,11 @@ thead {
 														+ "</p>");
 								$("#poster").html(
 										"<b>Post By:"
-												+ data.RESPONE_DATA.uername
+												+ data.RESPONE_DATA.name
 												+ "</b>");
 								$("#postdate").html(
 										"<b>Post Date:"
-												+ data.RESPONE_DATA.pubdate
+												+ data.RESPONE_DATA.pdate
 												+ "</b>");
 							});
 		}
