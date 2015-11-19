@@ -14,7 +14,7 @@ import com.ams.app.services.UserService;
 
 public class UserDao implements UserService {
 
-	//do not autowired he
+
 	private DataSource dataSource;
 	private Connection con;
 	public UserDao(DataSource dataSource2) {

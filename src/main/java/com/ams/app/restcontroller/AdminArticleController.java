@@ -12,7 +12,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.support.ReplaceOverride;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,9 +25,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ams.app.entities.ArticleDto;
 import com.ams.app.services.ArticleService;
-import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonObjectFormatVisitor;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-
 
 @RestController
 @RequestMapping(value = "/api/admin/article")
@@ -39,78 +35,56 @@ public class AdminArticleController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView viewListArticle(ModelAndView mav) {
-//		mav.setViewName("/admin/article/test_upload");
+		// mav.setViewName("/admin/article/test_upload");
 		mav.setViewName("/admin/article/test_list_article");
 		return mav;
 	}
 
-	@RequestMapping(value = {"/list/{limit}/{page}","/list/{limit}"}, method = RequestMethod.GET)
+	@RequestMapping(value = { "/list/{limit}/{page}", "/list/{limit}" }, method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> listArticle(@PathVariable Map<String, String> pathVariables) {
 		System.out.println("list article");
-		ArrayList<ArticleDto> list=null;
+		ArrayList<ArticleDto> list = null;
 		if (pathVariables.containsKey("limit") && pathVariables.containsKey("page")) {
-			list = artservice.list(Integer.parseInt(pathVariables.get("limit")),Integer.parseInt(pathVariables.get("page")));
-	    } else if (pathVariables.containsKey("limit")){
-	    	list = artservice.list(Integer.parseInt(pathVariables.get("limit")),0);
-	    }
+			list = artservice.list(Integer.parseInt(pathVariables.get("limit")),
+					Integer.parseInt(pathVariables.get("page")));
+		} else if (pathVariables.containsKey("limit")) {
+			list = artservice.list(Integer.parseInt(pathVariables.get("limit")), 0);
+		}
 		Map<String, Object> map = new HashMap<String, Object>();
 		try {
 			list.equals(null);
-			map.put("STATUS", HttpStatus.OK);
 			map.put("MESSAGE", "SUCCESS");
+			map.put("STATUS", HttpStatus.OK.value());			
 			map.put("RESPONSE_DATA", list);
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 		} catch (Exception e) {
 			// TODO: handle exception
 			map.put("MESSAGE", "LIST EMPTY");
-			
-			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+			map.put("STATUS", HttpStatus.NOT_FOUND.value());			
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_FOUND);
 		}
-			
-		
-			
-		
 	}
-/*	
-	@RequestMapping(value = "/list/{limit}", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> listArticle1(@PathVariable Map<String, String> pathVariables) {
-		System.out.println("list article");
-		String list="";
-		if (pathVariables.containsKey("limit")) {
-			list = artservice.list(Integer.parseInt(pathVariables.get("limit")),1);
-	    } 
-		Map<String, Object> map = new HashMap<String, Object>();
-		if (list.equals("")) {
-			map.put("MESSAGE", "LIST EMPTY");
-			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
-		} else {
-			map.put("STATUS", HttpStatus.OK);
-			map.put("MESSAGE", "SUCCESS");
-			map.put("RESPONSE_DATA", list);
-			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
-		}
-	}*/
-	
-	@RequestMapping(value="/add", method= RequestMethod.POST )
-	public ResponseEntity<Map<String, Object>> addArticle(ArticleDto art,  @RequestParam("file") MultipartFile file, HttpServletRequest request){
-		//file upload
-		if(!file.isEmpty()){
-			try{
-				
+
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> addArticle(ArticleDto art, @RequestParam("file") MultipartFile file,
+			HttpServletRequest request) {
+		// file upload
+		if (!file.isEmpty()) {
+			try {
+
 				UUID uuid = UUID.randomUUID();
-	            String originalFilename = file.getOriginalFilename(); 
-	            String extension = originalFilename.substring(originalFilename.lastIndexOf(".")+1);
-	            String randomUUIDFileName = uuid.toString();
-	            
-	            String filename = randomUUIDFileName+"."+extension;
-				
+				String originalFilename = file.getOriginalFilename();
+				String extension = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
+				String randomUUIDFileName = uuid.toString();
+
+				String filename = randomUUIDFileName + "." + extension;
+
 				art.setImage(filename);
 
 				byte[] bytes = file.getBytes();
 
 				// creating the directory to store file
-				String savePath = request.getSession().getServletContext()
-						.getRealPath("/resources/upload/images/");
+				String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/images/");
 				System.out.println(savePath);
 				File path = new File(savePath);
 				if (!path.exists()) {
@@ -119,146 +93,125 @@ public class AdminArticleController {
 
 				// creating the file on server
 				File serverFile = new File(savePath + File.separator + filename);
-				BufferedOutputStream stream = new BufferedOutputStream(
-						new FileOutputStream(serverFile));
+				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
 				stream.write(bytes);
 				stream.close();
 
 				System.out.println(serverFile.getAbsolutePath());
-				System.out.println("You are successfully uploaded file "
-						+ filename);
+				System.out.println("You are successfully uploaded file " + filename);
 			} catch (Exception e) {
-				System.out.println("You are failed to upload  => "
-						+ e.getMessage());
+				System.out.println("You are failed to upload  => " + e.getMessage());
 			}
 		} else {
 			art.setImage("abc.jpg");
 			System.out.println("The file was empty!");
 		}
-		
-		//end file upload
-		
-		Map<String, Object> map  = new HashMap<String, Object>();
-		if(artservice.add(art)){
-			map.put("MESSAGE","ARTICLE HAS BEEN INSERTED.");
+
+		// end file upload
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (artservice.add(art)) {
+			map.put("MESSAGE", "ARTICLE HAS BEEN INSERTED.");
 			map.put("STATUS", HttpStatus.CREATED.value());
-			return new ResponseEntity<Map<String,Object>>
-								(map, HttpStatus.CREATED);
-		}else{
-			map.put("MESSAGE","ARTICLE HAS NOT BEEN INSERTED.");
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.CREATED);
+		} else {
+			map.put("MESSAGE", "ARTICLE HAS NOT BEEN INSERTED.");
 			map.put("STATUS", HttpStatus.NOT_FOUND.value());
-			return new ResponseEntity<Map<String,Object>>
-								(map, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_FOUND);
 		}
 	}
-	
-	@RequestMapping(value="/delete/{id}",method=RequestMethod.DELETE)
-	public ResponseEntity<Map<String, Object>> deleteArticle(@PathVariable("id") int id){
+
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Map<String, Object>> deleteArticle(@PathVariable("id") int id) {
 		System.out.println("delete article");
 		Map<String, Object> map = new HashMap<String, Object>();
-		if(artservice.delete(id)){
-			map.put("MESSAGE","ARTICLE HAS BEEN DELETED.");
+		if (artservice.delete(id)) {
+			map.put("MESSAGE", "ARTICLE HAS BEEN DELETED.");
 			map.put("STATUS", HttpStatus.OK.value());
-			return new ResponseEntity<Map<String,Object>>
-								(map, HttpStatus.OK);
-		}else{
-			map.put("MESSAGE","ARTICLE HAS NOT BEEN DELETED.");
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+		} else {
+			map.put("MESSAGE", "ARTICLE HAS NOT BEEN DELETED.");
 			map.put("STATUS", HttpStatus.NOT_FOUND.value());
-			return new ResponseEntity<Map<String,Object>>
-								(map, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_FOUND);
 		}
 	}
-	
-	@RequestMapping(value="/update/{id}",method=RequestMethod.PUT)
-	public ResponseEntity<Map<String, Object>> updateArticle(@RequestBody ArticleDto art , @PathVariable("id") int id){
+
+	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Map<String, Object>> updateArticle(@RequestBody ArticleDto art, @PathVariable("id") int id) {
 		System.out.println("update article");
 		art.setId(id);
 		Map<String, Object> map = new HashMap<String, Object>();
-		if(artservice.update(art)){
-			map.put("MESSAGE","ARTICLE HAS BEEN UPDATED.");
+		if (artservice.update(art)) {
+			map.put("MESSAGE", "ARTICLE HAS BEEN UPDATED.");
 			map.put("STATUS", HttpStatus.OK.value());
-			return new ResponseEntity<Map<String,Object>>
-								(map, HttpStatus.OK);
-		}else{
-			map.put("MESSAGE","ARTICLE HAS NOT BEEN UPDATED.");
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+		} else {
+			map.put("MESSAGE", "ARTICLE HAS NOT BEEN UPDATED.");
 			map.put("STATUS", HttpStatus.NOT_FOUND.value());
-			return new ResponseEntity<Map<String,Object>>
-								(map, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_FOUND);
 		}
 	}
-	
+
 	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getArticle(@PathVariable("id") int id) {
 		System.out.println("get article");
-		ArrayList<ArticleDto> art = artservice.show(id);
+		ArticleDto art = artservice.show(id);
 		Map<String, Object> map = new HashMap<String, Object>();
-		if (art.equals("")) {
-			map.put("MESSAGE", "LIST EMPTY");
-			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
-		} else {
-			map.put("STATUS", HttpStatus.OK);
+		if (art != null) {
 			map.put("MESSAGE", "SUCCESS");
+			map.put("STATUS", HttpStatus.OK.value());
 			map.put("RESPONSE_DATA", art);
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+		} else {
+			map.put("MESSAGE", "RECORD NOT FOUND");
+			map.put("STATUS", HttpStatus.NOT_FOUND.value());
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_FOUND);
 		}
 	}
-	
-	@RequestMapping(value = "/search/{type}/{keyword}/{limit}/{page}", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> searchTypeKeyword(
-			@PathVariable("type") String type,
-			@PathVariable("keyword") String keyword,
-			@PathVariable("limit") int limit,
-			@PathVariable("page") int page
-			) {
-		System.out.println("search action/type:" + type + "/keyword:" + keyword);
-		List<ArticleDto> listUser = artservice.search(type, keyword, limit, page);
+
+	@RequestMapping(value = { "/search/{type}/{keyword}/{limit}/{page}", "/search/{type}/{keyword}/{limit}" }, method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> search(@PathVariable Map<String, String> pathVariables) {
+		List<ArticleDto> listUser = null;
 		Map<String, Object> map = new HashMap<String, Object>();
 		HttpStatus status = null;
-		if (listUser.isEmpty()) {
+		if (pathVariables.containsKey("type") && pathVariables.containsKey("keyword")
+				&& pathVariables.containsKey("limit") && pathVariables.containsKey("page")) {
+			listUser = artservice.search(pathVariables.get("type").toString(), pathVariables.get("keyword").toString(),
+					Integer.parseInt(pathVariables.get("limit")), Integer.parseInt(pathVariables.get("page")));
+		} else if (pathVariables.containsKey("type") && pathVariables.containsKey("keyword")
+				&& pathVariables.containsKey("limit")) {
+			listUser = artservice.search(pathVariables.get("type").toString(), pathVariables.get("keyword").toString(),
+					Integer.parseInt(pathVariables.get("limit")), 0);
+		}
+		if (listUser.isEmpty()) {			
 			map.put("MESSAGE", "RECORD NOT FOUND.");
+			map.put("STATUS", HttpStatus.NOT_FOUND.value());
 			status = HttpStatus.NOT_FOUND;
 		} else {
+			map.put("MESSAGE", "SUCCESS");
+			map.put("STATUS", HttpStatus.OK.value());
 			map.put("RESPONSE_DATA", listUser);
 			status = HttpStatus.OK;
 		}
 		return new ResponseEntity<Map<String, Object>>(map, status);
 	}
-	
-	@RequestMapping(value = "/search/{type}/{keyword}/{limit}", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> searchTypeKeyword(
-			@PathVariable("type") String type,
-			@PathVariable("keyword") String keyword,
-			@PathVariable("limit") int limit
-			) {
-		System.out.println("search action/type:" + type + "/keyword:" + keyword);
-		List<ArticleDto> listUser = artservice.search(type, keyword, limit, 1);
-		Map<String, Object> map = new HashMap<String, Object>();
-		HttpStatus status = null;
-		if (listUser.isEmpty()) {
-			map.put("MESSAGE", "RECORD NOT FOUND.");
-			status = HttpStatus.NOT_FOUND;
-		} else {
-			map.put("RESPONSE_DATA", listUser);
-			status = HttpStatus.OK;
-		}
-		return new ResponseEntity<Map<String, Object>>(map, status);
-	}
-	
+
 	@RequestMapping(value = "/toggle/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> searchTypeKeyword(
-			@PathVariable("id") int id
-			) {
-		System.out.println("toggle " + id);		
+	public ResponseEntity<Map<String, Object>> toggle(@PathVariable("id") int id) {
+		System.out.println("toggle " + id);
 		Map<String, Object> map = new HashMap<String, Object>();
 		HttpStatus status = null;
 		if (artservice.toggle(id)) {
 			map.put("MESSAGE", "TOGGLE SUCCESSFULLY");
+			map.put("STATUS", HttpStatus.OK.value());
+			map.put("RESPONSE_DATA", artservice.show(id).isEnable());
 			status = HttpStatus.OK;
 		} else {
 			map.put("MESSAGE", "RECORD NOT FOUND.");
+			map.put("STATUS", HttpStatus.NOT_FOUND.value());
 			status = HttpStatus.NOT_FOUND;
 		}
 		return new ResponseEntity<Map<String, Object>>(map, status);
-	}	
+	}
 
 }

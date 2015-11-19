@@ -38,8 +38,7 @@ public class ArticleDto {
 	public void setContent(String content) {
 		this.content = content;
 	}
-
-	public boolean getEnable() {
+	public boolean isEnable() {
 		return enable;
 	}
 	public void setEnable(boolean enable) {

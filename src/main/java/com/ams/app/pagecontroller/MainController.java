@@ -12,6 +12,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class MainController {
 	
 
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	public String homePage1(ModelMap model) {
+//		model.addAttribute("message", "hello world");
+		System.out.println("home page");
+		return "home1";
+	}
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String homePage(ModelMap model) {

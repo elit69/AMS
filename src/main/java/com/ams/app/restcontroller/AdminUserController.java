@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ams.app.entities.ArticleDto;
 import com.ams.app.entities.UserDto;
 import com.ams.app.services.UserService;
 
@@ -46,33 +45,31 @@ public class AdminUserController {
 		} else if (pathVariables.containsKey("limit")) {
 			users = userService.list(Integer.parseInt(pathVariables.get("limit")), 0);
 		}
-		if (!users.isEmpty()) {
-			map.put("STATUS", HttpStatus.OK.value());
+		if (users.isEmpty()) {
+			map.put("MESSAGE", "USERS ARE NOT FOUND.");
+			map.put("STATUS", HttpStatus.NOT_FOUND.value());
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_FOUND);
+		}else{
 			map.put("MESSAGE", "USERS HAVE BEEN FOUND.");
+			map.put("STATUS", HttpStatus.OK.value());			
 			map.put("RESPONSE_DATA", users);
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 		}
-		map.put("STATUS", HttpStatus.NOT_FOUND.value());
-		map.put("MESSAGE", "USERS ARE NOT FOUND.");
-		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_FOUND);
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> addUser(@RequestBody UserDto user) {
-
 		System.out.println(user.getEmail());
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (userService.insertUser(user)) {
-			map.put("STATUS", HttpStatus.CREATED.value());
 			map.put("MESSAGE", "USER HAS BEEN CREATED.");
+			map.put("STATUS", HttpStatus.CREATED.value());			
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.CREATED);
 		} else {
-			map.put("STATUS", HttpStatus.NOT_FOUND.value());
 			map.put("MESSAGE", "USER HAS NOT BEEN CREATED.");
+			map.put("STATUS", HttpStatus.NOT_FOUND.value());			
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_FOUND);
 		}
-
-		// return new ResponseEntity<Map<String, Object>>(map,
-		// HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
@@ -80,12 +77,12 @@ public class AdminUserController {
 		System.out.println("delete controller.");
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (userService.deleteUser(id)) {
-			map.put("STATUS", HttpStatus.GONE.value());
 			map.put("MESSAGE", "USER HAS BEEN DELETED.");
+			map.put("STATUS", HttpStatus.OK.value());
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 		} else {
-			map.put("STATUS", HttpStatus.NOT_FOUND.value());
 			map.put("MESSAGE", "USER HAS NOT BEEN DELETED.");
+			map.put("STATUS", HttpStatus.NOT_FOUND.value());
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_FOUND);
 		}
 	}
@@ -95,12 +92,12 @@ public class AdminUserController {
 		user.setId(id);
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (userService.updateUser(user)) {
-			map.put("STATUS", HttpStatus.FOUND.value());
 			map.put("MESSAGE", "USER HAS BEEN UPDATED.");
+			map.put("STATUS", HttpStatus.FOUND.value());
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 		} else {
-			map.put("STATUS", HttpStatus.NOT_FOUND.value());
 			map.put("MESSAGE", "USER HAS NOT BEEN UPDATED.");
+			map.put("STATUS", HttpStatus.NOT_FOUND.value());
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_FOUND);
 		}
 	}
@@ -111,13 +108,13 @@ public class AdminUserController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		UserDto user = userService.getUser(id);
 		if (user != null) {
-			map.put("STATUS", HttpStatus.FOUND.value());
 			map.put("MESSAGE", "USER HAS BEEN FOUND.");
+			map.put("STATUS", HttpStatus.FOUND.value());
 			map.put("RESPONSE_DATA", user);
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 		} else {
-			map.put("STATUS", HttpStatus.NOT_FOUND.value());
 			map.put("MESSAGE", "USER NOT FOUND...");
+			map.put("STATUS", HttpStatus.NOT_FOUND.value());
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_FOUND);
 		}
 	}
@@ -137,31 +134,32 @@ public class AdminUserController {
 			listUser = userService.search(pathVariables.get("type").toString(),
 					pathVariables.get("keyword").toString(),
 					Integer.parseInt(pathVariables.get("limit")),0);
-	    }	
-		
+	    }			
 		if (listUser.isEmpty()) {
 			map.put("MESSAGE", "RECORD NOT FOUND.");
+			map.put("STATUS", HttpStatus.FOUND.value());
 			status = HttpStatus.NOT_FOUND;
 		} else {
 			map.put("RESPONSE_DATA", listUser);
+			map.put("STATUS", HttpStatus.FOUND.value());
 			status = HttpStatus.OK;
 		}
 		return new ResponseEntity<Map<String, Object>>(map, status);
 	}
 	
 	@RequestMapping(value = "/toggle/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> toggle(
-			@PathVariable("id") int id
-			) {
+	public ResponseEntity<Map<String, Object>> toggle(@PathVariable("id") int id) {
 		System.out.println("toggle " + id);		
 		Map<String, Object> map = new HashMap<String, Object>();
 		HttpStatus status = null;
 		if (userService.toggle(id)) {
 			map.put("MESSAGE", "TOGGLE SUCCESSFULLY");
-			map.put("RESPONSE_DATA", userService.getUser(id));
+			map.put("STATUS", HttpStatus.OK.value());
+			map.put("RESPONSE_DATA", userService.getUser(id).isEnable());
 			status = HttpStatus.OK;
 		} else {
 			map.put("MESSAGE", "RECORD NOT FOUND.");
+			map.put("STATUS", HttpStatus.NOT_FOUND.value());
 			status = HttpStatus.NOT_FOUND;
 		}
 		return new ResponseEntity<Map<String, Object>>(map, status);
@@ -170,7 +168,6 @@ public class AdminUserController {
 	@RequestMapping(value = "/uploadimage", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> uploadImage(@RequestParam("file") MultipartFile file,
 			HttpServletRequest request) {
-
 		String filename = file.getOriginalFilename();
 		System.out.println(file);
 		Map<String, Object> map = new HashMap<String, Object>();

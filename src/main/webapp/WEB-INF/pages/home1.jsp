@@ -148,7 +148,7 @@
 							<tr>
 								<td>/search/{type}/{keyword}/{limit}/</td>
 								<td>GET</td>
-								<th><a href="api/admin/user/search/username/admin/5">example1</a>
+								<th><a href="api/admin/user/search/username/admin/2">example1</a>
 									<a href="api/admin/user/search/username/admin/5">example2</a></th>
 							</tr>
 							<tr>

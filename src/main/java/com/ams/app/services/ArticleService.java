@@ -19,10 +19,9 @@ public interface ArticleService {
 
 	public boolean delete(int artId);
 	
-	//toggle between enable/disable an article
-	public boolean toggle(int artId);
+	public boolean toggle(int artId); 	//toggle between enable/disable an article
 
-	public ArrayList<ArticleDto> show(int artId);
+	public ArticleDto show(int artId);
 
 	public ArrayList<ArticleDto> search(String columnName, String keyword, int limitrow, int page);
 	
