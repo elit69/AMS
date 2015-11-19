@@ -21,14 +21,14 @@ public class ArticleDao implements ArticleService {
 	private DataSource dataSource;
 
 	public String list(int limitrow, int page) {
-		//int offset = limitrow * page - limitrow;
+		int offset = limitrow * page - limitrow;
 		String sql = "select f_list_article(?,?)";
 		try (Connection cnn = dataSource.getConnection();
 				PreparedStatement ps = cnn.prepareStatement(sql);		
 		)
 		{
 			ps.setInt(1, limitrow);
-			ps.setInt(2, page);
+			ps.setInt(2, offset);
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			return rs.getString(1);

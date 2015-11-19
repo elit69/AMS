@@ -38,12 +38,31 @@ public class AdminArticleController {
 		return mav;
 	}*/
 
-	@RequestMapping(value = "/list/{limit}/{offset}", method = RequestMethod.GET)
+	@RequestMapping(value = "/list/{limit}/{page}", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> listArticle(@PathVariable Map<String, String> pathVariables) {
 		System.out.println("list article");
 		String list="";
-		if (pathVariables.containsKey("limit") && pathVariables.containsKey("offset")) {
-			list = artservice.list(Integer.parseInt(pathVariables.get("limit")),Integer.parseInt(pathVariables.get("offset")));
+		if (pathVariables.containsKey("limit") && pathVariables.containsKey("page")) {
+			list = artservice.list(Integer.parseInt(pathVariables.get("limit")),Integer.parseInt(pathVariables.get("page")));
+	    } 
+		Map<String, Object> map = new HashMap<String, Object>();
+		if (list.isEmpty()) {
+			map.put("MESSAGE", "LIST EMPTY");
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+		} else {
+			map.put("STATUS", HttpStatus.OK);
+			map.put("MESSAGE", "SUCCESS");
+			map.put("RESPONSE_DATA", list);
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+		}
+	}
+	
+	@RequestMapping(value = "/list/{limit}", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> listArticle1(@PathVariable Map<String, String> pathVariables) {
+		System.out.println("list article");
+		String list="";
+		if (pathVariables.containsKey("limit")) {
+			list = artservice.list(Integer.parseInt(pathVariables.get("limit")),1);
 	    } 
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (list.isEmpty()) {
@@ -153,7 +172,7 @@ public class AdminArticleController {
 		}
 	}
 	
-	@RequestMapping(value = "/get_article/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getArticle(@PathVariable("id") int id) {
 		System.out.println("list article");
 		String art = artservice.show(id);

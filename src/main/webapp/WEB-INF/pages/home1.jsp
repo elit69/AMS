@@ -12,7 +12,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- CSS Library -->
-<link rel="stylesheet"	href="${pageContext.request.contextPath}/resources/css/lib/bootstrap.min.css" />
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/lib/bootstrap.min.css" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/lib/font-awesome-4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet"
@@ -25,19 +26,18 @@
 <!-- End Custom StyleSheet -->
 </head>
 <body>
-${message }
+	${message }
 	<div id="main" class="container-fluid">
 		<div class="col-sm-12 center-block">
 			<div class="col-sm-12 card form-horizontal">
-				<h1>All User 
-					<a class="btn pull-right"
+				<h1>
+					All User <a class="btn pull-right"
 						href="${pageContext.request.contextPath}/logout"><i
-						class="fa fa-sign-out fa-2x"></i></a> 
-					<a class="btn pull-right"
+						class="fa fa-sign-out fa-2x"></i></a> <a class="btn pull-right"
 						href="${pageContext.request.contextPath}/admin/add"><i
-						class="fa fa-plus fa-2x"></i></a>
-					<a class="btn pull-right"
-						href="${pageContext.request.contextPath}/admin/show/${currentUser.id }">Hi, ${currentUser.username }</a>
+						class="fa fa-plus fa-2x"></i></a> <a class="btn pull-right"
+						href="${pageContext.request.contextPath}/admin/show/${currentUser.id }">Hi,
+						${currentUser.username }</a>
 				</h1>
 				<hr>
 				<mvc:form action="${pageContext.request.contextPath}/admin/search"
@@ -66,46 +66,50 @@ ${message }
 					</div>
 				</mvc:form>
 				<div class="table-responsive">
+					<caption>http://localhost:8080/ArticleManagement/*</caption>
 					<table
 						class="table table-striped table-bordered table-condensed table-hover">
 						<thead>
 							<tr class="info">
-								<th>ID</th>
-								<th>Username</th>
-								<th>Password</th>
-								<th>Email</th>
-								<th>Role</th>
-								<th>Enable</th>
-								<th>Birth Date</th>
-								<th>Register Date</th>
-								<th>Image</th>
-								<th>Action</th>
+
+								<th>relative_path</th>
+								<th>http_verb</th>
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="usr" items="${listUser}">
-								<tr>
-									<td>${usr.id}</td>
-									<td>${usr.username}</td>
-									<td>${usr.password}</td>
-									<td>${usr.email}</td>
-									<td>${usr.role}</td>
-									<td>${usr.enable}</td>
-									<td>${usr.birthdate}</td>
-									<td>${usr.registerdate}</td>
-									<td>${usr.image}</td>
-									<td><a class="label label-info"
-										href="${pageContext.request.contextPath}/admin/show/${usr.id}"
-										style="margin-right: 10px;"><i class="fa fa-eye fa-lg"></i>
-											Show </a> <a class="label label-primary"
-										href="${pageContext.request.contextPath}/admin/update/${usr.id}"
-										style="margin-right: 10px;"><i class="fa fa-pencil fa-lg"></i>
-											Edit </a> <a class="label label-danger"
-										href="${pageContext.request.contextPath}/admin/delete/${usr.id}"
-										style="margin-right: 10px;"><i class="fa fa-trash-o fa-lg"></i>
-											Delete</a></td>
-								</tr>
-							</c:forEach>
+							<tr>
+								<td>api/admin/article/list/{limit}</td>
+								<td>GET</td>
+							</tr>
+							<tr>
+								<td>api/admin/article/list/{limit}/{page}</td>
+								<td>GET</td>
+							</tr>
+							<tr>
+								<td>api/admin/article/add</td>
+								<td>POST</td>
+							</tr>
+
+							<tr>
+								<td>api/admin/article/delete/{id}</td>
+								<td>DELETE</td>
+							</tr>
+							<tr>
+								<td>api/admin/article/update/{id}</td>
+								<td>PUT</td>
+							</tr>
+							<tr>
+								<td>api/admin/article/search/{type}/{keyword}/{limit}/{page}</td>
+								<td>GET</td>
+							</tr>
+							<tr>
+								<td>api/admin/article/search/{type}/{keyword}/{limit}/</td>
+								<td>GET</td>
+							</tr>
+							<tr>
+								<td>api/admin/article/toggle/{id}</td>
+								<td>GET</td>
+							</tr>
 						</tbody>
 					</table>
 					<c:if test="${empty listUser}">
