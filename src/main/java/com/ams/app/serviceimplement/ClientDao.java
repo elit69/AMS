@@ -96,4 +96,32 @@ public class ClientDao implements ClientService{
 		}
 		return rownumber;
 	}
+
+	@Override
+	public ArticleDto getArticle(int id) {
+		
+		String sql="SELECT * FROM v_article WHERE id=?";
+		ArticleDto article=null;
+		try(
+				Connection conn=datasource.getConnection();
+				PreparedStatement ps=conn.prepareStatement(sql);
+		){
+			ps.setInt(1,id);
+			ResultSet rs=ps.executeQuery();
+			
+			if(rs.next()){
+				article=new ArticleDto();
+				article.setId(rs.getInt(1));
+				article.setTitle(rs.getString(2));
+				article.setName(rs.getString(3));
+				article.setPdate(rs.getDate(5));
+				article.setContent(rs.getString(4));
+				article.setImage(rs.getString(6));
+			}
+			
+		}catch(Exception ex){
+			System.out.println(ex.getMessage());
+		}
+		return article;
+	}
 }

@@ -36,8 +36,8 @@ public class ClientController {
 		  }
 	}
    @RequestMapping(value="/getarticlesearch",method=RequestMethod.POST)	
-   public ResponseEntity<Map<String,Object>> getArticleSearchList(@RequestParam("rwoname") String rowname,@RequestParam("search") String search,
-		                                                          @RequestParam("page") int page,@RequestParam("numberow") int numberrow) {
+   public ResponseEntity<Map<String,Object>> getArticleSearchList(@RequestParam("rowname") String rowname,@RequestParam("search") String search,
+		                                                          @RequestParam("page") int page,@RequestParam("numberrow") int numberrow) {
 	   Map<String,Object> map=new HashMap<String,Object>();
 		  ArrayList<ArticleDto> list=dao.searchArticle(rowname, search, page, numberrow);
 		  if(list.isEmpty()){
@@ -52,7 +52,7 @@ public class ClientController {
 		  }
    }
    
-   @RequestMapping(value="/getnumberrow")
+   @RequestMapping(value="/getnumberrow",method=RequestMethod.POST)
    public ResponseEntity<Map<String,Object>> getNumberRow(@RequestParam("rowname") String rowname,@RequestParam("search") String search){
 	   Map<String,Object> map=new HashMap<String,Object>();
 		  int numberrow=dao.getNumberRow(rowname, search); 
@@ -66,6 +66,16 @@ public class ClientController {
 			  map.put("RESPONE_DATA",numberrow);
 			  return new ResponseEntity<Map<String,Object>>(map,HttpStatus.OK);
 		  }
+   }
+   @RequestMapping(value="/articleviewdetial",method=RequestMethod.POST)
+   public ResponseEntity<Map<String,Object>> getArticle(@RequestParam("id") int id){
+	   Map<String,Object> map=new HashMap<String,Object>();
+	   ArticleDto article=dao.getArticle(id);
+	  map.put("MESSAGE","ARTICLE DETAIL");
+	  map.put("STATUS",HttpStatus.FOUND.value());
+	  map.put("RESPONE_DATA",article);
+	  return new ResponseEntity<Map<String,Object>>(map,HttpStatus.OK);
+	   
    }
    
 }
