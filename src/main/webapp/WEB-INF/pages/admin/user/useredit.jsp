@@ -33,13 +33,16 @@
 		Enable
 			<input type="radio" name="enable" value="true" id="e">Enable
 			<input type="radio" name="enable" value="false" id="d"/>Disable<br/><br/>
-		<%-- Image <input type="file" name="file" id="image" value="${user.image }"/><br/><br/> --%>
+		Image <input type="file" name="file" id="image"/><br/><br/> 
 		<br/><br/>
 		<input type="button" class="btn btn-primary" value="Update" onclick="updateUser()" />
 		<input type="reset" class="btn btn-warning" value="Clear"  />
 	</form>
 	
 	<script type="text/javascript">
+		var img=0;
+		var img_temp;
+		
 		startPage();
 		function startPage(){
 			id="${id}";
@@ -62,6 +65,8 @@
 					$("#password").val(data.RESPONSE_DATA.password);
 					$("#address").val(data.RESPONSE_DATA.address);
 					$("#phone").val(data.RESPONSE_DATA.phone);
+					img_temp=data.RESPONSE_DATA.image;
+					
 					if(data.RESPONSE_DATA.enable==true){
 						$("#e").attr('checked',true);
 					}else{
@@ -74,10 +79,33 @@
 				}
 			}); 
 		}
-		var img=0;
-		//var temp_image="";
+		$("#image").change(function() {
+			//alert("change image");
+			img = 1;
+		});
+		function uploadImage() {
+			alert("upload image");
+			var data1;
+			data1 = new FormData();
+			data1.append('file', $('#image')[0].files[0]);
+			$.ajax({
+				url : "api/admin/user/uploadimage",
+				type : "POST",
+				cache : false,
+				contentType : false,
+				processData : false,
+				data : data1,
+				success : function(data2) {
+					alert("success uploading");
+				}
+			}); 
+		}  
 		function updateUser(){
-			alert("update user");
+			if(img==0){
+				img=img_temp;
+			}else{
+				img=$("#image").val().split("\\").pop();
+			}
 			   json = {
 					id : $("#id").val(),
 					name : $("#name").val(),
@@ -88,7 +116,7 @@
 					address : $("#address").val(),
 					phone : $("#phone").val(),
 					enable : $('input:radio[name=enable]:checked').val(),
-					image : "default.jpg"
+					image : img
 				};
 
 				$.ajax({
@@ -98,7 +126,7 @@
 					contentType: 'application/json',
 					success : function(data) {
 						alert("Success :" + data.MESSAGE);
-						//uploadImage();
+						uploadImage();
 						location.href="${pageContext.request.contextPath}/formlistuser";
 					},
 					error : function(data) {
@@ -108,28 +136,7 @@
 				}); 
 		}
 		
-		/* $("#image").change(function() {
-			//alert("change image");
-			img = 1;
-		}); */
 		
-		/* function uploadImage() {
-			alert("upload image");
-			var data1;
-			data1 = new FormData();
-			data1.append('file', $('#image')[0].files[0]);
-			$.ajax({
-				url : "admin/api/user/uploadimage",
-				type : "POST",
-				cache : false,
-				contentType : false,
-				processData : false,
-				data : data1,
-				success : function(data2) {
-					alert("success uploading");
-				}
-			}); 
-		}  */
 		
 		
 		
