@@ -181,7 +181,7 @@ CREATE OR REPLACE VIEW "v_article" AS
     art.image
    FROM (tbarticle art
    JOIN tbuser us ON ((art.userid = us.id)))
-  WHERE (art.enable = true);
+  WHERE (art.enable = true) AND (us.enable = true);
 
 -- ----------------------------
 -- View structure for v_list_all_article

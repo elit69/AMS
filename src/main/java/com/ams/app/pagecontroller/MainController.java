@@ -84,16 +84,34 @@ public class MainController {
 	}
 	
 	///////////////////////////////////////////////////////////security action	
+	@RequestMapping(value = "/403")
+	public String accessDenied(ModelMap m) {
+		m.addAttribute("message", "accessDenied , " + getUsername());
+		return "403";
+	}
+	
+	@RequestMapping(value = "/successlogin")
+	public String successlogin(ModelMap m) {
+		System.out.println(isAuthenticated());
+		System.out.println(getRole());
+		System.out.println(getUsername());
+		System.out.println("successlogin");
+		if (getRole().equals("ROLE_ADMIN"))		return "redirect:/admin";
+		if (getRole().equals("ROLE_AUTHOR"))	return "redirect:/author";
+		return "redirect:/";
+	}
+	
 	@RequestMapping(value = "/login")
-	public String loginPage() {
-		return "login";
+	public String loginPage(HttpServletRequest request) {
+		String referrer = request.getHeader("Referer");
+		request.getSession().setAttribute("url_prior_login", referrer);
+		if(isAuthenticated()) return "redirect:/"; else return "login";
 	}
 	
 	@RequestMapping(value = "/logout")
 	public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth != null)
-			new SecurityContextLogoutHandler().logout(request, response, auth);
+		if (auth != null)	new SecurityContextLogoutHandler().logout(request, response, auth);
 		return "redirect:/";
 	}
 	
@@ -111,13 +129,36 @@ public class MainController {
 		return new ResponseEntity<Map<String, Object>>(map, status);
 	}
 	
-	@RequestMapping(value = "/api/autologin", method = RequestMethod.GET)
+	@RequestMapping(value = "/api/autologin/admin", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<Map<String, Object>> autologin(HttpServletRequest request) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		HttpStatus status = null;
 		try {
 			request.login("admin", "1");
-			map.put("MESSAGE", "AUTO LOG IN SUCCESS WITH ACCOUNT 'admin'");
+			map.put("MESSAGE", "AUTO LOG IN SUCCESS WITH DEFAULT ADMIN ACCOUNT 'admin'");
+			map.put("isAuthenticated", isAuthenticated());
+			map.put("Role", getRole());
+			map.put("Username", getUsername());
+			status = HttpStatus.OK;
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			map.put("MESSAGE", e.getMessage());
+			status = HttpStatus.NOT_FOUND;
+			e.printStackTrace();
+		}
+		System.out.println(isAuthenticated());
+		System.out.println(getRole());
+		System.out.println(getUsername());
+		return new ResponseEntity<Map<String, Object>>(map, status);
+	}
+	
+	@RequestMapping(value = "/api/autologin/author", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<Map<String, Object>> autologin1(HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		HttpStatus status = null;
+		try {
+			request.login("author", "1");
+			map.put("MESSAGE", "AUTO LOG IN SUCCESS WITH DEFAULT AUTHOR ACCOUNT 'author'");
 			map.put("isAuthenticated", isAuthenticated());
 			map.put("Role", getRole());
 			map.put("Username", getUsername());

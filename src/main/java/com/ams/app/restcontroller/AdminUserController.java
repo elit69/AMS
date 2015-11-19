@@ -86,9 +86,8 @@ public class AdminUserController {
 		}
 	}
 
-	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Map<String, Object>> updateUser(@RequestBody UserDto user, @PathVariable("id") int id) {
-		user.setId(id);
+	@RequestMapping(value = "/update", method = RequestMethod.PUT)
+	public ResponseEntity<Map<String, Object>> updateUser(@RequestBody UserDto user) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (userService.updateUser(user)) {
 			map.put("MESSAGE", "USER HAS BEEN UPDATED.");

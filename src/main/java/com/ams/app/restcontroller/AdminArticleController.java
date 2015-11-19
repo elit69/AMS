@@ -136,10 +136,9 @@ public class AdminArticleController {
 		}
 	}
 
-	@RequestMapping(value = "/update/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<Map<String, Object>> updateArticle(@RequestBody ArticleDto art, @PathVariable("id") int id) {
+	@RequestMapping(value = "/update", method = RequestMethod.PUT)
+	public ResponseEntity<Map<String, Object>> updateArticle(@RequestBody ArticleDto art) {
 		System.out.println("update article");
-		art.setId(id);
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (artservice.update(art)) {
 			map.put("MESSAGE", "ARTICLE HAS BEEN UPDATED.");

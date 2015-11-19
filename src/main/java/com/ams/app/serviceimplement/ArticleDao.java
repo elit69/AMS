@@ -53,24 +53,26 @@ public class ArticleDao implements ArticleService {
 			return arr;
 
 		} catch (SQLException e) {
-			System.out.println(e);
+		e.printStackTrace();
 		}
 		return null;
 	}
 
 	public boolean add(ArticleDto art) {
-		String sql = "INSERT INTO tbarticle(title,userid,content,publish_date,enable,image) VALUES(?,?,?,NOW(),?,?)";
+		String sql = "INSERT INTO tbarticle(title,userid,content,publish_date,enable,image) VALUES(?,?,?,?,?,?)";
 		try (Connection cnn = dataSource.getConnection(); PreparedStatement ps = cnn.prepareStatement(sql);) {
 			ps.setString(1, art.getTitle());
 			ps.setInt(2, art.getUserid());
 			ps.setString(3, art.getContent());
-			ps.setBoolean(4, art.isEnable());
-			ps.setString(5, art.getImage());
-			if (ps.executeUpdate() > 0)
+			ps.setDate(4, art.getPdate());
+			ps.setBoolean(5, art.isEnable());
+			ps.setString(6, art.getImage());
+			if (ps.executeUpdate() > 0){
+				System.out.println(ps);
 				return true;
-
+			}
 		} catch (SQLException e) {
-			System.out.println(e);
+		e.printStackTrace();
 		}
 		return false;
 	}
@@ -80,14 +82,17 @@ public class ArticleDao implements ArticleService {
 		try (Connection cnn = dataSource.getConnection(); PreparedStatement ps = cnn.prepareStatement(sql);) {
 			ps.setString(1, art.getTitle());
 			ps.setInt(2, art.getUserid());
-			ps.setString(2, art.getContent());
-			ps.setBoolean(4, art.isEnable());
-			ps.setString(5, art.getImage());
-			if (ps.executeUpdate() > 0)
+			ps.setString(3, art.getContent());
+			ps.setDate(4, art.getPdate());
+			ps.setBoolean(5, art.isEnable());
+			ps.setString(6, art.getImage());
+			ps.setInt(7, art.getId());
+			if (ps.executeUpdate() > 0){
+				System.out.println(ps);
 				return true;
-
+			}
 		} catch (SQLException e) {
-			System.out.println(e);
+		e.printStackTrace();
 		}
 		return false;
 	}
@@ -100,7 +105,7 @@ public class ArticleDao implements ArticleService {
 				return true;
 
 		} catch (SQLException e) {
-			System.out.println(e);
+		e.printStackTrace();
 		}
 		return false;
 	}
@@ -127,7 +132,7 @@ public class ArticleDao implements ArticleService {
 				return a;
 			}
 		} catch (SQLException e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 		return null;
 	}

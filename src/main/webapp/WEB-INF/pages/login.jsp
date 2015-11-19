@@ -21,8 +21,8 @@
 <!-- End CSS Library -->
 
 <!-- Custom StyleSheet -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/index.css">
+<link rel="stylesheet" href="resources/css/index.css">
+<link rel="stylesheet" href="resources/css/login.css">
 <!-- End Custom StyleSheet -->
 </head>
 <body>

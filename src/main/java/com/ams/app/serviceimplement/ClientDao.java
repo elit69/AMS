@@ -32,6 +32,7 @@ public class ClientDao implements ClientService{
 			ps.setInt(1,numberrow);
 			ps.setInt(2,begin);
 			ResultSet rs=ps.executeQuery();
+			System.out.println(ps);
 			while(rs.next()){
 				article=new ArticleDto();
 				article.setId(rs.getInt(1));
@@ -64,6 +65,7 @@ public class ClientDao implements ClientService{
 			ps.setInt(2,numberrow);
 			ps.setInt(3, begin);
 			ResultSet rs=ps.executeQuery();
+			System.out.println(ps);
 			while(rs.next()){
 				article=new ArticleDto();
 				article.setId(rs.getInt(1));
@@ -88,6 +90,7 @@ public class ClientDao implements ClientService{
 		){
 			ps.setString(1,search.toLowerCase()+"%");
 			ResultSet rs=ps.executeQuery();
+			System.out.println(ps);
 			if(rs.next()){
 				rownumber=rs.getInt(1);
 			}
@@ -98,8 +101,7 @@ public class ClientDao implements ClientService{
 	}
 
 	@Override
-	public ArticleDto getArticle(int id) {
-		
+	public ArticleDto getArticle(int id) {		
 		String sql="SELECT * FROM v_article WHERE id=?";
 		ArticleDto article=null;
 		try(
@@ -108,7 +110,7 @@ public class ClientDao implements ClientService{
 		){
 			ps.setInt(1,id);
 			ResultSet rs=ps.executeQuery();
-			
+			System.out.println(ps);
 			if(rs.next()){
 				article=new ArticleDto();
 				article.setId(rs.getInt(1));

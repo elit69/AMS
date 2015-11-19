@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -24,7 +25,6 @@ import com.ams.app.services.UserService;
 @ComponentScan(basePackages="com.ams.app")
 @EnableWebMvc
 public class WebConfig extends WebMvcConfigurerAdapter {
-
 	
 	@Bean
 	public ViewResolver getViewResolver(){
@@ -62,6 +62,11 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public ArticleService getArticleDao(){
 		return new ArticleDao(this.getDataSource());
+	}
+		
+	@Bean
+	public AuthenticationSuccessHandler successHandler() {
+	    return new LoginSuccessHandler("/successlogin");
 	}
 	
 	// Upload File 
