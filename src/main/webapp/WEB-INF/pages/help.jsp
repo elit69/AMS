@@ -28,6 +28,47 @@
 <body>
 	<div id="main" class="container-fluid">
 		<div class="col-sm-12 center-block">
+		<div class="col-sm-12 card form-horizontal">
+				<h1>Login</h1>
+				<hr>
+				<div class="table-responsive">
+
+					<table
+						class="table table-striped table-bordered table-condensed table-hover">
+						<caption>http://localhost:8080/ArticleManagement/**</caption>
+						<thead>
+							<tr class="info">
+								<th>relative_path</th>
+								<th>http_verb</th>
+								<th>example</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>/api/login</td>
+								<td>POST</td>
+								<td>{"username":"author","password":"1"}</td>
+							</tr>
+							<tr>
+								<td>/api/autologin</td>
+								<td>GET</td>
+								<td><a href="api/autologin">example1</a> </td>
+							</tr>
+							<tr>
+								<td>/api/logout</td>
+								<td>GET</td>
+								<td><a href="api/logout">example1</a> </td>
+							</tr>
+							<tr>
+								<td>/api/status</td>
+								<td>GET</td>
+								<td><a href="api/status">example1</a> </td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		
 			<div class="col-sm-12 card form-horizontal">
 				<h1>Article</h1>
 				<hr>
@@ -35,7 +76,7 @@
 
 					<table
 						class="table table-striped table-bordered table-condensed table-hover">
-						<caption>http://localhost:8080/ArticleManagement/api/admin/article/*</caption>
+						<caption>http://localhost:8080/ArticleManagement/api/admin/article/**</caption>
 						<thead>
 							<tr class="info">
 								<th>relative_path</th>
@@ -105,7 +146,7 @@
 
 					<table
 						class="table table-striped table-bordered table-condensed table-hover">
-						<caption>http://localhost:8080/ArticleManagement/api/admin/user/*</caption>
+						<caption>http://localhost:8080/ArticleManagement/api/admin/user/**</caption>
 						<thead>
 							<tr class="info">
 								<th>relative_path</th>

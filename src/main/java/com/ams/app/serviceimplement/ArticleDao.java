@@ -157,6 +157,7 @@ public class ArticleDao implements ArticleService {
 				s.setPdate(rs.getDate("publish_date"));
 				s.setEnable(rs.getBoolean("ENABLE"));
 				s.setImage(rs.getString("image"));
+				s.setContent(rs.getString("content"));
 				list.add(s);
 			}
 		} catch (Exception ex) {
@@ -189,6 +190,7 @@ public class ArticleDao implements ArticleService {
 				s.setPdate(rs.getDate("publish_date"));
 				s.setEnable(rs.getBoolean("ENABLE"));
 				s.setImage(rs.getString("image"));
+				s.setContent(rs.getString("content"));
 				list.add(s);
 			}
 		} catch (Exception ex) {

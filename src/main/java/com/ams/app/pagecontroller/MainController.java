@@ -1,28 +1,40 @@
 package com.ams.app.pagecontroller;
 
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ams.app.entities.UserDto;
 
 @Controller
 public class MainController {
 	
-
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public String homePage1(ModelMap model) {
-//		model.addAttribute("message", "hello world");
+	@RequestMapping(value = "/")
+	public String homePage(ModelMap m) {
 		System.out.println("home page");
-		return "home1";
-	}
-	
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String homePage(ModelMap model) {
-//		model.addAttribute("message", "hello world");
-		System.out.println("home page");
+		System.out.println(getUsername());
+		System.out.println(getRole());
+		System.out.println(isAuthenticated());
+		m.addAttribute("message", "home page");
+		m.addAttribute("name", getUsername());
+		m.addAttribute("role", getRole());
+		m.addAttribute("login", isAuthenticated());
 		return "home";
 	}
 	
@@ -36,6 +48,148 @@ public class MainController {
 	public String formListUsers(ModelMap model) {
 		System.out.println("show form list users controller");
 		return "/admin/user/viewuser";
+	}
+	
+	@RequestMapping(value = "/author/")
+	public String authorPage(ModelMap m) {
+		System.out.println(getUsername());
+		System.out.println(getRole());
+		System.out.println(isAuthenticated());
+		m.addAttribute("name", getUsername());
+		m.addAttribute("role", getRole());
+		m.addAttribute("login", isAuthenticated());
+		return "author";
+	}
+
+	@RequestMapping(value = "/admin/")
+	public String adminPage(ModelMap m) {
+		System.out.println(getUsername());
+		System.out.println(getRole());
+		System.out.println(isAuthenticated());
+		m.addAttribute("name", getUsername());
+		m.addAttribute("role", getRole());
+		m.addAttribute("login", isAuthenticated());
+		return "admin";
+	}	
+
+	@RequestMapping(value = "/help", method = RequestMethod.GET)
+	public String homePage1(ModelMap m) {
+		System.out.println(getUsername());
+		System.out.println(getRole());
+		System.out.println(isAuthenticated());
+		m.addAttribute("name", getUsername());
+		m.addAttribute("role", getRole());
+		m.addAttribute("login", isAuthenticated());
+		return "help";
+	}
+	
+	///////////////////////////////////////////////////////////security action	
+	@RequestMapping(value = "/login")
+	public String loginPage() {
+		return "login";
+	}
+	
+	@RequestMapping(value = "/logout")
+	public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth != null)
+			new SecurityContextLogoutHandler().logout(request, response, auth);
+		return "redirect:/";
+	}
+	
+	@RequestMapping(value = "/api/status", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<Map<String, Object>> status(HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		HttpStatus status = HttpStatus.OK;
+		System.out.println(isAuthenticated());
+		System.out.println(getRole());
+		System.out.println(getUsername());
+		map.put("MESSAGE", "CURRENT USER STATUS");
+		map.put("isAuthenticated", isAuthenticated());
+		map.put("Role", getRole());
+		map.put("Username", getUsername());
+		return new ResponseEntity<Map<String, Object>>(map, status);
+	}
+	
+	@RequestMapping(value = "/api/autologin", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<Map<String, Object>> autologin(HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		HttpStatus status = null;
+		try {
+			request.login("admin", "1");
+			map.put("MESSAGE", "AUTO LOG IN SUCCESS WITH ACCOUNT 'admin'");
+			map.put("isAuthenticated", isAuthenticated());
+			map.put("Role", getRole());
+			map.put("Username", getUsername());
+			status = HttpStatus.OK;
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			map.put("MESSAGE", e.getMessage());
+			status = HttpStatus.NOT_FOUND;
+			e.printStackTrace();
+		}
+		System.out.println(isAuthenticated());
+		System.out.println(getRole());
+		System.out.println(getUsername());
+		return new ResponseEntity<Map<String, Object>>(map, status);
+	}
+
+	@RequestMapping(value = "/api/login", method = RequestMethod.POST)
+	public @ResponseBody ResponseEntity<Map<String, Object>> login(@RequestBody UserDto usr, HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		HttpStatus status = null;
+		try {
+			request.login(usr.getUsername(), usr.getPassword());
+			map.put("MESSAGE", "LOG IN SUCCESS");
+			map.put("isAuthenticated", isAuthenticated());
+			map.put("Role", getRole());
+			map.put("Username", getUsername());
+			status = HttpStatus.OK;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			map.put("MESSAGE", e.getMessage());
+			status = HttpStatus.NOT_FOUND;
+			e.printStackTrace();
+		}
+		System.out.println(isAuthenticated());
+		System.out.println(getRole());
+		System.out.println(getUsername());
+		return new ResponseEntity<Map<String, Object>>(map, status);
+	}
+
+	@RequestMapping(value = "/api/logout", method = RequestMethod.GET)
+	public @ResponseBody ResponseEntity<Map<String, Object>> logout(HttpServletRequest request,
+			HttpServletResponse response) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		HttpStatus status = null;
+		try {
+			if(isAuthenticated()){
+				request.logout();
+				map.put("MESSAGE", "LOG OUT SUCCESS");
+				status = HttpStatus.OK;
+			}else{
+				map.put("MESSAGE", "YOU DID NOT LOG IN. CANNOT LOG OUT.");
+				status = HttpStatus.NOT_FOUND;
+			}
+		} catch (ServletException e) {
+			// TODO Auto-generated catch block
+			map.put("MESSAGE", e.getMessage());
+			status = HttpStatus.NOT_FOUND;
+			e.printStackTrace();
+		}
+		return new ResponseEntity<Map<String, Object>>(map, status);
+	}
+
+	public boolean isAuthenticated() {
+		return !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
+	}
+
+	private String getRole() {
+		return SecurityContextHolder.getContext().getAuthentication().getAuthorities().iterator().next().toString();
+	}
+
+	private String getUsername() {
+		return SecurityContextHolder.getContext().getAuthentication().getName();
 	}
 
 }
