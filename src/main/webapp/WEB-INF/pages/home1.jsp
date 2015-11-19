@@ -26,7 +26,6 @@
 <!-- End Custom StyleSheet -->
 </head>
 <body>
-	${message }
 	<div id="main" class="container-fluid">
 		<div class="col-sm-12 center-block">
 			<div class="col-sm-12 card form-horizontal">

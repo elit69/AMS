@@ -38,25 +38,35 @@ public class AdminArticleController {
 		return mav;
 	}*/
 
-	@RequestMapping(value = "/list/{limit}/{page}", method = RequestMethod.GET)
+	@RequestMapping(value = {"/list/{limit}/{page}","/list/{limit}"}, method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> listArticle(@PathVariable Map<String, String> pathVariables) {
 		System.out.println("list article");
 		String list="";
 		if (pathVariables.containsKey("limit") && pathVariables.containsKey("page")) {
 			list = artservice.list(Integer.parseInt(pathVariables.get("limit")),Integer.parseInt(pathVariables.get("page")));
-	    } 
+	    } else if (pathVariables.containsKey("limit")){
+	    	list = artservice.list(Integer.parseInt(pathVariables.get("limit")),0);
+	    }
+		
 		Map<String, Object> map = new HashMap<String, Object>();
-		if (list.isEmpty()) {
-			map.put("MESSAGE", "LIST EMPTY");
-			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
-		} else {
+		System.out.println(list);
+		try {
+			list.equals(null);
 			map.put("STATUS", HttpStatus.OK);
 			map.put("MESSAGE", "SUCCESS");
 			map.put("RESPONSE_DATA", list);
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+		} catch (Exception e) {
+			// TODO: handle exception
+			map.put("MESSAGE", "LIST EMPTY");
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 		}
+			
+		
+			
+		
 	}
-	
+/*	
 	@RequestMapping(value = "/list/{limit}", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> listArticle1(@PathVariable Map<String, String> pathVariables) {
 		System.out.println("list article");
@@ -65,7 +75,7 @@ public class AdminArticleController {
 			list = artservice.list(Integer.parseInt(pathVariables.get("limit")),1);
 	    } 
 		Map<String, Object> map = new HashMap<String, Object>();
-		if (list.isEmpty()) {
+		if (list.equals("")) {
 			map.put("MESSAGE", "LIST EMPTY");
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 		} else {
@@ -74,7 +84,7 @@ public class AdminArticleController {
 			map.put("RESPONSE_DATA", list);
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 		}
-	}
+	}*/
 	
 	@RequestMapping(value="/add", method= RequestMethod.POST )
 	public ResponseEntity<Map<String, Object>> addArticle(ArticleDto art,  @RequestParam("file") MultipartFile file, HttpServletRequest request){

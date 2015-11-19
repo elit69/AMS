@@ -21,6 +21,7 @@ public class ArticleDao implements ArticleService {
 	private DataSource dataSource;
 
 	public String list(int limitrow, int page) {
+		if(page==0) page=1;
 		int offset = limitrow * page - limitrow;
 		String sql = "select f_list_article(?,?)";
 		try (Connection cnn = dataSource.getConnection();
