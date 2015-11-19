@@ -305,11 +305,42 @@ public class UserDao implements UserService {
 		}
 		return false;
 	}
-
+	
 	@Override
-	public ArrayList<UserDto> searchUser(String keyword, String type) {
-		// TODO Auto-generated method stub
-		return null;
+	public ArrayList<UserDto> search(String columnName, String keyword, int limitrow, int page) {
+		if(page==0) page=1;
+		int offset = limitrow * page - limitrow;
+		ArrayList<UserDto> list = new ArrayList<>();
+		UserDto user = null;
+		String sql = "SELECT id,username,password,enable,email,address,phone,name,gender,image"
+				+ " FROM tbuser"
+				+ " WHERE Lower(" + columnName + ")"
+				+ " LIKE ? LIMIT ? OFFSET ?";
+		try (Connection conn = dataSource.getConnection(); 
+			PreparedStatement ps = conn.prepareStatement(sql);) {
+			ps.setString(1, "%" + keyword.toLowerCase() + "%");
+			ps.setInt(2, limitrow);
+			ps.setInt(3, offset);
+			ResultSet rs = ps.executeQuery();
+			System.out.println(ps);
+			while (rs.next()) {
+				user = new UserDto();
+				user.setId(rs.getInt(1));
+				user.setUsername(rs.getString(2));
+				user.setPassword(rs.getString(3));
+				user.setEnable(rs.getBoolean(4));
+				user.setEmail(rs.getString(5));
+				user.setAddress(rs.getString(6));
+				user.setPhone(rs.getString(7));
+				user.setName(rs.getString(8));
+				user.setGender(rs.getString(9));
+				user.setImage(rs.getString(10));
+				list.add(user);
+			}
+		} catch (Exception ex) {
+			System.out.println(ex.getMessage());
+		}
+		return list;
 	}
 
 }
