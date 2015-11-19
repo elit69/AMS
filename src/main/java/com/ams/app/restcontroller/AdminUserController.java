@@ -103,11 +103,11 @@ public class AdminUserController {
 	public ResponseEntity<Map<String, Object>> getUser(@PathVariable("id") int id) {
 		System.out.println("detail controller");
 		Map<String, Object> map = new HashMap<String, Object>();
-		UserDto student = userService.getUser(id);
-		if (student != null) {
+		UserDto user = userService.getUser(id);
+		if (user != null) {
 			map.put("STATUS", HttpStatus.FOUND.value());
 			map.put("MESSAGE", "USER HAS BEEN FOUND.");
-			map.put("RESPONSE_DATA", student);
+			map.put("RESPONSE_DATA", user);
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 		} else {
 			map.put("STATUS", HttpStatus.NOT_FOUND.value());

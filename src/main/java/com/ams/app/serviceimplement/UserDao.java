@@ -132,7 +132,8 @@ public class UserDao implements UserService {
 	public boolean deleteUser(int id) {
 		try {
 			con = dataSource.getConnection();
-			String sql = "DELETE FROM tbuser  WHERE id=?";
+			//String sql = "UPDATE tbuser SET enable='false' WHERE id=?";
+			String sql="UPDATE tbuser SET enable = NOT ENABLE where id=?";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setInt(1, id);
 			if (ps.executeUpdate() > 0)

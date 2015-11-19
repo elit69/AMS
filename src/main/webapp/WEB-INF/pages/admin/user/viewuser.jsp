@@ -73,7 +73,7 @@
 		function displayData(data) {
 			var table = "<table class='table table-bordered table table-hover'><tr>"
 						+ "<th>ID</th><th>Name</th><th>Gender</th>"
-						+ "<th>email</th><th>username</th><th>password</th><th>address</th><th>phone</th>"
+						+ "<th>email</th><th>username</th><th>password</th><th>Enable</th><th>address</th><th>phone</th>"
 						+ "<th>Image</th><th>Action</th></tr>";
 			
 			for (var i = 0; i < data.RESPONSE_DATA.length; i++) {
@@ -89,6 +89,8 @@
 						+ data.RESPONSE_DATA[i].username
 						+ "</td><td>"
 						+ data.RESPONSE_DATA[i].password
+						+ "</td><td>"
+						+ data.RESPONSE_DATA[i].enable
 						+ "</td><td>"
 						+ data.RESPONSE_DATA[i].address
 						+ "</td><td>"
@@ -112,7 +114,6 @@
 		
 		function detailuser(id){
 			//alert(id);
-			
 			var str="";
 			$.ajax({
 				type : "GET",

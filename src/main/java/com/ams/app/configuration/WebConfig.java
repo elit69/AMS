@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -43,21 +44,17 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         dataSource.setPassword("12345");
         return dataSource;
     }
-
-	
-	//ClientDao Bean
-	/*@Bean
-    public DataSource getMyDataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/articledb");
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("123456");
-        return dataSource;
-    }*/
 	
 	@Bean
 	public ClientDao getClientDao(){
 		return new ClientDao(this.getDataSource());
 	}
+	
+	// Upload File 
+		@Bean
+		public MultipartResolver multipartResolver() {
+		       org.springframework.web.multipart.commons.CommonsMultipartResolver multipartResolver = new org.springframework.web.multipart.commons.CommonsMultipartResolver();
+		       multipartResolver.setMaxUploadSize(2097152);
+		       return multipartResolver;
+		}
 }
