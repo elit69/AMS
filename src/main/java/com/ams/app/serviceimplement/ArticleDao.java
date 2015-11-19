@@ -40,14 +40,13 @@ public class ArticleDao implements ArticleService {
 	}
 
 	public boolean add(ArticleDto art) {
-		String sql = "INSERT INTO tblarticle(title,userid,content,publish_date,enable,image) VALUES(?,?,?,NOW(),?,?)";
+		String sql = "INSERT INTO tbarticle(title,userid,content,publish_date,enable,image) VALUES(?,?,?,NOW(),?,?)";
 		try (Connection cnn = dataSource.getConnection(); PreparedStatement ps = cnn.prepareStatement(sql);) {
 			ps.setString(1, art.getTitle());
 			ps.setInt(2, art.getUserid());
 			ps.setString(3, art.getContent());
-			ps.setDate(4, art.getPdate());
-			ps.setBoolean(5, art.getEnable());
-			ps.setString(6, art.getImage());
+			ps.setBoolean(4, art.getEnable());
+			ps.setString(5, art.getImage());
 			if (ps.executeUpdate() > 0)
 				return true;
 

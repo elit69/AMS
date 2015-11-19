@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.ams.app.entities.ArticleDto;
 import com.ams.app.services.ArticleService;
@@ -32,11 +33,11 @@ public class AdminArticleController {
 	@Autowired
 	private ArticleService artservice;
 
-/*	@RequestMapping(value = "/", method = RequestMethod.GET)
+	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView viewListArticle(ModelAndView mav) {
-		mav.setViewName("/admin/article");
+		mav.setViewName("/admin/article/test_upload");
 		return mav;
-	}*/
+	}
 
 	@RequestMapping(value = {"/list/{limit}/{page}","/list/{limit}"}, method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> listArticle(@PathVariable Map<String, String> pathVariables) {
@@ -88,7 +89,6 @@ public class AdminArticleController {
 	
 	@RequestMapping(value="/add", method= RequestMethod.POST )
 	public ResponseEntity<Map<String, Object>> addArticle(ArticleDto art,  @RequestParam("file") MultipartFile file, HttpServletRequest request){
-			
 		//file upload
 		if(!file.isEmpty()){
 			try{
@@ -106,7 +106,7 @@ public class AdminArticleController {
 
 				// creating the directory to store file
 				String savePath = request.getSession().getServletContext()
-						.getRealPath("/resources/upload/images/");
+						.getRealPath("/resources/upload/images");
 				System.out.println(savePath);
 				File path = new File(savePath);
 				if (!path.exists()) {
