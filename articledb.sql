@@ -18,7 +18,7 @@ Date: 2015-11-18 17:05:48
 -- ----------------------------
 -- Sequence structure for tbarticle_id_seq
 -- ----------------------------
-DROP SEQUENCE IF EXISTS "tbarticle_id_seq";
+DROP SEQUENCE IF EXISTS "tbarticle_id_seq" CASCADE;
 CREATE SEQUENCE "tbarticle_id_seq"
  INCREMENT 1
  MINVALUE 1
@@ -30,7 +30,7 @@ SELECT setval('"public"."tbarticle_id_seq"', 20, true);
 -- ----------------------------
 -- Sequence structure for tbrole_id_seq
 -- ----------------------------
-DROP SEQUENCE IF EXISTS "tbrole_id_seq";
+DROP SEQUENCE IF EXISTS "tbrole_id_seq" CASCADE;
 CREATE SEQUENCE "tbrole_id_seq"
  INCREMENT 1
  MINVALUE 1
@@ -42,7 +42,7 @@ SELECT setval('"public"."tbrole_id_seq"', 3, true);
 -- ----------------------------
 -- Sequence structure for tbuser_id_seq
 -- ----------------------------
-DROP SEQUENCE IF EXISTS "tbuser_id_seq";
+DROP SEQUENCE IF EXISTS "tbuser_id_seq" CASCADE;
 CREATE SEQUENCE "tbuser_id_seq"
  INCREMENT 1
  MINVALUE 1
@@ -54,7 +54,7 @@ SELECT setval('"public"."tbuser_id_seq"', 6, true);
 -- ----------------------------
 -- Table structure for tbarticle
 -- ----------------------------
-DROP TABLE IF EXISTS "tbarticle";
+DROP TABLE IF EXISTS "tbarticle" CASCADE;
 CREATE TABLE "tbarticle" (
 "id" int8 DEFAULT nextval('tbarticle_id_seq'::regclass) NOT NULL,
 "title" varchar COLLATE "default" NOT NULL,
@@ -97,7 +97,7 @@ COMMIT;
 -- ----------------------------
 -- Table structure for tbrole
 -- ----------------------------
-DROP TABLE IF EXISTS "tbrole";
+DROP TABLE IF EXISTS "tbrole" CASCADE;
 CREATE TABLE "tbrole" (
 "id" int4 DEFAULT nextval('tbrole_id_seq'::regclass) NOT NULL,
 "role" varchar(20) COLLATE "default" NOT NULL
@@ -117,7 +117,7 @@ COMMIT;
 -- ----------------------------
 -- Table structure for tbuser
 -- ----------------------------
-DROP TABLE IF EXISTS "tbuser";
+DROP TABLE IF EXISTS "tbuser" CASCADE;
 CREATE TABLE "tbuser" (
 "id" int4 DEFAULT nextval('tbuser_id_seq'::regclass) NOT NULL,
 "username" varchar COLLATE "default" NOT NULL,
@@ -149,7 +149,7 @@ COMMIT;
 -- ----------------------------
 -- Table structure for tbuser_role
 -- ----------------------------
-DROP TABLE IF EXISTS "tbuser_role";
+DROP TABLE IF EXISTS "tbuser_role" CASCADE;
 CREATE TABLE "tbuser_role" (
 "id" int4 NOT NULL,
 "user_id" int4 NOT NULL
@@ -162,13 +162,17 @@ WITH (OIDS=FALSE)
 -- Records of tbuser_role
 -- ----------------------------
 BEGIN;
-INSERT INTO "tbuser_role" VALUES ('1', '2');
+INSERT INTO "tbuser_role" VALUES ('1', '1');
+INSERT INTO "tbuser_role" VALUES ('1', '3');
+INSERT INTO "tbuser_role" VALUES ('1', '5');
+INSERT INTO "tbuser_role" VALUES ('2', '2');
+INSERT INTO "tbuser_role" VALUES ('2', '4');
+INSERT INTO "tbuser_role" VALUES ('2', '6');
 COMMIT;
-
 -- ----------------------------
--- View structure for NewView
+-- View structure for v_article
 -- ----------------------------
-CREATE OR REPLACE VIEW "NewView" AS 
+CREATE OR REPLACE VIEW "v_article" AS 
  SELECT art.id,
     art.title,
     us.name,
