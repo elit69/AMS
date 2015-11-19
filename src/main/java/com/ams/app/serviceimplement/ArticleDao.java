@@ -8,23 +8,28 @@ import java.util.ArrayList;
 
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import com.ams.app.entities.ArticleDto;
 import com.ams.app.services.ArticleService;
 
 
 public class ArticleDao implements ArticleService {
 
-	//do not autowired here
+	@Autowired
 	private DataSource dataSource;
 
 	public ArticleDao(DataSource dataSource2) {
 		this.dataSource = dataSource2;
 	}
 
-	public String list(int limitrow, int page) {
+	public ArrayList<ArticleDto> list(int limitrow, int page) {
+		ArrayList<ArticleDto> arr = new ArrayList<ArticleDto>();
+		ArticleDto a = null;
 		if(page==0) page=1;
 		int offset = limitrow * page - limitrow;
-		String sql = "select f_list_article(?,?)";
+		String sql = "SELECT tbarticle. ID, tbarticle.title, tbarticle.publish_date, tbarticle. ENABLE, tbarticle.image, tbarticle. CONTENT, tbarticle.userid, tbuser. NAME FROM ( tbarticle JOIN tbuser ON ((tbarticle.userid = tbuser. ID))) LIMIT ? OFFSET ?";
 		try (Connection cnn = dataSource.getConnection();
 				PreparedStatement ps = cnn.prepareStatement(sql);		
 		)
@@ -32,8 +37,21 @@ public class ArticleDao implements ArticleService {
 			ps.setInt(1, limitrow);
 			ps.setInt(2, offset);
 			ResultSet rs = ps.executeQuery();
-			rs.next();
-			return rs.getString(1);
+			System.out.println(ps);
+			while(rs.next()){
+				a = new ArticleDto();
+				a.setTitle(rs.getString("title"));
+				a.setContent(rs.getString("content"));
+				a.setEnable(rs.getBoolean("enable"));
+				a.setId(rs.getInt("id"));
+				a.setName(rs.getString("name"));
+				a.setImage(rs.getString("image"));
+				a.setUserid(rs.getInt("userid"));
+				a.setPdate(rs.getDate("publish_date"));
+				arr.add(a);
+			}
+			return arr;
+
 		} catch (SQLException e) {
 			System.out.println(e);
 		}
@@ -87,20 +105,28 @@ public class ArticleDao implements ArticleService {
 		return false;
 	}
 
-	public String show(int artId) {
-		String a = null;
-		String sql = "SELECT array_to_json (ARRAY_AGG(row_to_json(T))) FROM ( SELECT tbarticle. ID, tbarticle.title, tbuser. NAME, tbarticle.publish_date, tbarticle. ENABLE, tbarticle.image, tbarticle. CONTENT FROM ( tbarticle JOIN tbuser ON ((tbarticle.userid = tbuser. ID))) WHERE tbarticle. ID = ? ) T";
+	public ArrayList<ArticleDto> show(int artId) {
+		ArticleDto a = null;
+		ArrayList<ArticleDto> arr = new ArrayList<ArticleDto>();
+		String sql = "SELECT tbarticle. ID, tbarticle.title, tbarticle.publish_date, tbarticle. ENABLE, tbarticle.image, tbarticle. CONTENT, tbarticle.userid, tbuser. NAME FROM ( tbarticle JOIN tbuser ON ((tbarticle.userid = tbuser. ID))) WHERE tbarticle. ID = ?";
 		try (Connection cnn = dataSource.getConnection(); PreparedStatement ps = cnn.prepareStatement(sql);
 
 		) {
 			ps.setInt(1, artId);
 			ResultSet rs = ps.executeQuery();
-			rs.next();
-			a = rs.getString(1);
-
-			System.out.println(a);
-			return a;
-
+			while(rs.next()){
+				a = new ArticleDto();
+				a.setTitle(rs.getString("title"));
+				a.setContent(rs.getString("content"));
+				a.setEnable(rs.getBoolean("enable"));
+				a.setId(rs.getInt("id"));
+				a.setName(rs.getString("name"));
+				a.setImage(rs.getString("image"));
+				a.setUserid(rs.getInt("userid"));
+				a.setPdate(rs.getDate("publish_date"));
+				arr.add(a);
+			}
+			return arr;
 		} catch (SQLException e) {
 			System.out.println(e);
 		}
@@ -108,7 +134,6 @@ public class ArticleDao implements ArticleService {
 	}
 
 	public ArrayList<ArticleDto> search(String columnName, String keyword, int limitrow, int page) {
-		if(page==0) page=1;
 		int offset = limitrow * page - limitrow;
 		ArrayList<ArticleDto> list = new ArrayList<>();
 		ArticleDto s = null;
@@ -141,7 +166,6 @@ public class ArticleDao implements ArticleService {
 	}
 
 	public ArrayList<ArticleDto> listByUser(int userid, int limitrow, int page) {
-		if(page==0) page=1;
 		int offset = limitrow * page - limitrow;
 		ArrayList<ArticleDto> list = new ArrayList<>();
 		ArticleDto s = new ArticleDto();
@@ -172,7 +196,6 @@ public class ArticleDao implements ArticleService {
 		return list;
 	}
 
-	//toggle between enable/disable
 	@Override
 	public boolean toggle(int artId) {		
 		String sql = "UPDATE tbarticle SET enable = not enable WHERE id = ?";
@@ -188,4 +211,7 @@ public class ArticleDao implements ArticleService {
 		}
 		return false;
 	}
+
+
+
 }

@@ -3,6 +3,7 @@ package com.ams.app.restcontroller;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.support.ReplaceOverride;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +26,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.ams.app.entities.ArticleDto;
 import com.ams.app.services.ArticleService;
+import com.fasterxml.jackson.databind.jsonFormatVisitors.JsonObjectFormatVisitor;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 
 
 @RestController
@@ -35,22 +39,21 @@ public class AdminArticleController {
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public ModelAndView viewListArticle(ModelAndView mav) {
-		mav.setViewName("/admin/article/test_upload");
+//		mav.setViewName("/admin/article/test_upload");
+		mav.setViewName("/admin/article/test_list_article");
 		return mav;
 	}
 
 	@RequestMapping(value = {"/list/{limit}/{page}","/list/{limit}"}, method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> listArticle(@PathVariable Map<String, String> pathVariables) {
 		System.out.println("list article");
-		String list="";
+		ArrayList<ArticleDto> list=null;
 		if (pathVariables.containsKey("limit") && pathVariables.containsKey("page")) {
 			list = artservice.list(Integer.parseInt(pathVariables.get("limit")),Integer.parseInt(pathVariables.get("page")));
 	    } else if (pathVariables.containsKey("limit")){
 	    	list = artservice.list(Integer.parseInt(pathVariables.get("limit")),0);
 	    }
-		
 		Map<String, Object> map = new HashMap<String, Object>();
-		System.out.println(list);
 		try {
 			list.equals(null);
 			map.put("STATUS", HttpStatus.OK);
@@ -60,6 +63,7 @@ public class AdminArticleController {
 		} catch (Exception e) {
 			// TODO: handle exception
 			map.put("MESSAGE", "LIST EMPTY");
+			
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 		}
 			
@@ -106,7 +110,7 @@ public class AdminArticleController {
 
 				// creating the directory to store file
 				String savePath = request.getSession().getServletContext()
-						.getRealPath("/resources/upload/images");
+						.getRealPath("/resources/upload/images/");
 				System.out.println(savePath);
 				File path = new File(savePath);
 				if (!path.exists()) {
@@ -128,6 +132,7 @@ public class AdminArticleController {
 						+ e.getMessage());
 			}
 		} else {
+			art.setImage("abc.jpg");
 			System.out.println("The file was empty!");
 		}
 		
@@ -184,8 +189,8 @@ public class AdminArticleController {
 	
 	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getArticle(@PathVariable("id") int id) {
-		System.out.println("list article");
-		String art = artservice.show(id);
+		System.out.println("get article");
+		ArrayList<ArticleDto> art = artservice.show(id);
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (art.equals("")) {
 			map.put("MESSAGE", "LIST EMPTY");
@@ -198,23 +203,37 @@ public class AdminArticleController {
 		}
 	}
 	
-	@RequestMapping(value = {"/search/{type}/{keyword}/{limit}/{page}","/search/{type}/{keyword}/{limit}"}, method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> search(@PathVariable Map<String, String> pathVariables) {		
-		List<ArticleDto> listUser = null;
+	@RequestMapping(value = "/search/{type}/{keyword}/{limit}/{page}", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> searchTypeKeyword(
+			@PathVariable("type") String type,
+			@PathVariable("keyword") String keyword,
+			@PathVariable("limit") int limit,
+			@PathVariable("page") int page
+			) {
+		System.out.println("search action/type:" + type + "/keyword:" + keyword);
+		List<ArticleDto> listUser = artservice.search(type, keyword, limit, page);
 		Map<String, Object> map = new HashMap<String, Object>();
 		HttpStatus status = null;
-		if (pathVariables.containsKey("type") && pathVariables.containsKey("keyword") 
-			&& pathVariables.containsKey("limit") && pathVariables.containsKey("page")) {
-			listUser = artservice.search(pathVariables.get("type").toString(),
-										pathVariables.get("keyword").toString(),
-										Integer.parseInt(pathVariables.get("limit")),
-										Integer.parseInt(pathVariables.get("page")));
-	    } else if (pathVariables.containsKey("type") && pathVariables.containsKey("keyword") && pathVariables.containsKey("limit")){
-			listUser = artservice.search(pathVariables.get("type").toString(),
-					pathVariables.get("keyword").toString(),
-					Integer.parseInt(pathVariables.get("limit")),0);
-	    }	
-		
+		if (listUser.isEmpty()) {
+			map.put("MESSAGE", "RECORD NOT FOUND.");
+			status = HttpStatus.NOT_FOUND;
+		} else {
+			map.put("RESPONSE_DATA", listUser);
+			status = HttpStatus.OK;
+		}
+		return new ResponseEntity<Map<String, Object>>(map, status);
+	}
+	
+	@RequestMapping(value = "/search/{type}/{keyword}/{limit}", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> searchTypeKeyword(
+			@PathVariable("type") String type,
+			@PathVariable("keyword") String keyword,
+			@PathVariable("limit") int limit
+			) {
+		System.out.println("search action/type:" + type + "/keyword:" + keyword);
+		List<ArticleDto> listUser = artservice.search(type, keyword, limit, 1);
+		Map<String, Object> map = new HashMap<String, Object>();
+		HttpStatus status = null;
 		if (listUser.isEmpty()) {
 			map.put("MESSAGE", "RECORD NOT FOUND.");
 			status = HttpStatus.NOT_FOUND;
@@ -226,7 +245,7 @@ public class AdminArticleController {
 	}
 	
 	@RequestMapping(value = "/toggle/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> toggle(
+	public ResponseEntity<Map<String, Object>> searchTypeKeyword(
 			@PathVariable("id") int id
 			) {
 		System.out.println("toggle " + id);		
@@ -234,7 +253,6 @@ public class AdminArticleController {
 		HttpStatus status = null;
 		if (artservice.toggle(id)) {
 			map.put("MESSAGE", "TOGGLE SUCCESSFULLY");
-			map.put("RESPONSE_DATA", artservice.show(id));
 			status = HttpStatus.OK;
 		} else {
 			map.put("MESSAGE", "RECORD NOT FOUND.");
