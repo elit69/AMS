@@ -8,17 +8,18 @@ import java.util.ArrayList;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
 import com.ams.app.entities.ArticleDto;
 import com.ams.app.services.ArticleService;
 
-@Repository
+
 public class ArticleDao implements ArticleService {
 
-	@Autowired
+	//do not autowired here
 	private DataSource dataSource;
+
+	public ArticleDao(DataSource dataSource2) {
+		this.dataSource = dataSource2;
+	}
 
 	public String list(int limitrow, int page) {
 		if(page==0) page=1;
@@ -107,6 +108,7 @@ public class ArticleDao implements ArticleService {
 	}
 
 	public ArrayList<ArticleDto> search(String columnName, String keyword, int limitrow, int page) {
+		if(page==0) page=1;
 		int offset = limitrow * page - limitrow;
 		ArrayList<ArticleDto> list = new ArrayList<>();
 		ArticleDto s = null;
@@ -139,6 +141,7 @@ public class ArticleDao implements ArticleService {
 	}
 
 	public ArrayList<ArticleDto> listByUser(int userid, int limitrow, int page) {
+		if(page==0) page=1;
 		int offset = limitrow * page - limitrow;
 		ArrayList<ArticleDto> list = new ArrayList<>();
 		ArticleDto s = new ArticleDto();
@@ -169,8 +172,9 @@ public class ArticleDao implements ArticleService {
 		return list;
 	}
 
+	//toggle between enable/disable
 	@Override
-	public boolean toggleArticleState(int artId) {		
+	public boolean toggle(int artId) {		
 		String sql = "UPDATE tbarticle SET enable = not enable WHERE id = ?";
 		try (Connection cnn = dataSource.getConnection(); 
 				PreparedStatement ps = cnn.prepareStatement(sql);) {

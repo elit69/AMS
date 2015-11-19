@@ -28,7 +28,7 @@ public class AuthorController {
 	@RequestMapping(value = {"/list" },method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> listUser() {
 		System.out.println("list author article.");
-		ArrayList<UserDto> users = userService.getAllUser();
+		ArrayList<UserDto> users = userService.list(2,3);
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (users.isEmpty()) {
 			map.put("STATUS", HttpStatus.NOT_FOUND.value());

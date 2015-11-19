@@ -29,96 +29,143 @@
 	<div id="main" class="container-fluid">
 		<div class="col-sm-12 center-block">
 			<div class="col-sm-12 card form-horizontal">
-				<h1>
-					All User <a class="btn pull-right"
-						href="${pageContext.request.contextPath}/logout"><i
-						class="fa fa-sign-out fa-2x"></i></a> <a class="btn pull-right"
-						href="${pageContext.request.contextPath}/admin/add"><i
-						class="fa fa-plus fa-2x"></i></a> <a class="btn pull-right"
-						href="${pageContext.request.contextPath}/admin/show/${currentUser.id }">Hi,
-						${currentUser.username }</a>
-				</h1>
+				<h1>Article</h1>
 				<hr>
-				<mvc:form action="${pageContext.request.contextPath}/admin/search"
-					method="POST">
-					<div class="col-sm-11 center-block">
-						<div class="col-sm-10 ">
-							<div class="input-group">
-								<input type="text" class="form-control" name="keyword"
-									placeholder="Search for User ..." autofocus> <span
-									class="input-group-btn">
-									<button type="submit" class="btn btn-primary">
-										&nbsp;<span class="fa fa-search"></span>&nbsp;
-									</button>
-								</span>
-
-							</div>
-						</div>
-						<div class="col-sm-2 ">
-							<select class="form-control" name="type">
-								<option value="username">Username</option>
-								<option value="email">Email</option>
-								<option value="password">Password</option>
-								<option value="image">Image</option>
-							</select>
-						</div>
-					</div>
-				</mvc:form>
 				<div class="table-responsive">
-					<caption>http://localhost:8080/ArticleManagement/*</caption>
+
 					<table
 						class="table table-striped table-bordered table-condensed table-hover">
+						<caption>http://localhost:8080/ArticleManagement/api/admin/article/*</caption>
 						<thead>
 							<tr class="info">
-
 								<th>relative_path</th>
 								<th>http_verb</th>
+								<th>example</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<td>api/admin/article/list/{limit}</td>
+								<td>/list/{limit}</td>
 								<td>GET</td>
+								<th><a href="api/admin/article/list/10">example1</a> <a
+									href="api/admin/article/list/20">example2</a></th>
 							</tr>
 							<tr>
-								<td>api/admin/article/list/{limit}/{page}</td>
+								<td>/list/{limit}/{page}</td>
 								<td>GET</td>
+								<th><a href="api/admin/article/list/10/1">example1</a> <a
+									href="api/admin/article/list/10/2">example2</a></th>
 							</tr>
 							<tr>
-								<td>api/admin/article/add</td>
+								<td>/add</td>
 								<td>POST</td>
 							</tr>
 
 							<tr>
-								<td>api/admin/article/delete/{id}</td>
+								<td>/delete/{id}</td>
 								<td>DELETE</td>
 							</tr>
 							<tr>
-								<td>api/admin/article/update/{id}</td>
+								<td>/update/{id}</td>
 								<td>PUT</td>
 							</tr>
 							<tr>
-								<td>api/admin/article/search/{type}/{keyword}/{limit}/{page}</td>
+								<td>/search/{type}/{keyword}/{limit}/{page}</td>
 								<td>GET</td>
+								<th><a href="api/admin/article/search/title/a/5/1">example1</a>
+									<a href="api/admin/article/search/title/a/5/2">example2</a></th>
 							</tr>
 							<tr>
-								<td>api/admin/article/search/{type}/{keyword}/{limit}/</td>
+								<td>/search/{type}/{keyword}/{limit}/</td>
 								<td>GET</td>
+								<th><a href="api/admin/article/search/title/a/5">example1</a>
+									<a href="api/admin/article/search/title/a/10">example2</a></th>
 							</tr>
 							<tr>
-								<td>api/admin/article/toggle/{id}</td>
+								<td>/get/{id}</td>
 								<td>GET</td>
+								<th><a href="api/admin/article/get/1">example1</a> <a
+									href="api/admin/article/get/2">example1</a></th>
+							</tr>
+							<tr>
+								<td>/toggle/{id}</td>
+								<td>GET</td>
+								<th><a href="api/admin/article/toggle/1">example1</a> <a
+									href="api/admin/article/toggle/2">example1</a></th>
 							</tr>
 						</tbody>
 					</table>
-					<c:if test="${empty listUser}">
-						<div class="alert alert-danger text-center">
-							<strong>404 NOT FOUND</strong> <a
-								href="${pageContext.request.contextPath}/">Go Home</a>
-						</div>
-					</c:if>
 				</div>
+			</div>
 
+			<div class="col-sm-12 card form-horizontal">
+				<h1>User</h1>
+				<hr>
+				<div class="table-responsive">
+
+					<table
+						class="table table-striped table-bordered table-condensed table-hover">
+						<caption>http://localhost:8080/ArticleManagement/api/admin/user/*</caption>
+						<thead>
+							<tr class="info">
+								<th>relative_path</th>
+								<th>http_verb</th>
+								<th>example</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>/list/{limit}</td>
+								<td>GET</td>
+								<th><a href="api/admin/user/list/5">example1</a> <a
+									href="api/admin/user/list/10">example2</a></th>
+							</tr>
+							<tr>
+								<td>/list/{limit}/{page}</td>
+								<td>GET</td>
+								<th><a href="api/admin/user/list/5/1">example1</a> <a
+									href="api/admin/user/list/5/2">example2</a></th>
+							</tr>
+							<tr>
+								<td>/add</td>
+								<td>POST</td>
+							</tr>
+
+							<tr>
+								<td>/delete/{id}</td>
+								<td>DELETE</td>
+							</tr>
+							<tr>
+								<td>/update/{id}</td>
+								<td>PUT</td>
+							</tr>
+							<tr>
+								<td>/search/{type}/{keyword}/{limit}/{page}</td>
+								<td>GET</td>
+								<th><a href="api/admin/user/search/title/a/5/1">example1</a>
+									<a href="api/admin/user/search/title/a/5/2">example2</a></th>
+							</tr>
+							<tr>
+								<td>/search/{type}/{keyword}/{limit}/</td>
+								<td>GET</td>
+								<th><a href="api/admin/user/search/title/a/5">example1</a>
+									<a href="api/admin/user/search/title/a/10">example2</a></th>
+							</tr>
+							<tr>
+								<td>/get/{id}</td>
+								<td>GET</td>
+								<th><a href="api/admin/user/get/1">example1</a> <a
+									href="api/admin/user/get/2">example1</a></th>
+							</tr>
+							<tr>
+								<td>/toggle/{id}</td>
+								<td>GET</td>
+								<th><a href="api/admin/user/toggle/1">example1</a> <a
+									href="api/admin/user/toggle/2">example1</a></th>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>

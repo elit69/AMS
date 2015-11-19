@@ -216,6 +216,7 @@ FROM
     tbuser.name
    FROM (tbarticle
    JOIN tbuser ON ((tbarticle.userid = tbuser.id)))
+   	ORDER BY ID
 		LIMIT $1 OFFSET $2
 	) T ; $BODY$
   LANGUAGE 'sql' VOLATILE COST 100

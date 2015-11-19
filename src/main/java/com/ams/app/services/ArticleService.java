@@ -19,8 +19,8 @@ public interface ArticleService {
 
 	public boolean delete(int artId);
 	
-	//enable/disable an article
-	public boolean toggleArticleState(int artId);
+	//toggle between enable/disable an article
+	public boolean toggle(int artId);
 
 	public String show(int artId);
 

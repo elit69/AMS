@@ -26,34 +26,37 @@ import com.ams.app.entities.UserDto;
 import com.ams.app.services.UserService;
 
 @RestController
-
-@RequestMapping(value="/api/admin/user")
-
+@RequestMapping(value = "/api/admin/user")
 public class AdminUserController {
 	private static final Logger logger = LoggerFactory.getLogger(AdminArticleController.class);
 
 	@Autowired
 	private UserService userService;
-	
-	@RequestMapping(value = {"/list" },method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> listUser() {
+
+	@RequestMapping(value = { "/list/{limit}/{page}", "/list/{limit}" }, method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> listUser(@PathVariable Map<String, String> pathVariables) {
 		System.out.println("list user controller.");
-		ArrayList<UserDto> users = userService.getAllUser();
+		ArrayList<UserDto> users = null;
 		Map<String, Object> map = new HashMap<String, Object>();
-		if (users.isEmpty()) {
-			map.put("STATUS", HttpStatus.NOT_FOUND.value());
-			map.put("MESSAGE", "USERS ARE NOT FOUND.");
-			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_FOUND);
+		if (pathVariables.containsKey("limit") && pathVariables.containsKey("page")) {
+			users = userService.list(Integer.parseInt(pathVariables.get("limit")),
+					Integer.parseInt(pathVariables.get("page")));
+		} else if (pathVariables.containsKey("limit")) {
+			users = userService.list(Integer.parseInt(pathVariables.get("limit")), 0);
 		}
-		map.put("STATUS", HttpStatus.OK.value());
-		map.put("MESSAGE", "USERS HAVE BEEN FOUND.");
-		map.put("RESPONSE_DATA", users);
-		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
+		if (!users.isEmpty()) {
+			map.put("STATUS", HttpStatus.OK.value());
+			map.put("MESSAGE", "USERS HAVE BEEN FOUND.");
+			map.put("RESPONSE_DATA", users);
+		}
+		map.put("STATUS", HttpStatus.NOT_FOUND.value());
+		map.put("MESSAGE", "USERS ARE NOT FOUND.");
+		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_FOUND);
 	}
 
-	@RequestMapping(value ="/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> addUser(@RequestBody UserDto user) {
-		
+
 		System.out.println(user.getEmail());
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (userService.insertUser(user)) {
@@ -65,8 +68,9 @@ public class AdminUserController {
 			map.put("MESSAGE", "USER HAS NOT BEEN CREATED.");
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_FOUND);
 		}
-		
-		//return new ResponseEntity<Map<String, Object>>(map, HttpStatus.CREATED);
+
+		// return new ResponseEntity<Map<String, Object>>(map,
+		// HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
@@ -99,7 +103,7 @@ public class AdminUserController {
 		}
 	}
 
-	@RequestMapping(value = "/get_user/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getUser(@PathVariable("id") int id) {
 		System.out.println("detail controller");
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -115,6 +119,24 @@ public class AdminUserController {
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	@RequestMapping(value = "/toggle/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> searchTypeKeyword(
+			@PathVariable("id") int id
+			) {
+		System.out.println("toggle " + id);		
+		Map<String, Object> map = new HashMap<String, Object>();
+		HttpStatus status = null;
+		if (userService.toggle(id)) {
+			map.put("MESSAGE", "TOGGLE SUCCESSFULLY");
+			map.put("RESPONSE_DATA", userService.getUser(id));
+			status = HttpStatus.OK;
+		} else {
+			map.put("MESSAGE", "RECORD NOT FOUND.");
+			status = HttpStatus.NOT_FOUND;
+		}
+		return new ResponseEntity<Map<String, Object>>(map, status);
+	}	
 
 	@RequestMapping(value = "/uploadimage", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> uploadImage(@RequestParam("file") MultipartFile file,

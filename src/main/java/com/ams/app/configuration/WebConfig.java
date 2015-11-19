@@ -13,7 +13,11 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import com.ams.app.serviceimplement.ArticleDao;
 import com.ams.app.serviceimplement.ClientDao;
+import com.ams.app.serviceimplement.UserDao;
+import com.ams.app.services.ArticleService;
+import com.ams.app.services.UserService;
 
 
 @Configuration
@@ -48,6 +52,16 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public ClientDao getClientDao(){
 		return new ClientDao(this.getDataSource());
+	}
+	
+	@Bean
+	public UserService getUserDao(){
+		return new UserDao(this.getDataSource());
+	}
+	
+	@Bean
+	public ArticleService getArticleDao(){
+		return new ArticleDao(this.getDataSource());
 	}
 	
 	// Upload File 

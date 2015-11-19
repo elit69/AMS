@@ -8,25 +8,30 @@ import java.util.ArrayList;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
 import com.ams.app.entities.UserDto;
 import com.ams.app.services.UserService;
 
-@Repository
+
 public class UserDao implements UserService {
 
-	@Autowired
+	//do not autowired he
 	private DataSource dataSource;
 	private Connection con;
+	public UserDao(DataSource dataSource2) {
+		this.dataSource = dataSource2;
+	}
+
 	@Override
-	public ArrayList<UserDto> getAllUser() {
+	public ArrayList<UserDto> list(int limitrow, int page) {
+		if(page==0) page=1;
+		int offset = limitrow * page - limitrow;
 		UserDto user = null;
 		try {
 			con = dataSource.getConnection();
-			String sql = "SELECT * FROM tbuser ORDER BY id";
+			String sql = "SELECT * FROM tbuser ORDER BY id LIMIT ? OFFSET ?";
 			PreparedStatement ps = con.prepareStatement(sql);
+			ps.setInt(1, limitrow);
+			ps.setInt(2, offset);
 			ResultSet rs = ps.executeQuery();
 			ArrayList<UserDto> users = new ArrayList<UserDto>();
 			while (rs.next()) {
@@ -283,6 +288,22 @@ public class UserDao implements UserService {
 			}
 		}
 		return null;
+	}
+	
+	@Override
+	public boolean toggle(int artId) {		
+		String sql = "UPDATE tbuser SET enable = not enable WHERE id = ?";
+		try (Connection cnn = dataSource.getConnection(); 
+				PreparedStatement ps = cnn.prepareStatement(sql);) {
+			ps.setInt(1, artId);
+			if (ps.executeUpdate() > 0){
+				System.out.println(ps);
+				return true; //update successfully //not the state of article
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	@Override
