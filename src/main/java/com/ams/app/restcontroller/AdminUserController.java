@@ -49,12 +49,11 @@ public class AdminUserController {
 			map.put("MESSAGE", "USERS ARE NOT FOUND.");
 			map.put("STATUS", HttpStatus.NOT_FOUND.value());
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_FOUND);
-		}else{
-			map.put("MESSAGE", "USERS HAVE BEEN FOUND.");
-			map.put("STATUS", HttpStatus.OK.value());			
-			map.put("RESPONSE_DATA", users);
-			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 		}
+		map.put("MESSAGE", "USERS HAVE BEEN FOUND.");
+		map.put("STATUS", HttpStatus.OK.value());
+		map.put("RESPONSE_DATA", users);
+		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
@@ -63,11 +62,11 @@ public class AdminUserController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (userService.insertUser(user)) {
 			map.put("MESSAGE", "USER HAS BEEN CREATED.");
-			map.put("STATUS", HttpStatus.CREATED.value());			
+			map.put("STATUS", HttpStatus.CREATED.value());
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.CREATED);
 		} else {
 			map.put("MESSAGE", "USER HAS NOT BEEN CREATED.");
-			map.put("STATUS", HttpStatus.NOT_FOUND.value());			
+			map.put("STATUS", HttpStatus.NOT_FOUND.value());
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_FOUND);
 		}
 	}
@@ -118,23 +117,23 @@ public class AdminUserController {
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_FOUND);
 		}
 	}
-	
-	@RequestMapping(value = {"/search/{type}/{keyword}/{limit}/{page}","/search/{type}/{keyword}/{limit}"}, method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> search(@PathVariable Map<String, String> pathVariables) {		
+
+	@RequestMapping(value = { "/search/{type}/{keyword}/{limit}/{page}",
+							"/search/{type}/{keyword}/{limit}" }, 
+					method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> search(@PathVariable Map<String, String> pathVariables) {
 		List<UserDto> listUser = null;
 		Map<String, Object> map = new HashMap<String, Object>();
 		HttpStatus status = null;
-		if (pathVariables.containsKey("type") && pathVariables.containsKey("keyword") 
-			&& pathVariables.containsKey("limit") && pathVariables.containsKey("page")) {
-			listUser = userService.search(pathVariables.get("type").toString(),
-										pathVariables.get("keyword").toString(),
-										Integer.parseInt(pathVariables.get("limit")),
-										Integer.parseInt(pathVariables.get("page")));
-	    } else if (pathVariables.containsKey("type") && pathVariables.containsKey("keyword") && pathVariables.containsKey("limit")){
-			listUser = userService.search(pathVariables.get("type").toString(),
-					pathVariables.get("keyword").toString(),
-					Integer.parseInt(pathVariables.get("limit")),0);
-	    }			
+		if (pathVariables.containsKey("type") && pathVariables.containsKey("keyword")
+				&& pathVariables.containsKey("limit") && pathVariables.containsKey("page")) {
+			listUser = userService.search(pathVariables.get("type").toString(), pathVariables.get("keyword").toString(),
+					Integer.parseInt(pathVariables.get("limit")), Integer.parseInt(pathVariables.get("page")));
+		} else if (pathVariables.containsKey("type") && pathVariables.containsKey("keyword")
+				&& pathVariables.containsKey("limit")) {
+			listUser = userService.search(pathVariables.get("type").toString(), pathVariables.get("keyword").toString(),
+					Integer.parseInt(pathVariables.get("limit")), 0);
+		}
 		if (listUser.isEmpty()) {
 			map.put("MESSAGE", "RECORD NOT FOUND.");
 			map.put("STATUS", HttpStatus.FOUND.value());
@@ -146,10 +145,10 @@ public class AdminUserController {
 		}
 		return new ResponseEntity<Map<String, Object>>(map, status);
 	}
-	
+
 	@RequestMapping(value = "/toggle/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> toggle(@PathVariable("id") int id) {
-		System.out.println("toggle " + id);		
+		System.out.println("toggle " + id);
 		Map<String, Object> map = new HashMap<String, Object>();
 		HttpStatus status = null;
 		if (userService.toggle(id)) {
@@ -163,7 +162,7 @@ public class AdminUserController {
 			status = HttpStatus.NOT_FOUND;
 		}
 		return new ResponseEntity<Map<String, Object>>(map, status);
-	}	
+	}
 
 	@RequestMapping(value = "/uploadimage", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> uploadImage(@RequestParam("file") MultipartFile file,

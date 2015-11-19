@@ -24,7 +24,7 @@ public class ArticleDao implements ArticleService {
 	public ArrayList<ArticleDto> list(int limitrow, int page) {
 		ArrayList<ArticleDto> arr = new ArrayList<ArticleDto>();
 		ArticleDto a = null;
-		if(page==0) page=1;
+		if(page<=0) page=1;
 		int offset = limitrow * page - limitrow;
 		String sql = "SELECT tbarticle. ID, tbarticle.title, tbarticle.publish_date, tbarticle. ENABLE, tbarticle.image, tbarticle. CONTENT, tbarticle.userid, tbuser. NAME "
 				+ "FROM ( tbarticle JOIN tbuser ON ((tbarticle.userid = tbuser. ID))) "
@@ -133,7 +133,7 @@ public class ArticleDao implements ArticleService {
 	}
 
 	public ArrayList<ArticleDto> search(String columnName, String keyword, int limitrow, int page) {
-		if(page==0) page=1;
+		if(page<=0) page=1;
 		int offset = limitrow * page - limitrow;
 		ArrayList<ArticleDto> list = new ArrayList<>();
 		ArticleDto s = null;
@@ -161,13 +161,13 @@ public class ArticleDao implements ArticleService {
 				list.add(s);
 			}
 		} catch (Exception ex) {
-			System.out.println(ex.getMessage());
+			ex.printStackTrace();
 		}
 		return list;
 	}
 
 	public ArrayList<ArticleDto> listByUser(int userid, int limitrow, int page) {
-		if(page==0) page=1;
+		if(page<=0) page=1;
 		int offset = limitrow * page - limitrow;
 		ArrayList<ArticleDto> list = new ArrayList<>();
 		ArticleDto s = new ArticleDto();
@@ -183,6 +183,7 @@ public class ArticleDao implements ArticleService {
 			ResultSet rs = ps.executeQuery();
 			System.out.println(ps);
 			while (rs.next()) {
+				s = new ArticleDto();
 				s.setId(rs.getInt("id"));
 				s.setTitle(rs.getString("title"));
 				s.setUserid(rs.getInt("userid"));
@@ -194,7 +195,7 @@ public class ArticleDao implements ArticleService {
 				list.add(s);
 			}
 		} catch (Exception ex) {
-			System.out.println(ex.getMessage());
+			ex.printStackTrace();
 		}
 		return list;
 	}

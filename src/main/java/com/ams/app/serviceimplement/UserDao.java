@@ -23,7 +23,7 @@ public class UserDao implements UserService {
 
 	@Override
 	public ArrayList<UserDto> list(int limitrow, int page) {
-		if(page==0) page=1;
+		if(page<=0) page=1;
 		int offset = limitrow * page - limitrow;
 		UserDto user = null;
 		try {
@@ -308,7 +308,7 @@ public class UserDao implements UserService {
 	
 	@Override
 	public ArrayList<UserDto> search(String columnName, String keyword, int limitrow, int page) {
-		if(page==0) page=1;
+		if(page<=0) page=1;
 		int offset = limitrow * page - limitrow;
 		ArrayList<UserDto> list = new ArrayList<>();
 		UserDto user = null;
