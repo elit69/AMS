@@ -20,16 +20,15 @@ public class ArticleDao implements ArticleService {
 	@Autowired
 	private DataSource dataSource;
 
-	public String list(int limit,int offset) {
-		
+	public String list(int limitrow, int page) {
+		//int offset = limitrow * page - limitrow;
 		String sql = "select f_list_article(?,?)";
 		try (Connection cnn = dataSource.getConnection();
-				PreparedStatement ps = cnn.prepareStatement(sql);
-		
+				PreparedStatement ps = cnn.prepareStatement(sql);		
 		)
 		{
-			ps.setInt(1, limit);
-			ps.setInt(2, offset);
+			ps.setInt(1, limitrow);
+			ps.setInt(2, page);
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			return rs.getString(1);
@@ -107,19 +106,19 @@ public class ArticleDao implements ArticleService {
 		return null;
 	}
 
-	public ArrayList<ArticleDto> search(String columnName, String keyword, int page, int limitrow) {
-		int begin = limitrow * page - limitrow;
+	public ArrayList<ArticleDto> search(String columnName, String keyword, int limitrow, int page) {
+		int offset = limitrow * page - limitrow;
 		ArrayList<ArticleDto> list = new ArrayList<>();
 		ArticleDto s = null;
 		String sql = "SELECT id,title,name,publish_date,userid,content,enable,image"
-				+ " FROM v_list_all_article_lit"
+				+ " FROM v_list_all_article"
 				+ " WHERE Lower(" + columnName + ")"
 				+ " LIKE ? LIMIT ? OFFSET ?";
 		try (Connection conn = dataSource.getConnection(); 
 			PreparedStatement ps = conn.prepareStatement(sql);) {
 			ps.setString(1, "%" + keyword.toLowerCase() + "%");
 			ps.setInt(2, limitrow);
-			ps.setInt(3, begin);
+			ps.setInt(3, offset);
 			ResultSet rs = ps.executeQuery();
 			System.out.println(ps);
 			while (rs.next()) {
@@ -139,4 +138,50 @@ public class ArticleDao implements ArticleService {
 		return list;
 	}
 
+	public ArrayList<ArticleDto> listByUser(int userid, int limitrow, int page) {
+		int offset = limitrow * page - limitrow;
+		ArrayList<ArticleDto> list = new ArrayList<>();
+		ArticleDto s = new ArticleDto();
+		String sql = "SELECT id,title,name,publish_date,userid,content,enable,image"
+				+ " FROM v_list_all_article"
+				+ " WHERE userid = ?"
+				+ " LIMIT ? OFFSET ?";
+		try (Connection conn = dataSource.getConnection(); 
+			PreparedStatement ps = conn.prepareStatement(sql);) {
+			ps.setInt(1, userid);
+			ps.setInt(2, limitrow);
+			ps.setInt(3, offset);
+			ResultSet rs = ps.executeQuery();
+			System.out.println(ps);
+			while (rs.next()) {
+				s.setId(rs.getInt("id"));
+				s.setTitle(rs.getString("title"));
+				s.setUserid(rs.getInt("userid"));
+				s.setName(rs.getString("name"));
+				s.setPdate(rs.getDate("publish_date"));
+				s.setEnable(rs.getBoolean("ENABLE"));
+				s.setImage(rs.getString("image"));
+				list.add(s);
+			}
+		} catch (Exception ex) {
+			System.out.println(ex.getMessage());
+		}
+		return list;
+	}
+
+	@Override
+	public boolean toggleArticleState(int artId) {		
+		String sql = "UPDATE tbarticle SET enable = not enable WHERE id = ?";
+		try (Connection cnn = dataSource.getConnection(); 
+				PreparedStatement ps = cnn.prepareStatement(sql);) {
+			ps.setInt(1, artId);
+			if (ps.executeUpdate() > 0){
+				System.out.println(ps);
+				return true; //update successfully //not the state of article
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 }

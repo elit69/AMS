@@ -4,6 +4,7 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -22,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ams.app.entities.ArticleDto;
 import com.ams.app.services.ArticleService;
+
 
 @RestController
 @RequestMapping(value = "/api/admin/article")
@@ -167,5 +169,62 @@ public class AdminArticleController {
 		}
 	}
 	
+	@RequestMapping(value = "/search/{type}/{keyword}/{limit}/{page}", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> searchTypeKeyword(
+			@PathVariable("type") String type,
+			@PathVariable("keyword") String keyword,
+			@PathVariable("limit") int limit,
+			@PathVariable("page") int page
+			) {
+		System.out.println("search action/type:" + type + "/keyword:" + keyword);
+		List<ArticleDto> listUser = artservice.search(type, keyword, limit, page);
+		Map<String, Object> map = new HashMap<String, Object>();
+		HttpStatus status = null;
+		if (listUser.isEmpty()) {
+			map.put("MESSAGE", "RECORD NOT FOUND.");
+			status = HttpStatus.NOT_FOUND;
+		} else {
+			map.put("RESPONSE_DATA", listUser);
+			status = HttpStatus.OK;
+		}
+		return new ResponseEntity<Map<String, Object>>(map, status);
+	}
+	
+	@RequestMapping(value = "/search/{type}/{keyword}/{limit}", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> searchTypeKeyword(
+			@PathVariable("type") String type,
+			@PathVariable("keyword") String keyword,
+			@PathVariable("limit") int limit
+			) {
+		System.out.println("search action/type:" + type + "/keyword:" + keyword);
+		List<ArticleDto> listUser = artservice.search(type, keyword, limit, 1);
+		Map<String, Object> map = new HashMap<String, Object>();
+		HttpStatus status = null;
+		if (listUser.isEmpty()) {
+			map.put("MESSAGE", "RECORD NOT FOUND.");
+			status = HttpStatus.NOT_FOUND;
+		} else {
+			map.put("RESPONSE_DATA", listUser);
+			status = HttpStatus.OK;
+		}
+		return new ResponseEntity<Map<String, Object>>(map, status);
+	}
+	
+	@RequestMapping(value = "/toggle/{id}", method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> searchTypeKeyword(
+			@PathVariable("id") int id
+			) {
+		System.out.println("toggle " + id);		
+		Map<String, Object> map = new HashMap<String, Object>();
+		HttpStatus status = null;
+		if (artservice.toggleArticleState(id)) {
+			map.put("MESSAGE", "TOGGLE SUCCESSFULLY");
+			status = HttpStatus.OK;
+		} else {
+			map.put("MESSAGE", "RECORD NOT FOUND.");
+			status = HttpStatus.NOT_FOUND;
+		}
+		return new ResponseEntity<Map<String, Object>>(map, status);
+	}	
 
 }

@@ -9,16 +9,21 @@ import com.ams.app.entities.ArticleDto;
 @Service
 public interface ArticleService {
 
-	public String list(int limit,int offset);
+	public String list(int limitrow, int page);
+	
+	public ArrayList<ArticleDto> listByUser(int userid, int limitrow, int page);
 
 	public boolean add(ArticleDto art);
 
 	public boolean update(ArticleDto art);
 
 	public boolean delete(int artId);
+	
+	//enable/disable an article
+	public boolean toggleArticleState(int artId);
 
 	public String show(int artId);
 
-	public ArrayList<ArticleDto> search(String columnName, String keyword, int page, int numberrow);
+	public ArrayList<ArticleDto> search(String columnName, String keyword, int limitrow, int page);
 	
 }
