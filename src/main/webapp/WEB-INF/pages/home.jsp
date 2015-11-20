@@ -34,68 +34,87 @@
 
 </head>
 <body>
-	<div id="main" class="container-fluid">
-		<div class="row col-sm-10 center-block">
-			<div class="col-sm-12 card form-horizontal">
-				<h3>
-					<i class="fa fa-list"></i>&nbsp;&nbsp;&nbsp;Article Informations					
-					<c:choose>
-						<c:when test="${not login}">
-							<a class="btn btn-primary pull-right" href="${pageContext.request.contextPath}/login"><i class="fa fa-sign-in fa-2x"></i></a>
-						</c:when>
-						<c:otherwise>
-							<a class="btn btn-primary pull-right" href="${pageContext.request.contextPath}/logout"><i class="fa fa-sign-out fa-2x"></i></a>
-						</c:otherwise>
-					</c:choose>
-					<a class="btn btn-primary pull-right" href="${pageContext.request.contextPath}/help"><i class="fa fa-question-circle fa-2x"></i></a>
-				</h3>
-				<hr>
-				<!--end row1  -->
-				<!--row2  -->
-				<div class="row col-sm-12" style="margin: auto;">
-					<div class="col-sm-6" style="padding: 0px;">
-						<form class="navbar-form" role="search"
-							style="margin: 0px; float: right;">
-							<div class="form-group" style="margin: 0px;">
-								<input type="text" class="form-control" placeholder="Search"
-									id="search" onkeyup="getRowNumber()">
-							</div>
-							<button type="button" class="btn btn-success"
-								onclick="getRowNumber()">
-								<b>Search</b>
-							</button>
-						</form>
-					</div>
-					<div class="col-sm-3">
-						<select id="searchby" class="form-control">
-							<option value='title' selected="selected">(Search
-								By)->Title</option>
-							<option value='name'>(Search By)->Author</option>
-						</select>
-					</div>
-					<div class="col-sm-3">
-						<select id="numberrow" class="form-control"
-							onchange="getRowNumber()">
-							<option value='10' selected="selected">10-Row to display</option>
-							<option value='15'>15-Row to display</option>
-							<option value='20'>20-Row to display</option>
-						</select>
-					</div>
+	<nav class="navbar navbar-inverse">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed"
+				data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+				<span class="sr-only">Toggle navigation</span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#"><i class="fa fa-list"></i>&nbsp;&nbsp;&nbsp;Article
+				Informations</a>
+		</div>
 
+		<div class="collapse navbar-collapse"
+			id="bs-example-navbar-collapse-2">
+			<form class="navbar-form navbar-left" role="search">
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="Search"
+						id="search" onkeyup="getRowNumber()">
 				</div>
-				<!--end row2  -->
-				<div class="row col-sm-12" style="margin: auto;">
-					<!--row3  -->
-					<div class="col-sm-12" style="height: auto;" id="display"></div>
+				<button type="button" class="btn btn-default"
+					onclick="getRowNumber()">Search</button>
+			</form>
+				<div class="navbar-form navbar-left">
+					<select id="searchby" class="form-control">
+						<option value='title' selected="selected">(Search
+							By)->Title</option>
+						<option value='name'>(Search By)->Author</option>
+					</select>
 				</div>
-				<!--end row3  -->
-				<div class="row col-sm-12" style="text-align: center;"
-					style="margin:auto;">
-					<!--row4  -->
-					<div class="demo3"></div>
+								<div class="navbar-form navbar-left">
+					<select id="numberrow" class="form-control"
+						onchange="getRowNumber()">
+						<option value='10' selected="selected">10-Row to display</option>
+						<option value='15'>15-Row to display</option>
+						<option value='20'>20-Row to display</option>
+					</select>
 				</div>
-				<!--end row4  -->
+				
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="${pageContext.request.contextPath}/help">Help
+						<i class="fa fa-question-circle fa-lg"></i>
+				</a></li>
+				
+				<c:choose>
+					<c:when test="${not login}">
+						<li><a href="${pageContext.request.contextPath}/login">Login
+								<i class="fa fa-sign-in fa-lg"></i>
+						</a></li>
+					</c:when>
+					<c:otherwise>
+						<li><a href="${pageContext.request.contextPath}/logout">Logout
+								<i class="fa fa-sign-out fa-lg"></i>
+						</a></li>
+					</c:otherwise>
+				</c:choose>
+			</ul>
+		</div>
+	</div>
+	</nav>
+	<div id="main" class="container-fluid">
+		<div class="row col-sm-11 center-block card form-horizontal">
+					<select id="searchby" class="form-control">
+						<option value='title' selected="selected">(Search
+							By)->Title</option>
+						<option value='name'>(Search By)->Author</option>
+					</select>
+			<!--end row1  -->
+
+			<div class="row col-sm-12" style="margin: auto;">
+				<!--row3  -->
+				<div class="col-sm-12" style="height: auto;" id="display"></div>
 			</div>
+			<!--end row3  -->
+			<div class="row col-sm-12" style="text-align: center;"
+				style="margin:auto;">
+				<!--row4  -->
+				<div class="demo3"></div>
+			</div>
+			<!--end row4  -->
+
 			<div class="modal fade" id="myModal" role="dialog">
 				<div class="modal-dialog modal-lg">
 					<!-- Modal content-->
@@ -131,7 +150,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<!--Javacript Library-->
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/js/lib/jquery-2.1.4.min.js"></script>
@@ -140,6 +159,7 @@
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/js/lib/bootpag.js"></script>
 	<!--End Javascript Library-->
+
 	<!--Custom Javacript-->
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/js/home.js"></script>
