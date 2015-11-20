@@ -26,12 +26,49 @@
 <!-- End Custom StyleSheet -->
 </head>
 <body>
+	<nav class="navbar navbar-inverse">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed"
+				data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+				<span class="sr-only">Toggle navigation</span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="${pageContext.request.contextPath}/"><i
+				class="fa fa-list"></i>&nbsp;&nbsp;&nbsp;Article Informations</a>
+		</div>
+
+		<div class="collapse navbar-collapse"
+			id="bs-example-navbar-collapse-2">
+
+
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="${pageContext.request.contextPath}/help"><i
+						class="fa fa-question-circle fa-lg"></i> Help </a></li>
+
+				<c:choose>
+					<c:when test="${not login}">
+						<li class="active"><a
+							href="${pageContext.request.contextPath}/login"><i
+								class="fa fa-sign-in fa-lg"></i> Login </a></li>
+					</c:when>
+					<c:otherwise>
+						<li><a href="#"><i class="fa fa-user fa-lg"></i> Hi,
+								${name } </a></li>
+						<li class="active"><a
+							href="${pageContext.request.contextPath}/logout"><i
+								class="fa fa-sign-out fa-lg"></i> Logout </a></li>
+					</c:otherwise>
+				</c:choose>
+			</ul>
+		</div>
+	</div>
+	</nav>
 	<div id="main" class="container-fluid">
 		<div class="row col-sm-8 center-block">
 			<div class="col-sm-12 card form-horizontal">
-				<h3>Login
-					<a class="btn btn-primary pull-right" href="${pageContext.request.contextPath}/"><i class="fa fa-home fa-2x"></i></a>
-				</h3>
+				<h3>Login</h3>
 				<hr>
 				<form action="${pageContext.request.contextPath}/login"
 					method="POST">

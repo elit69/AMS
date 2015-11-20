@@ -43,29 +43,25 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="#"><i class="fa fa-list"></i>&nbsp;&nbsp;&nbsp;Article
-				Informations</a>
+			<a class="navbar-brand" href="${pageContext.request.contextPath}/"><i
+				class="fa fa-list"></i>&nbsp;&nbsp;&nbsp;Article Informations</a>
 		</div>
 
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-2">
-
-
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="${pageContext.request.contextPath}/help">Help
-						<i class="fa fa-question-circle fa-lg"></i>
-				</a></li>
-
+				<li><a href="${pageContext.request.contextPath}/help"><i
+						class="fa fa-question-circle fa-lg"></i> Help </a></li>
 				<c:choose>
 					<c:when test="${not login}">
-						<li><a href="${pageContext.request.contextPath}/login">Login
-								<i class="fa fa-sign-in fa-lg"></i>
-						</a></li>
+						<li><a href="${pageContext.request.contextPath}/login"><i
+								class="fa fa-sign-in fa-lg"></i> Login </a></li>
 					</c:when>
 					<c:otherwise>
-						<li><a href="${pageContext.request.contextPath}/logout">Logout
-								<i class="fa fa-sign-out fa-lg"></i>
-						</a></li>
+						<li><a href="#"><i class="fa fa-user fa-lg"></i> Hi,
+								${name } </a></li>
+						<li><a href="${pageContext.request.contextPath}/logout"><i
+								class="fa fa-sign-out fa-lg"></i> Logout </a></li>
 					</c:otherwise>
 				</c:choose>
 			</ul>

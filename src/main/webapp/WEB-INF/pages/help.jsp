@@ -26,19 +26,49 @@
 <!-- End Custom StyleSheet -->
 </head>
 <body>
+	<nav class="navbar navbar-inverse">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed"
+				data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+				<span class="sr-only">Toggle navigation</span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="${pageContext.request.contextPath}/"><i
+				class="fa fa-list"></i>&nbsp;&nbsp;&nbsp;Article Informations</a>
+		</div>
+
+		<div class="collapse navbar-collapse"
+			id="bs-example-navbar-collapse-2">
+
+
+			<ul class="nav navbar-nav navbar-right">
+				<li class="active"><a
+					href="${pageContext.request.contextPath}/help"><i
+						class="fa fa-question-circle fa-lg"></i> Help </a></li>
+
+				<c:choose>
+					<c:when test="${not login}">
+						<li><a href="${pageContext.request.contextPath}/login"><i
+								class="fa fa-sign-in fa-lg"></i> Login </a></li>
+					</c:when>
+					<c:otherwise>
+						<li><a href="#"><i
+								class="fa fa-user fa-lg"></i> Hi, ${name } </a></li>
+						<li><a href="${pageContext.request.contextPath}/logout"><i
+								class="fa fa-sign-out fa-lg"></i> Logout </a></li>
+					</c:otherwise>
+				</c:choose>
+			</ul>
+		</div>
+	</div>
+	</nav>
 	<div id="main" class="container-fluid">
 		<div class="col-sm-12 center-block">
 			<div class="col-sm-12 card form-horizontal">
-				<h3>Webpage
-					<c:choose>
-						<c:when test="${not login}">
-							<a class="btn btn-primary pull-right" href="${pageContext.request.contextPath}/login"><i class="fa fa-sign-in fa-2x"></i></a>
-						</c:when>
-						<c:otherwise>
-							<a class="btn btn-primary pull-right" href="${pageContext.request.contextPath}/logout"><i class="fa fa-sign-out fa-2x"></i></a>
-						</c:otherwise>
-					</c:choose>
-					<a class="btn btn-primary pull-right" href="${pageContext.request.contextPath}/"><i class="fa fa-home fa-2x"></i></a>
+				<h3>
+					<i class="fa fa-globe"></i> Webpage
 				</h3>
 				<hr>
 				<div class="table-responsive">
@@ -47,7 +77,7 @@
 						class="table table-striped table-bordered table-condensed table-hover">
 						<caption>http://localhost:8080/ArticleManagement/**</caption>
 						<thead>
-							<tr class="info">
+							<tr class="btn-primary">
 								<th>relative_path</th>
 								<th>http_verb</th>
 								<th>example</th>
@@ -85,7 +115,9 @@
 			</div>
 
 			<div class="col-sm-12 card form-horizontal">
-				<h3>Login Web API</h3>
+				<h3>
+					<i class="fa fa-sign-in"></i> Login Web API
+				</h3>
 				<hr>
 				<div class="table-responsive">
 
@@ -93,7 +125,7 @@
 						class="table table-striped table-bordered table-condensed table-hover">
 						<caption>http://localhost:8080/ArticleManagement/**</caption>
 						<thead>
-							<tr class="info">
+							<tr class="btn-primary">
 								<th>relative_path</th>
 								<th>http_verb</th>
 								<th>example</th>
@@ -131,7 +163,9 @@
 			</div>
 
 			<div class="col-sm-12 card form-horizontal">
-				<h3>Admin Article Web API</h3>
+				<h3>
+					<i class="fa fa-newspaper-o"></i> Admin Article Web API
+				</h3>
 				<hr>
 				<div class="table-responsive">
 
@@ -139,7 +173,7 @@
 						class="table table-striped table-bordered table-condensed table-hover">
 						<caption>http://localhost:8080/ArticleManagement/api/admin/article/**</caption>
 						<thead>
-							<tr class="info">
+							<tr class="btn-primary">
 								<th>relative_path</th>
 								<th>http_verb</th>
 								<th>example</th>
@@ -187,7 +221,7 @@
 									<a href="api/admin/article/search/title/a/5/2">example2</a></td>
 							</tr>
 							<tr>
-								<td>/search/{type}/{keyword}/{limit}/</td>
+								<td>/search/{type}/{keyword}/{limit}</td>
 								<td>GET</td>
 								<td><a href="api/admin/article/search/title/a/5">example1</a>
 									<a href="api/admin/article/search/title/a/10">example2</a></td>
@@ -210,15 +244,16 @@
 			</div>
 
 			<div class="col-sm-12 card form-horizontal">
-				<h3>Admin User Web API</h3>
+				<h3>
+					<i class="fa fa-user"></i> Admin User Web API
+				</h3>
 				<hr>
 				<div class="table-responsive">
-
 					<table
 						class="table table-striped table-bordered table-condensed table-hover">
 						<caption>http://localhost:8080/ArticleManagement/api/admin/user/**</caption>
 						<thead>
-							<tr class="info">
+							<tr class="btn-primary">
 								<th>relative_path</th>
 								<th>http_verb</th>
 								<th>example</th>
@@ -266,7 +301,7 @@
 									<a href="api/admin/user/search/username/admin/5/2">example2</a></td>
 							</tr>
 							<tr>
-								<td>/search/{type}/{keyword}/{limit}/</td>
+								<td>/search/{type}/{keyword}/{limit}</td>
 								<td>GET</td>
 								<td><a href="api/admin/user/search/username/admin/2">example1</a>
 									<a href="api/admin/user/search/username/admin/5">example2</a></td>

@@ -1,8 +1,12 @@
- select {
+table {
+	font-size: 15px;
+}
+
+select {
 	-webkit-appearance: none !important;
-	 -moz-appearance: none;
-   appearance: none;
-/* 	color: #fff !important; */
+	-moz-appearance: none;
+	appearance: none;
+	/* 	color: #fff !important; */
 }
 
 label, .gender {
@@ -52,7 +56,7 @@ hr {
 	display: none;
 }
 
-caption{
-	 font-size: x-large;
-    color: gray;	
+caption {
+	font-size: x-large;
+	color: gray;
 }
