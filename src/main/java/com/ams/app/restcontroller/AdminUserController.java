@@ -153,7 +153,7 @@ public class AdminUserController {
 		if (userService.toggle(id)) {
 			map.put("MESSAGE", "TOGGLE SUCCESSFULLY");
 			map.put("STATUS", HttpStatus.OK.value());
-			map.put("RESPONSE_DATA", userService.getUser(id).isEnable());
+			map.put("RESPONSE_DATA", userService.getUser(id));
 			status = HttpStatus.OK;
 		} else {
 			map.put("MESSAGE", "RECORD NOT FOUND.");

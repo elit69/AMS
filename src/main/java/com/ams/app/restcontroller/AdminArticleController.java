@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.ams.app.entities.ArticleDto;
 import com.ams.app.services.ArticleService;
 
@@ -203,7 +201,7 @@ public class AdminArticleController {
 		if (artservice.toggle(id)) {
 			map.put("MESSAGE", "TOGGLE SUCCESSFULLY");
 			map.put("STATUS", HttpStatus.OK.value());
-			map.put("RESPONSE_DATA", artservice.show(id).isEnable());
+			map.put("RESPONSE_DATA", artservice.show(id));
 			status = HttpStatus.OK;
 		} else {
 			map.put("MESSAGE", "RECORD NOT FOUND.");

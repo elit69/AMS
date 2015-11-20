@@ -49,35 +49,13 @@
 
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-2">
-			<form class="navbar-form navbar-left" role="search">
-				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Search"
-						id="search" onkeyup="getRowNumber()">
-				</div>
-				<button type="button" class="btn btn-default"
-					onclick="getRowNumber()">Search</button>
-			</form>
-				<div class="navbar-form navbar-left">
-					<select id="searchby" class="form-control">
-						<option value='title' selected="selected">(Search
-							By)->Title</option>
-						<option value='name'>(Search By)->Author</option>
-					</select>
-				</div>
-								<div class="navbar-form navbar-left">
-					<select id="numberrow" class="form-control"
-						onchange="getRowNumber()">
-						<option value='10' selected="selected">10-Row to display</option>
-						<option value='15'>15-Row to display</option>
-						<option value='20'>20-Row to display</option>
-					</select>
-				</div>
-				
+
+
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="${pageContext.request.contextPath}/help">Help
 						<i class="fa fa-question-circle fa-lg"></i>
 				</a></li>
-				
+
 				<c:choose>
 					<c:when test="${not login}">
 						<li><a href="${pageContext.request.contextPath}/login">Login
@@ -96,11 +74,35 @@
 	</nav>
 	<div id="main" class="container-fluid">
 		<div class="row col-sm-11 center-block card form-horizontal">
+			<div class="col-sm-11 center-block">
+				<div class="col-sm-8">
+					<div class="input-group">
+						<input type="text" class="form-control" placeholder="Search"
+							id="search" onkeyup="getRowNumber()" autofocus> <span
+							class="input-group-btn">
+							<button type="button" class="btn btn-primary"
+								onclick="getRowNumber()">
+								<span class="fa fa-search"></span>&nbsp;Search
+							</button>
+						</span>
+					</div>
+				</div>
+				<div class="col-sm-2">
 					<select id="searchby" class="form-control">
-						<option value='title' selected="selected">(Search
-							By)->Title</option>
-						<option value='name'>(Search By)->Author</option>
+						<option value='title' selected="selected">Title</option>
+						<option value='name'>Author</option>
 					</select>
+				</div>
+				<div class="col-sm-2">
+					<select id="numberrow" class="form-control"
+						onchange="getRowNumber()">
+						<option value='10' selected="selected">10-Row</option>
+						<option value='15'>15-Row</option>
+						<option value='20'>20-Row</option>
+					</select>
+				</div>
+
+			</div>
 			<!--end row1  -->
 
 			<div class="row col-sm-12" style="margin: auto;">
