@@ -22,18 +22,18 @@
 
 <!-- Custom StyleSheet -->
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/index.css">
+	href="${pageContext.request.contextPath}/resources/css/home.css">
 <!-- End Custom StyleSheet -->
 </head>
 <body>
 	<div id="main" class="container-fluid">
 		<div class="row col-sm-8 center-block">
 			<div class="col-sm-12 card form-horizontal">
-				<h1>
-					Error <a class="btn pull-right"
+				<h3>
+					Error <a class="btn btn-primary pull-right"
 						href="${pageContext.request.contextPath}/logout"><i
 						class="fa fa-sign-out fa-2x"></i></a>
-				</h1>
+				</h3>
 				<hr />
 				<div class="col-sm-8 center-block" style="margin-bottom: 40px;">
 					<div class="alert alert-danger text-center">

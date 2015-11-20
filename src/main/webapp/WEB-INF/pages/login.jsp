@@ -21,7 +21,7 @@
 <!-- End CSS Library -->
 
 <!-- Custom StyleSheet -->
-<link rel="stylesheet" href="resources/css/index.css">
+<link rel="stylesheet" href="resources/css/home.css">
 <link rel="stylesheet" href="resources/css/login.css">
 <!-- End Custom StyleSheet -->
 </head>
@@ -29,7 +29,9 @@
 	<div id="main" class="container-fluid">
 		<div class="row col-sm-8 center-block">
 			<div class="col-sm-12 card form-horizontal">
-				<h1>Login</h1>
+				<h3>Login
+					<a class="btn btn-primary pull-right" href="${pageContext.request.contextPath}/"><i class="fa fa-home fa-2x"></i></a>
+				</h3>
 				<hr>
 				<form action="${pageContext.request.contextPath}/login"
 					method="POST">
@@ -71,7 +73,7 @@
 								<i class="fa fa-eraser"></i>&nbsp;&nbsp;Reset
 							</button>
 						</div>
-						<h1>${ERROR }</h1>
+						<h3>${ERROR }</h3>
 
 					</div>
 				</form>

@@ -22,14 +22,24 @@
 
 <!-- Custom StyleSheet -->
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/index.css">
+	href="${pageContext.request.contextPath}/resources/css/home.css">
 <!-- End Custom StyleSheet -->
 </head>
 <body>
 	<div id="main" class="container-fluid">
 		<div class="col-sm-12 center-block">
 			<div class="col-sm-12 card form-horizontal">
-				<h1>Webpage</h1>
+				<h3>Webpage
+					<c:choose>
+						<c:when test="${not login}">
+							<a class="btn btn-primary pull-right" href="${pageContext.request.contextPath}/login"><i class="fa fa-sign-in fa-2x"></i></a>
+						</c:when>
+						<c:otherwise>
+							<a class="btn btn-primary pull-right" href="${pageContext.request.contextPath}/logout"><i class="fa fa-sign-out fa-2x"></i></a>
+						</c:otherwise>
+					</c:choose>
+					<a class="btn btn-primary pull-right" href="${pageContext.request.contextPath}/"><i class="fa fa-home fa-2x"></i></a>
+				</h3>
 				<hr>
 				<div class="table-responsive">
 
@@ -75,7 +85,7 @@
 			</div>
 
 			<div class="col-sm-12 card form-horizontal">
-				<h1>Login Web API</h1>
+				<h3>Login Web API</h3>
 				<hr>
 				<div class="table-responsive">
 
@@ -121,7 +131,7 @@
 			</div>
 
 			<div class="col-sm-12 card form-horizontal">
-				<h1>Admin Article Web API</h1>
+				<h3>Admin Article Web API</h3>
 				<hr>
 				<div class="table-responsive">
 
@@ -200,7 +210,7 @@
 			</div>
 
 			<div class="col-sm-12 card form-horizontal">
-				<h1>Admin User Web API</h1>
+				<h3>Admin User Web API</h3>
 				<hr>
 				<div class="table-responsive">
 
