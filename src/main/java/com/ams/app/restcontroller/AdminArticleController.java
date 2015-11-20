@@ -33,12 +33,12 @@ public class AdminArticleController {
 	@Autowired
 	private ArticleService artservice;
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public ModelAndView viewListArticle(ModelAndView mav) {
-		// mav.setViewName("/admin/article/test_upload");
-		mav.setViewName("/admin/article/test_list_article");
-		return mav;
-	}
+//	@RequestMapping(value = "/", method = RequestMethod.GET)
+//	public ModelAndView viewListArticle(ModelAndView mav) {
+//		// mav.setViewName("/admin/article/test_upload");
+//		mav.setViewName("/admin/article/test_list_article");
+//		return mav;
+//	}
 
 	@RequestMapping(value = { "/list/{limit}/{page}", "/list/{limit}" }, method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> listArticle(@PathVariable Map<String, String> pathVariables) {
@@ -84,7 +84,7 @@ public class AdminArticleController {
 				byte[] bytes = file.getBytes();
 
 				// creating the directory to store file
-				String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/images/");
+				String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/profile/");
 				System.out.println(savePath);
 				File path = new File(savePath);
 				if (!path.exists()) {

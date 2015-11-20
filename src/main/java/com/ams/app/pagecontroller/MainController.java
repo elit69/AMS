@@ -69,7 +69,7 @@ public class MainController {
 		m.addAttribute("name", getUsername());
 		m.addAttribute("role", getRole());
 		m.addAttribute("login", isAuthenticated());
-		return "admin";
+		return "/admin/article/test_list_article";
 	}	
 
 	@RequestMapping(value = "/help", method = RequestMethod.GET)
