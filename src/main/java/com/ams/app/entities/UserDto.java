@@ -1,23 +1,20 @@
 package com.ams.app.entities;
 
+
 public class UserDto {
 	private int id;
 	private String username;
 	private String password;
 	private boolean enable;
-	private String email;	
+	private String email;
 	private String address;
 	private String phone;
 	private String name;
-	//private char gender;
 	private String gender;
 	private String image;
-	
-	
 	public int getId() {
 		return id;
 	}
-	
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -39,7 +36,6 @@ public class UserDto {
 	public void setEnable(boolean enable) {
 		this.enable = enable;
 	}
-
 	public String getEmail() {
 		return email;
 	}

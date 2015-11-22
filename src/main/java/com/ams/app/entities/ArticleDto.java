@@ -1,15 +1,19 @@
 package com.ams.app.entities;
 
+import java.sql.Date;
+
 public class ArticleDto {
 	
 	private int id;
 	private String title;
 	private int userid;
-	private String uername;
+	private String name;
 	private String content;
-	private String pubdate;
+	private Date pdate;
 	private boolean enable;
 	private String image;
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -34,13 +38,7 @@ public class ArticleDto {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getPubdate() {
-		return pubdate;
-	}
-	public void setPubdate(String pubdaye) {
-		this.pubdate = pubdaye;
-	}
-	public boolean getEnable() {
+	public boolean isEnable() {
 		return enable;
 	}
 	public void setEnable(boolean enable) {
@@ -53,17 +51,23 @@ public class ArticleDto {
 		this.image = image;
 	}
 	
-	public String getUername() {
-		return uername;
+	public String getName() {
+		return name;
 	}
-	public void setUername(String uername) {
-		this.uername = uername;
+	public void setName(String name) {
+		this.name = name;
 	}
 	@Override
 	public String toString() {
 		return "Article [id=" + id + ", title=" + title + ", userid=" + userid
-				+ ", content=" + content + ", pubdaye=" + pubdate + ", enable="
+				+ ", content=" + content + ", pubdaye=" + pdate + ", enable="
 				+ enable + ", image=" + image + "]";
+	}
+	public Date getPdate() {
+		return pdate;
+	}
+	public void setPdate(Date pdate) {
+		this.pdate = pdate;
 	}
 	
 }
