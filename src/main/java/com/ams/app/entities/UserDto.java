@@ -12,6 +12,8 @@ public class UserDto {
 	private String name;
 	private String gender;
 	private String image;
+	private int role_id;
+	
 	public int getId() {
 		return id;
 	}
@@ -72,4 +74,12 @@ public class UserDto {
 	public void setImage(String image) {
 		this.image = image;
 	}
+	public int getRole_id() {
+		return role_id;
+	}
+	public void setRole_id(int role_id) {
+		this.role_id = role_id;
+	}
+	
+	
 }

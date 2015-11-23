@@ -96,6 +96,13 @@
 								<input type="text" id="username" class="form-control"
 									placeholder="enter username" />
 							</div>
+							<div class="col-md-2">Role</div>
+							<div class="col-md-10">
+								<select class="form-control" name="role_id" id="userrole">
+									<option value="1">ROLE_ADMIN</option>
+									<option value="2">ROLE_AUTHOR</option>
+								</select>
+							</div>
 							<div class="col-md-2">Password</div>
 							<div class="col-md-10">
 								<input type="text" id="password" class="form-control"
@@ -114,7 +121,7 @@
 							<div class="col-md-2">Enable</div>
 							<div class="col-md-10">
 								<input type="radio" name="enable" value="true" checked/>Enable <input
-									type="radio" name="enable" value="false" />Disabl
+									type="radio" name="enable" value="false" />Disable
 							</div>
 							<div class="col-md-2">
 								<input type="button" class="btn btn-primary" value="Submit"	onclick="addUser()" />
@@ -151,13 +158,13 @@
 					address : $("#address").val(),
 					phone : $("#phone").val(),
 					enable : $('input:radio[name=enable]:checked').val(),
-					image : $("#image").val().split("\\").pop() //"default.jpg" 
+					image : $("#image").val().split("\\").pop(), //"default.jpg" 
+					role_id: $('select[name="role_id"] option:selected').val()
 				};
-
+				//alert($('select[name="role_id"] option:selected').val());
 				$.ajax({
 					type : "POST",
-					url : "api/admin/user/add",
-					//dataType : 'json',
+					url : "${pageContext.request.contextPath}/api/admin/user/",
 					data : JSON.stringify(json),
 					contentType: 'application/json',
 					success : function(data) {
@@ -166,7 +173,7 @@
 					},
 					error : function(data) {
 						alert("Unsuccess: " + data.MESSAGE);
-						//console.log("ERROR..." + data);
+						console.log("ERROR..." + data);
 					}
 				});
 		}
@@ -177,7 +184,7 @@
 			data1 = new FormData();
 			data1.append('file', $('#image')[0].files[0]);
 			$.ajax({
-				url : "api/admin/user/uploadimage",
+				url : "${pageContext.request.contextPath}/api/admin/user/uploadimage",
 				type : "POST",
 				cache : false,
 				contentType : false,

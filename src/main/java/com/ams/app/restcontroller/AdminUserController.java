@@ -22,8 +22,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.ams.app.entities.UserDto;
+import com.ams.app.entities.UserRoleDto;
+import com.ams.app.services.UserRoleService;
 import com.ams.app.services.UserService;
 
 @RestController
@@ -33,6 +34,9 @@ public class AdminUserController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private UserRoleService userRoleService;
 
 	@RequestMapping(value = { "/list/{limit}/{page}", "/list/{limit}" }, method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> listUser(@PathVariable Map<String, String> pathVariables) {
@@ -58,9 +62,17 @@ public class AdminUserController {
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> addUser(@RequestBody UserDto user) {
-		System.out.println(user.getEmail());
+		System.out.println("add controller.");		
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (userService.insertUser(user)) {
+			
+			UserRoleDto ur=new UserRoleDto();
+			ur.setId(user.getRole_id());
+			ur.setUser_id(userService.getLastID());
+			
+			if(userRoleService.insertUserRole(ur)){
+				System.out.println("success insert to user role.");
+			}
 			map.put("MESSAGE", "USER HAS BEEN CREATED.");
 			map.put("STATUS", HttpStatus.CREATED.value());
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.CREATED);

@@ -65,6 +65,8 @@ public class UserDao implements UserService {
 
 	@Override
 	public boolean insertUser(UserDto user) {
+		System.out.println("user dao."+user.getName());
+		
 		try {
 			con = dataSource.getConnection();
 			String sql = "INSERT INTO tbuser(username,password,enable,email,address,phone,name,gender,image) "
@@ -118,6 +120,7 @@ public class UserDao implements UserService {
 			ps.setInt(10, user.getId());
 			if (ps.executeUpdate() > 0) {
 				System.out.println("success with updated");
+				con.commit();
 				return true;
 			}
 			System.out.println("fail with updated");
@@ -341,6 +344,33 @@ public class UserDao implements UserService {
 			System.out.println(ex.getMessage());
 		}
 		return list;
+	}
+
+	@Override
+	public int getLastID() {
+		int id = 0;
+		try {
+			con = dataSource.getConnection();
+			String sql = "SELECT MAX(id) FROM tbuser";
+			PreparedStatement ps = con.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			ArrayList<UserDto> users = new ArrayList<UserDto>();
+			while (rs.next()) {
+				id=rs.getInt(1);
+				System.out.println(id);
+			}
+			rs.close();
+			return id;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return 0;
 	}
 
 }

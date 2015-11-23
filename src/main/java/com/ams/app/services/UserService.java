@@ -16,4 +16,5 @@ public interface UserService {
 	public boolean toggle(int artId);	//toggle between enable/disable an article		
 	public UserDto showUser(String usrName);
 	public ArrayList<UserDto> search(String columnName, String keyword, int limitrow, int page);
+	public int getLastID();
 }
