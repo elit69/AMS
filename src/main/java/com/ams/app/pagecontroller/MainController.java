@@ -79,17 +79,7 @@ public class MainController {
 		m.addAttribute("login", isAuthenticated());
 		return "/admin/user/useradd";
 	}
-	
-	@RequestMapping(value = "/author/")
-	public String authorPage(ModelMap m) {
-		System.out.println(getUsername());
-		System.out.println(getRole());
-		System.out.println(isAuthenticated());
-		m.addAttribute("name", getUsername());
-		m.addAttribute("role", getRole());
-		m.addAttribute("login", isAuthenticated());
-		return "author";
-	}
+
 
 	@RequestMapping(value = "/help", method = RequestMethod.GET)
 	public String homePage1(ModelMap m) {
@@ -245,19 +235,15 @@ public class MainController {
 		return new ResponseEntity<Map<String, Object>>(map, status);
 	}
 	
-	@RequestMapping(value="/api/author/")
+	@RequestMapping(value="/author/add")
 	public String authorArticleLoggin(HttpServletRequest request) {
 		HttpSession session=request.getSession();
 		session.setAttribute("user",dao.checkUser(getUsername()));
 		return "user/authorarticle";
 	}
-	@RequestMapping(value="/api/author/authorlistarticle")
+	@RequestMapping(value="/author/")
 	public String authorListArticle() {
 			return "user/authorlistarticle";
-	}
-	@RequestMapping(value="/api/author/authorarticle")
-	public String authorArticle() {
-			return "user/authorarticle";
 	}
 
 	public boolean isAuthenticated() {

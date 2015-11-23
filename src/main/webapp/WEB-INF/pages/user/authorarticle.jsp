@@ -77,9 +77,9 @@
 					<ul class="nav nav-tabs nav-justified"
 						style="padding: 0px; margin: 0px;">
 						<li role="presentation" class="active mystyle"><a
-							href="authorarticle">Add New Article</a></li>
+							href="add">Add New Article</a></li>
 						<li role="presentation" class="mystyle"><a
-							href="authorlistarticle">View Your Article</a></li>
+							href="../author/">View Your Article</a></li>
 					</ul>
 				</div>
 			</div>
