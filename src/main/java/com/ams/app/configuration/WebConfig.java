@@ -19,6 +19,7 @@ import com.ams.app.serviceimplement.ArticleDao;
 import com.ams.app.serviceimplement.AuthorArticleDao;
 import com.ams.app.serviceimplement.ClientDao;
 import com.ams.app.serviceimplement.UserDao;
+import com.ams.app.serviceimplement.UserRoleDao;
 import com.ams.app.services.ArticleService;
 import com.ams.app.services.UserService;
 
@@ -77,6 +78,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public AuthorArticleDao getAuthorArticleDao(){
 		return new AuthorArticleDao(this.getJdbcTemplate());
+	}
+	@Bean
+	public UserRoleDao getUserRoleDao(){
+		return new UserRoleDao(this.getDataSource());
 	}
 	
 	// Upload File 

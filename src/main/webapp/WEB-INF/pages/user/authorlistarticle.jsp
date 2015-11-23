@@ -174,7 +174,7 @@ color: white;
 			};
 			$.ajax({
 				type : "POST",
-				url : "../api/author/authorworkarticle",
+				url : "api/author/authorworkarticle",
 				dataType : 'json',
 				data : json,
 				success : function(data) {
@@ -224,7 +224,7 @@ color: white;
 			};
 			$.ajax({
 				type : "POST",
-				url : "../api/author/authorworkarticle",
+				url : "api/author/authorworkarticle",
 				dataType : 'json',
 				data : json,
 				success : function(data) {
@@ -293,7 +293,7 @@ color: white;
 					};
 			$.ajax({
 				type : "POST",
-				url : "../api/author/authorworkarticle",
+				url : "api/author/authorworkarticle",
 				dataType : 'json',
 				data : json,
 				success : function(data) {
@@ -312,7 +312,7 @@ color: white;
 					};
 			$.ajax({
 				type : "POST",
-				url : "../api/author/authorworkarticle",
+				url : "api/author/authorworkarticle",
 				dataType : 'json',
 				data : json,
 				success : function(data) {
@@ -330,7 +330,7 @@ color: white;
 					};
 			$.ajax({
 				type : "POST",
-				url : "../api/author/authorworkarticle",
+				url : "api/author/authorworkarticle",
 				dataType : 'json',
 				data : json,
 				success : function(data) {

@@ -44,6 +44,18 @@ public class MainController {
 		return "home";
 	}
 	
+	@RequestMapping(value = "/help", method = RequestMethod.GET)
+	public String homePage1(ModelMap m) {
+		System.out.println(getUsername());
+		System.out.println(getRole());
+		System.out.println(isAuthenticated());
+		m.addAttribute("name", getUsername());
+		m.addAttribute("role", getRole());
+		m.addAttribute("login", isAuthenticated());
+		return "help";
+	}
+	
+	/////////////////////////////////////////////////////////admin page
 	@RequestMapping(value = "/admin/user/", method = RequestMethod.GET)
 	public String formListUsers(ModelMap m) {
 		System.out.println("show form list users controller");
@@ -79,17 +91,17 @@ public class MainController {
 		m.addAttribute("login", isAuthenticated());
 		return "/admin/user/useradd";
 	}
-
-
-	@RequestMapping(value = "/help", method = RequestMethod.GET)
-	public String homePage1(ModelMap m) {
-		System.out.println(getUsername());
-		System.out.println(getRole());
-		System.out.println(isAuthenticated());
-		m.addAttribute("name", getUsername());
-		m.addAttribute("role", getRole());
-		m.addAttribute("login", isAuthenticated());
-		return "help";
+	
+	/////////////////////////////////////////////////////////author page
+	@RequestMapping(value="/author/add")
+	public String authorArticleLoggin(HttpServletRequest request) {
+		HttpSession session=request.getSession();
+		session.setAttribute("user",dao.checkUser(getUsername()));
+		return "user/authorarticle";
+	}
+	@RequestMapping(value="/author")
+	public String authorListArticle() {
+			return "user/authorlistarticle";
 	}
 	
 	///////////////////////////////////////////////////////////security action	
@@ -233,17 +245,6 @@ public class MainController {
 			e.printStackTrace();
 		}
 		return new ResponseEntity<Map<String, Object>>(map, status);
-	}
-	
-	@RequestMapping(value="/author/add")
-	public String authorArticleLoggin(HttpServletRequest request) {
-		HttpSession session=request.getSession();
-		session.setAttribute("user",dao.checkUser(getUsername()));
-		return "user/authorarticle";
-	}
-	@RequestMapping(value="/author/")
-	public String authorListArticle() {
-			return "user/authorlistarticle";
 	}
 
 	public boolean isAuthenticated() {
