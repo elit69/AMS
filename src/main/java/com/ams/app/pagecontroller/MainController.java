@@ -38,16 +38,40 @@ public class MainController {
 		return "home";
 	}
 	
-	@RequestMapping(value = "/formuseradd", method = RequestMethod.GET)
-	public String formAddUser(ModelMap model) {
+	@RequestMapping(value = "/admin/user/", method = RequestMethod.GET)
+	public String formListUsers(ModelMap m) {
+		System.out.println("show form list users controller");
+		System.out.println(getUsername());
+		System.out.println(getRole());
+		System.out.println(isAuthenticated());
+		m.addAttribute("name", getUsername());
+		m.addAttribute("role", getRole());
+		m.addAttribute("login", isAuthenticated());
+		return "/admin/user/viewuser";
+	}
+	
+	@RequestMapping(value = "/admin/user/add", method = RequestMethod.GET)
+	public String formAddUser(ModelMap m) {
 		System.out.println("show form user add controller");
+		System.out.println(getUsername());
+		System.out.println(getRole());
+		System.out.println(isAuthenticated());
+		m.addAttribute("name", getUsername());
+		m.addAttribute("role", getRole());
+		m.addAttribute("login", isAuthenticated());
 		return "/admin/user/useradd";
 	}
 	
-	@RequestMapping(value = "/formlistuser", method = RequestMethod.GET)
-	public String formListUsers(ModelMap model) {
-		System.out.println("show form list users controller");
-		return "/admin/user/viewuser";
+	@RequestMapping(value = "/admin/user/edit/{id}", method = RequestMethod.GET)
+	public String formEditUser(ModelMap m) {
+		System.out.println("show form user edit controller");
+		System.out.println(getUsername());
+		System.out.println(getRole());
+		System.out.println(isAuthenticated());
+		m.addAttribute("name", getUsername());
+		m.addAttribute("role", getRole());
+		m.addAttribute("login", isAuthenticated());
+		return "/admin/user/useradd";
 	}
 	
 	@RequestMapping(value = "/author/")
@@ -60,17 +84,6 @@ public class MainController {
 		m.addAttribute("login", isAuthenticated());
 		return "author";
 	}
-
-	@RequestMapping(value = "/admin/")
-	public String adminPage(ModelMap m) {
-		System.out.println(getUsername());
-		System.out.println(getRole());
-		System.out.println(isAuthenticated());
-		m.addAttribute("name", getUsername());
-		m.addAttribute("role", getRole());
-		m.addAttribute("login", isAuthenticated());
-		return "/admin/article/test_list_article";
-	}	
 
 	@RequestMapping(value = "/help", method = RequestMethod.GET)
 	public String homePage1(ModelMap m) {
@@ -86,7 +99,12 @@ public class MainController {
 	///////////////////////////////////////////////////////////security action	
 	@RequestMapping(value = "/403")
 	public String accessDenied(ModelMap m) {
-		m.addAttribute("message", "accessDenied , " + getUsername());
+		System.out.println(getUsername());
+		System.out.println(getRole());
+		System.out.println(isAuthenticated());
+		m.addAttribute("name", getUsername());
+		m.addAttribute("role", getRole());
+		m.addAttribute("login", isAuthenticated());
 		return "403";
 	}
 	

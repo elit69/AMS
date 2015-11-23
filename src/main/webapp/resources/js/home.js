@@ -100,7 +100,7 @@
 												+ "</h2>");
 								$("#content")
 										.html(
-												"<img src='${pageContext.request.contextPath}/resources/images/Panda.jpg' "+
+												"<img src='${pageContext.request.contextPath}/resources/upload/profile/ "+ data.RESPONE_DATA.image + "'" +
 								"width='200px' heigth='250px' style='float:left; margin: 7px;'/><p>"
 														+ data.RESPONE_DATA.content
 														+ "</p>");

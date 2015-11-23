@@ -16,15 +16,6 @@
 	href="${pageContext.request.contextPath}/resources/css/lib/bootstrap.min.css" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/lib/font-awesome-4.3.0/css/font-awesome.min.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/lib/bootstrap-select.min.css">
-<!-- Important Owl stylesheet -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/owl-carousel/owl.carousel.css">
-
-<!-- Default Theme -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/owl-carousel/owl.theme.css">
 <!-- End CSS Library -->
 
 <!-- Custom StyleSheet -->

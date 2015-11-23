@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.ams.app.entities.ArticleDto;
 import com.ams.app.services.ArticleService;
 
@@ -31,13 +33,12 @@ public class AdminArticleController {
 	@Autowired
 	private ArticleService artservice;
 
-//	@RequestMapping(value = "/", method = RequestMethod.GET)
-//	public ModelAndView viewListArticle(ModelAndView mav) {
-//		// mav.setViewName("/admin/article/test_upload");
-//		mav.setViewName("/admin/article/test_list_article");
-//		return mav;
-//	}
-
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	public ModelAndView viewListArticle(ModelAndView mav) {
+		mav.setViewName("/admin/article/test_upload");
+		//mav.setViewName("/admin/article/test_list_article");
+		return mav;
+	}
 	@RequestMapping(value = { "/list/{limit}/{page}", "/list/{limit}" }, method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> listArticle(@PathVariable Map<String, String> pathVariables) {
 		System.out.println("list article");
@@ -63,7 +64,7 @@ public class AdminArticleController {
 		}
 	}
 
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> addArticle(ArticleDto art, @RequestParam("file") MultipartFile file,
 			HttpServletRequest request) {
 		// file upload
@@ -119,7 +120,7 @@ public class AdminArticleController {
 		}
 	}
 
-	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Map<String, Object>> deleteArticle(@PathVariable("id") int id) {
 		System.out.println("delete article");
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -134,7 +135,7 @@ public class AdminArticleController {
 		}
 	}
 
-	@RequestMapping(value = "/update", method = RequestMethod.PUT)
+	@RequestMapping(value = "/", method = RequestMethod.PUT)
 	public ResponseEntity<Map<String, Object>> updateArticle(@RequestBody ArticleDto art) {
 		System.out.println("update article");
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -149,7 +150,7 @@ public class AdminArticleController {
 		}
 	}
 
-	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getArticle(@PathVariable("id") int id) {
 		System.out.println("get article");
 		ArticleDto art = artservice.show(id);

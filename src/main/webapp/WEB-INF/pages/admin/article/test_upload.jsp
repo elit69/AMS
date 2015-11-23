@@ -8,6 +8,7 @@
 </head>
 <body>
 	<form action="#" method="post" accept-charset="utf-8" id="frmAdd">
+	id:<input type="number" name="id" value=""><br/>
 		title:<input type="text" name="title" value=""><br/>
 		content:<input type="text" name="content" value=""><br/>
 		published date:<input type="text" name="" value=""><br/>
@@ -27,10 +28,10 @@
 		$("#frmAdd").submit(function(e) {
 				e.preventDefault();
 				$.ajax({
-					type : "POST",
+					type : "PUT",
 					/* url : "http://localhost:8080/BookMG/api/add", */
-					url:"${pageContext.request.contextPath}/api/admin/article/add",
-					enctype : 'multipart/form-data',
+					url:"${pageContext.request.contextPath}/api/admin/article/",
+					//enctype : 'multipart/form-data',
 					data : new FormData(document.getElementById("frmAdd")),
 					processData : false, // tell jQuery not to process the data
 					contentType : false, // tell jQuery not to set contentType

@@ -56,7 +56,7 @@ public class AdminUserController {
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> addUser(@RequestBody UserDto user) {
 		System.out.println(user.getEmail());
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -71,7 +71,7 @@ public class AdminUserController {
 		}
 	}
 
-	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Map<String, Object>> deleteUser(@PathVariable("id") int id) {
 		System.out.println("delete controller.");
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -86,7 +86,7 @@ public class AdminUserController {
 		}
 	}
 
-	@RequestMapping(value = "/update", method = RequestMethod.PUT)
+	@RequestMapping(value = "/", method = RequestMethod.PUT)
 	public ResponseEntity<Map<String, Object>> updateUser(@RequestBody UserDto user) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (userService.updateUser(user)) {
@@ -100,7 +100,7 @@ public class AdminUserController {
 		}
 	}
 
-	@RequestMapping(value = "/get/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getUser(@PathVariable("id") int id) {
 		System.out.println("detail controller");
 		Map<String, Object> map = new HashMap<String, Object>();

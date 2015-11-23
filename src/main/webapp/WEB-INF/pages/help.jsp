@@ -16,8 +16,6 @@
 	href="${pageContext.request.contextPath}/resources/css/lib/bootstrap.min.css" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/lib/font-awesome-4.3.0/css/font-awesome.min.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/lib/bootstrap-select.min.css">
 <!-- End CSS Library -->
 
 <!-- Custom StyleSheet -->
@@ -135,7 +133,7 @@
 							<tr>
 								<td>/api/login</td>
 								<td>POST</td>
-								<td>{"username":"author","password":"1"}</td>
+								<td>{"username":"admin","password":"1"}</td>
 							</tr>
 							<tr>
 								<td>/api/autologin/admin</td>
@@ -171,7 +169,7 @@
 
 					<table
 						class="table table-striped table-bordered table-condensed table-hover">
-						<caption>http://localhost:8080/ArticleManagement/api/admin/article/**</caption>
+						<caption>http://localhost:8080/ArticleManagement/api/admin/**</caption>
 						<thead>
 							<tr class="btn-primary">
 								<th>relative_path</th>
@@ -181,19 +179,19 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td>/list/{limit}</td>
+								<td>article/list/{limit}</td>
 								<td>GET</td>
 								<td><a href="api/admin/article/list/10">example1</a> <a
 									href="api/admin/article/list/20">example2</a></td>
 							</tr>
 							<tr>
-								<td>/list/{limit}/{page}</td>
+								<td>article/list/{limit}/{page}</td>
 								<td>GET</td>
 								<td><a href="api/admin/article/list/10/1">example1</a> <a
 									href="api/admin/article/list/10/2">example2</a></td>
 							</tr>
 							<tr>
-								<td>/add</td>
+								<td>article/</td>
 								<td>POST</td>
 								<td>{ "title": "The Pr", "userid": 2, "name": "author00",
 									"content": "The Project Gutenberg EBook of War and Peace, by
@@ -202,12 +200,12 @@
 							</tr>
 
 							<tr>
-								<td>/delete/{id}</td>
+								<td>article/{id}</td>
 								<td>DELETE</td>
 								<td></td>
 							</tr>
 							<tr>
-								<td>/update</td>
+								<td>article/</td>
 								<td>PUT</td>
 								<td>{ "id":"1", "title": "The Pr", "userid": 2, "name":
 									"author00", "content": "The Project Gutenberg EBook of War and
@@ -215,25 +213,25 @@
 									"image": "some image" }</td>
 							</tr>
 							<tr>
-								<td>/search/{type}/{keyword}/{limit}/{page}</td>
+								<td>article/search/{type}/{keyword}/{limit}/{page}</td>
 								<td>GET</td>
 								<td><a href="api/admin/article/search/title/a/5/1">example1</a>
 									<a href="api/admin/article/search/title/a/5/2">example2</a></td>
 							</tr>
 							<tr>
-								<td>/search/{type}/{keyword}/{limit}</td>
+								<td>article/search/{type}/{keyword}/{limit}</td>
 								<td>GET</td>
 								<td><a href="api/admin/article/search/title/a/5">example1</a>
 									<a href="api/admin/article/search/title/a/10">example2</a></td>
 							</tr>
 							<tr>
-								<td>/get/{id}</td>
+								<td>article/{id}</td>
 								<td>GET</td>
-								<td><a href="api/admin/article/get/1">example1</a> <a
-									href="api/admin/article/get/2">example2</a></td>
+								<td><a href="api/admin/article/1">example1</a> <a
+									href="api/admin/article/2">example2</a></td>
 							</tr>
 							<tr>
-								<td>/toggle/{id}</td>
+								<td>article/toggle/{id}</td>
 								<td>GET</td>
 								<td><a href="api/admin/article/toggle/1">example1</a> <a
 									href="api/admin/article/toggle/2">example2</a></td>
@@ -251,7 +249,7 @@
 				<div class="table-responsive">
 					<table
 						class="table table-striped table-bordered table-condensed table-hover">
-						<caption>http://localhost:8080/ArticleManagement/api/admin/user/**</caption>
+						<caption>http://localhost:8080/ArticleManagement/api/admin/**</caption>
 						<thead>
 							<tr class="btn-primary">
 								<th>relative_path</th>
@@ -261,19 +259,19 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td>/list/{limit}</td>
+								<td>user/list/{limit}</td>
 								<td>GET</td>
 								<td><a href="api/admin/user/list/5">example1</a> <a
 									href="api/admin/user/list/10">example2</a></td>
 							</tr>
 							<tr>
-								<td>/list/{limit}/{page}</td>
+								<td>user/list/{limit}/{page}</td>
 								<td>GET</td>
 								<td><a href="api/admin/user/list/5/1">example1</a> <a
 									href="api/admin/user/list/5/2">example2</a></td>
 							</tr>
 							<tr>
-								<td>/add</td>
+								<td>user/</td>
 								<td>POST</td>
 								<td>{ "username": "author", "password": "1", "enable":
 									true, "email": "author@gmail.com", "address": "sr", "phone":
@@ -282,12 +280,12 @@
 							</tr>
 
 							<tr>
-								<td>/delete/{id}</td>
+								<td>user/{id}</td>
 								<td>DELETE</td>
 								<td></td>
 							</tr>
 							<tr>
-								<td>/update</td>
+								<td>user/</td>
 								<td>PUT</td>
 								<td>{ "id": 2, "username": "author", "password": "1",
 									"enable": true, "email": "author@gmail.com", "address": "sr",
@@ -295,25 +293,25 @@
 									"default.jpg" }</td>
 							</tr>
 							<tr>
-								<td>/search/{type}/{keyword}/{limit}/{page}</td>
+								<td>user/search/{type}/{keyword}/{limit}/{page}</td>
 								<td>GET</td>
 								<td><a href="api/admin/user/search/username/admin/5/1">example1</a>
 									<a href="api/admin/user/search/username/admin/5/2">example2</a></td>
 							</tr>
 							<tr>
-								<td>/search/{type}/{keyword}/{limit}</td>
+								<td>user/search/{type}/{keyword}/{limit}</td>
 								<td>GET</td>
 								<td><a href="api/admin/user/search/username/admin/2">example1</a>
 									<a href="api/admin/user/search/username/admin/5">example2</a></td>
 							</tr>
 							<tr>
-								<td>/get/{id}</td>
+								<td>user/{id}</td>
 								<td>GET</td>
-								<td><a href="api/admin/user/get/1">example1</a> <a
-									href="api/admin/user/get/2">example2</a></td>
+								<td><a href="api/admin/user/1">example1</a> <a
+									href="api/admin/user/2">example2</a></td>
 							</tr>
 							<tr>
-								<td>/toggle/{id}</td>
+								<td>user/toggle/{id}</td>
 								<td>GET</td>
 								<td><a href="api/admin/user/toggle/1">example1</a> <a
 									href="api/admin/user/toggle/2">example2</a></td>

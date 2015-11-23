@@ -16,8 +16,6 @@
 	href="${pageContext.request.contextPath}/resources/css/lib/bootstrap.min.css" />
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/lib/font-awesome-4.3.0/css/font-awesome.min.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/lib/bootstrap-select.min.css">
 <!-- End CSS Library -->
 
 <!-- Custom StyleSheet -->
