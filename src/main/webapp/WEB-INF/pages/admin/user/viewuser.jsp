@@ -62,7 +62,7 @@
 			//alert("start page");
 			$.ajax({
 				type : "GET",
-				url : "api/admin/user/list",
+				url : "${pageContext.request.contextPath}/api/admin/user/list/"+10,
 				dataType : 'json',
 				data : null,
 				success : function(data) {

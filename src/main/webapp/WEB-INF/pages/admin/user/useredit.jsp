@@ -89,7 +89,7 @@
 			data1 = new FormData();
 			data1.append('file', $('#image')[0].files[0]);
 			$.ajax({
-				url : "api/admin/user/uploadimage",
+				url : "${pageContext.request.contextPath}/api/admin/user/uploadimage",
 				type : "POST",
 				cache : false,
 				contentType : false,
