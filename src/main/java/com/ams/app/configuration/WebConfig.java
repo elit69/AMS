@@ -5,6 +5,7 @@ import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.web.multipart.MultipartResolver;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.ams.app.serviceimplement.ArticleDao;
+import com.ams.app.serviceimplement.AuthorArticleDao;
 import com.ams.app.serviceimplement.ClientDao;
 import com.ams.app.serviceimplement.UserDao;
 import com.ams.app.services.ArticleService;
@@ -67,6 +69,14 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public AuthenticationSuccessHandler successHandler() {
 	    return new LoginSuccessHandler("/successlogin");
+	}
+	@Bean
+	public JdbcTemplate getJdbcTemplate(){
+		return new JdbcTemplate(this.getDataSource());
+	}
+	@Bean
+	public AuthorArticleDao getAuthorArticleDao(){
+		return new AuthorArticleDao(this.getJdbcTemplate());
 	}
 	
 	// Upload File 

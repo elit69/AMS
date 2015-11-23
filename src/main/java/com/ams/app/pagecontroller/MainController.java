@@ -6,7 +6,9 @@ import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -21,9 +23,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ams.app.entities.UserDto;
+import com.ams.app.serviceimplement.AuthorArticleDao;
 
 @Controller
 public class MainController {
+	
+	@Autowired
+	private AuthorArticleDao dao;
 	
 	@RequestMapping(value = "/")
 	public String homePage(ModelMap m) {
@@ -237,6 +243,21 @@ public class MainController {
 			e.printStackTrace();
 		}
 		return new ResponseEntity<Map<String, Object>>(map, status);
+	}
+	
+	@RequestMapping(value="/api/author/")
+	public String authorArticleLoggin(HttpServletRequest request) {
+		HttpSession session=request.getSession();
+		session.setAttribute("user",dao.checkUser(getUsername()));
+		return "user/authorarticle";
+	}
+	@RequestMapping(value="/api/author/authorlistarticle")
+	public String authorListArticle() {
+			return "user/authorlistarticle";
+	}
+	@RequestMapping(value="/api/author/authorarticle")
+	public String authorArticle() {
+			return "user/authorarticle";
 	}
 
 	public boolean isAuthenticated() {

@@ -4,6 +4,7 @@ import java.sql.Date;
 
 public class ArticleDto {
 	
+	private String key;
 	private int id;
 	private String title;
 	private int userid;
@@ -12,7 +13,10 @@ public class ArticleDto {
 	private Date pdate;
 	private boolean enable;
 	private String image;
-	
+	private String columnName;
+	private int limitRow;
+	private int page;
+	private String search;
 	
 	public int getId() {
 		return id;
@@ -38,7 +42,8 @@ public class ArticleDto {
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public boolean isEnable() {
+
+	public boolean getEnable() {
 		return enable;
 	}
 	public void setEnable(boolean enable) {
@@ -68,6 +73,36 @@ public class ArticleDto {
 	}
 	public void setPdate(Date pdate) {
 		this.pdate = pdate;
+	}
+	public String getKey() {
+		return key;
+	}
+	public void setKey(String key) {
+		this.key = key;
+	}
+	public String getColumnName() {
+		return columnName;
+	}
+	public void setColumnName(String columnName) {
+		this.columnName = columnName;
+	}
+	public int getLimitRow() {
+		return limitRow;
+	}
+	public void setLimitRow(int limitRow) {
+		this.limitRow = limitRow;
+	}
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
+	public String getSearch() {
+		return search;
+	}
+	public void setSearch(String search) {
+		this.search = search;
 	}
 	
 }

@@ -65,7 +65,7 @@ public class ArticleDao implements ArticleService {
 			ps.setInt(2, art.getUserid());
 			ps.setString(3, art.getContent());
 			ps.setDate(4, art.getPdate());
-			ps.setBoolean(5, art.isEnable());
+			ps.setBoolean(5, art.getEnable());
 			ps.setString(6, art.getImage());
 			if (ps.executeUpdate() > 0){
 				System.out.println(ps);
@@ -84,7 +84,7 @@ public class ArticleDao implements ArticleService {
 			ps.setInt(2, art.getUserid());
 			ps.setString(3, art.getContent());
 			ps.setDate(4, art.getPdate());
-			ps.setBoolean(5, art.isEnable());
+			ps.setBoolean(5, art.getEnable());
 			ps.setString(6, art.getImage());
 			ps.setInt(7, art.getId());
 			if (ps.executeUpdate() > 0){
