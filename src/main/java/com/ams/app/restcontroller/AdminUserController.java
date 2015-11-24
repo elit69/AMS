@@ -64,8 +64,8 @@ public class AdminUserController {
 	public ResponseEntity<Map<String, Object>> addUser(@RequestBody UserDto user) {
 		System.out.println("add controller.");		
 		Map<String, Object> map = new HashMap<String, Object>();
-		if (userService.insertUser(user)) {
-			
+		user.setEnable(true);
+		if (userService.insertUser(user)) {			
 			UserRoleDto ur=new UserRoleDto();
 			ur.setId(user.getRole_id());
 			ur.setUser_id(userService.getLastID());
@@ -87,7 +87,7 @@ public class AdminUserController {
 	public ResponseEntity<Map<String, Object>> deleteUser(@PathVariable("id") int id) {
 		System.out.println("delete controller.");
 		Map<String, Object> map = new HashMap<String, Object>();
-		if (userService.deleteUser(id)) {
+		if (userService.toggle(id)) {
 			map.put("MESSAGE", "USER HAS BEEN DELETED.");
 			map.put("STATUS", HttpStatus.OK.value());
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
@@ -153,24 +153,6 @@ public class AdminUserController {
 			map.put("RESPONSE_DATA", listUser);
 			map.put("STATUS", HttpStatus.FOUND.value());
 			status = HttpStatus.OK;
-		}
-		return new ResponseEntity<Map<String, Object>>(map, status);
-	}
-
-	@RequestMapping(value = "/toggle/{id}", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> toggle(@PathVariable("id") int id) {
-		System.out.println("toggle " + id);
-		Map<String, Object> map = new HashMap<String, Object>();
-		HttpStatus status = null;
-		if (userService.toggle(id)) {
-			map.put("MESSAGE", "TOGGLE SUCCESSFULLY");
-			map.put("STATUS", HttpStatus.OK.value());
-			map.put("RESPONSE_DATA", userService.getUser(id));
-			status = HttpStatus.OK;
-		} else {
-			map.put("MESSAGE", "RECORD NOT FOUND.");
-			map.put("STATUS", HttpStatus.NOT_FOUND.value());
-			status = HttpStatus.NOT_FOUND;
 		}
 		return new ResponseEntity<Map<String, Object>>(map, status);
 	}

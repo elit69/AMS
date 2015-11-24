@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.sql.DataSource;
-import com.ams.app.entities.UserDto;
 import com.ams.app.entities.UserRoleDto;
 import com.ams.app.services.UserRoleService;
 
@@ -69,8 +68,4 @@ public class UserRoleDao implements UserRoleService{
 		}
 		return false;
 	}
-	
-	
-
-
 }

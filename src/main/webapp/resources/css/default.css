@@ -1,3 +1,16 @@
+.navbar-brand:hover{
+	cursor: pointer;
+}
+
+ul.nav.navbar-nav.navbar-right{
+	    font-size: 15px;
+    font-weight: 500;
+}
+
+.main{
+	margin-top: 60px;
+}
+
 table {
 	font-size: 15px;
 }
@@ -9,7 +22,7 @@ select {
 	/* 	color: #fff !important; */
 }
 
-label, .gender {
+.gender {
 	margin-top: 7px;
 }
 
@@ -32,7 +45,7 @@ hr {
 }
 
 .card {
-	border-radius: 6px;
+	border-radius: 2px;
 	padding: 2% 4% 2% 4%;
 	background-color: #fff;
 	margin-top: 20px;

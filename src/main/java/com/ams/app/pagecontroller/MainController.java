@@ -56,7 +56,7 @@ public class MainController {
 	}
 	
 	/////////////////////////////////////////////////////////admin page
-	@RequestMapping(value = "/admin/user/", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/user", method = RequestMethod.GET)
 	public String formListUsers(ModelMap m) {
 		System.out.println("show form list users controller");
 		System.out.println(getUsername());
@@ -65,7 +65,7 @@ public class MainController {
 		m.addAttribute("name", getUsername());
 		m.addAttribute("role", getRole());
 		m.addAttribute("login", isAuthenticated());
-		return "/admin/user/viewuser";
+		return "admin/user/viewuser";
 	}
 	
 	@RequestMapping(value = "/admin/user/add", method = RequestMethod.GET)
@@ -77,7 +77,7 @@ public class MainController {
 		m.addAttribute("name", getUsername());
 		m.addAttribute("role", getRole());
 		m.addAttribute("login", isAuthenticated());
-		return "/admin/user/useradd";
+		return "admin/user/useradd";
 	}
 	
 	@RequestMapping(value = "/admin/user/edit/{id}", method = RequestMethod.GET)
@@ -89,7 +89,7 @@ public class MainController {
 		m.addAttribute("name", getUsername());
 		m.addAttribute("role", getRole());
 		m.addAttribute("login", isAuthenticated());
-		return "/admin/user/useradd";
+		return "admin/user/useredit";
 	}
 	
 	/////////////////////////////////////////////////////////author page
@@ -97,11 +97,13 @@ public class MainController {
 	public String authorArticleLoggin(HttpServletRequest request) {
 		HttpSession session=request.getSession();
 		session.setAttribute("user",dao.checkUser(getUsername()));
-		return "user/authorarticle";
+		return "author/authorarticle";
 	}
 	@RequestMapping(value="/author")
-	public String authorListArticle() {
-			return "user/authorlistarticle";
+	public String authorListArticle(HttpServletRequest request) {
+		HttpSession session=request.getSession();
+		session.setAttribute("user",dao.checkUser(getUsername()));
+		return "author/authorlistarticle";
 	}
 	
 	///////////////////////////////////////////////////////////security action	
@@ -122,7 +124,7 @@ public class MainController {
 		System.out.println(getRole());
 		System.out.println(getUsername());
 		System.out.println("successlogin");
-		if (getRole().equals("ROLE_ADMIN"))		return "redirect:/admin";
+		if (getRole().equals("ROLE_ADMIN"))		return "redirect:/admin/user";
 		if (getRole().equals("ROLE_AUTHOR"))	return "redirect:/author";
 		return "redirect:/";
 	}

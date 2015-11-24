@@ -20,12 +20,11 @@
 
 <!-- Custom StyleSheet -->
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/home.css">
+	href="${pageContext.request.contextPath}/resources/css/default.css">
 <!-- End Custom StyleSheet -->
 
 </head>
 <body>
-<h1>Test</h1>
 	<nav class="navbar navbar-inverse">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -61,7 +60,7 @@
 	</div>
 	</nav>
 	<div id="main" class="container-fluid">
-		<div class="row col-sm-11 center-block card form-horizontal">
+		<div class="row col-sm-11 center-block card">
 			<div class="col-sm-11 center-block">
 				<div class="col-sm-8">
 					<div class="input-group">
@@ -89,7 +88,6 @@
 						<option value='20'>20-Row</option>
 					</select>
 				</div>
-
 			</div>
 			<!--end row1  -->
 
@@ -104,40 +102,39 @@
 				<div class="demo3"></div>
 			</div>
 			<!--end row4  -->
-
-			<div class="modal fade" id="myModal" role="dialog">
-				<div class="modal-dialog modal-lg">
-					<!-- Modal content-->
-					<div class="modal-content">
-						<div class="modal-header bgheadstyle">
-							<button type="button" class="close" data-dismiss="modal">&times;</button>
-							<h4 class="modal-title" align="center"
-								style="color: #00C853; font-family: 'Book Antiqua'; font-size: 20px;">
-								<b>Article Information</b>
-							</h4>
+		</div>
+	</div>
+	<div class="modal fade" id="myModal" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header bgheadstyle">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h4 class="modal-title" align="center"
+						style="color: #00C853; font-family: 'Book Antiqua'; font-size: 20px;">
+						<b>Article Information</b>
+					</h4>
+				</div>
+				<div class="col-sm-12"
+					style="margin-top: 15px; padding-bottom: 15px;">
+					<div class="col-sm-12" id="title" style="padding: 0px;"></div>
+					<div class="row col-sm-12" id="content">
+						<!--For Content  -->
+					</div>
+				</div>
+				<div class="modal-footer" style="border-top: 2px solid gray;">
+					<div class="row col-sm-12">
+						<div class="row col-sm-3">
+							<small id="poster"></small>
 						</div>
-						<div class="col-sm-12"
-							style="margin-top: 15px; padding-bottom: 15px;">
-							<div class="col-sm-12" id="title" style="padding: 0px;"></div>
-							<div class="row col-sm-12" id="content">
-								<!--For Content  -->
-							</div>
-						</div>
-						<div class="modal-footer" style="border-top: 2px solid gray;">
-							<div class="row col-sm-12">
-								<div class="row col-sm-3">
-									<small id="poster"></small>
-								</div>
-								<div class="row col-sm-3">
-									<small id="postdate"></small>
-								</div>
-							</div>
-							<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+						<div class="row col-sm-3">
+							<small id="postdate"></small>
 						</div>
 					</div>
-
+					<button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
 				</div>
 			</div>
+
 		</div>
 	</div>
 

@@ -20,7 +20,7 @@
 
 <!-- Custom StyleSheet -->
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/home.css">
+	href="${pageContext.request.contextPath}/resources/css/default.css">
 <!-- End Custom StyleSheet -->
 </head>
 <body>
@@ -52,8 +52,8 @@
 								class="fa fa-sign-in fa-lg"></i> Login </a></li>
 					</c:when>
 					<c:otherwise>
-						<li><a href="#"><i
-								class="fa fa-user fa-lg"></i> Hi, ${name } </a></li>
+						<li><a href="#"><i class="fa fa-user fa-lg"></i> Hi,
+								${name } </a></li>
 						<li><a href="${pageContext.request.contextPath}/logout"><i
 								class="fa fa-sign-out fa-lg"></i> Logout </a></li>
 					</c:otherwise>
@@ -107,6 +107,31 @@
 								<td>GET</td>
 								<td><a href="help">example</a></td>
 							</tr>
+							<tr>
+								<td>/admin/user</td>
+								<td>GET</td>
+								<td><a href="admin/user">example</a></td>
+							</tr>
+							<tr>
+								<td>/admin/user/add</td>
+								<td>GET</td>
+								<td><a href="admin/user/add">example</a></td>
+							</tr>
+							<tr>
+								<td>/admin/user/edit/{id}</td>
+								<td>GET</td>
+								<td><a href="admin/user/edit/5">example</a></td>
+							</tr>
+							<tr>
+								<td>/author</td>
+								<td>GET</td>
+								<td><a href="author">example</a></td>
+							</tr>
+							<tr>
+								<td>/author/add</td>
+								<td>GET</td>
+								<td><a href="author/add">example</a></td>
+							</tr>														
 						</tbody>
 					</table>
 				</div>
@@ -311,10 +336,9 @@
 									href="api/admin/user/2">example2</a></td>
 							</tr>
 							<tr>
-								<td>user/toggle/{id}</td>
-								<td>GET</td>
-								<td><a href="api/admin/user/toggle/1">example1</a> <a
-									href="api/admin/user/toggle/2">example2</a></td>
+								<td>user/uploadimage</td>
+								<td>POST</td>
+								<td>fileimage</td>
 							</tr>
 						</tbody>
 					</table>

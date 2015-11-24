@@ -12,6 +12,7 @@ public class UserDto {
 	private String name;
 	private String gender;
 	private String image;
+	
 	private int role_id;
 	
 	public int getId() {
@@ -80,6 +81,5 @@ public class UserDto {
 	public void setRole_id(int role_id) {
 		this.role_id = role_id;
 	}
-	
 	
 }

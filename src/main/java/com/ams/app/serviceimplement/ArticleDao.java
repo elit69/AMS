@@ -101,8 +101,10 @@ public class ArticleDao implements ArticleService {
 		String sql = "DELETE FROM tbarticle WHERE id =?";
 		try (Connection cnn = dataSource.getConnection(); PreparedStatement ps = cnn.prepareStatement(sql);) {
 			ps.setInt(1, artId);
-			if (ps.executeUpdate() > 0)
+			if (ps.executeUpdate() > 0){
+				System.out.println(ps);
 				return true;
+			}
 
 		} catch (SQLException e) {
 		e.printStackTrace();

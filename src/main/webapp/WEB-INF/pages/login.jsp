@@ -19,8 +19,7 @@
 <!-- End CSS Library -->
 
 <!-- Custom StyleSheet -->
-<link rel="stylesheet" href="resources/css/home.css">
-<link rel="stylesheet" href="resources/css/login.css">
+<link rel="stylesheet" href="resources/css/default.css">
 <!-- End Custom StyleSheet -->
 </head>
 <body>

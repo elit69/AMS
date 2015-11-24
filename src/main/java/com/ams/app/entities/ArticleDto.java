@@ -4,7 +4,6 @@ import java.sql.Date;
 
 public class ArticleDto {
 	
-	private String key;
 	private int id;
 	private String title;
 	private int userid;
@@ -13,10 +12,12 @@ public class ArticleDto {
 	private Date pdate;
 	private boolean enable;
 	private String image;
+	
 	private String columnName;
 	private int limitRow;
 	private int page;
 	private String search;
+	private String key;
 	
 	public int getId() {
 		return id;

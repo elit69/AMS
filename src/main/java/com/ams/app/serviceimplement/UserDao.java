@@ -28,7 +28,7 @@ public class UserDao implements UserService {
 		UserDto user = null;
 		try {
 			con = dataSource.getConnection();
-			String sql = "SELECT * FROM tbuser ORDER BY id LIMIT ? OFFSET ?";
+			String sql = "SELECT * FROM tbuser where enable = true ORDER BY id LIMIT ? OFFSET ?";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setInt(1, limitrow);
 			ps.setInt(2, offset);
@@ -106,7 +106,7 @@ public class UserDao implements UserService {
 			con = dataSource.getConnection();
 			String sql = "UPDATE tbuser SET username=? , password=? , enable = ?,"
 					+ "email=?, address=?, phone=?, name=?,"
-					+ "gender=?, image=? WHERE id = ?";
+					+ "gender=?, image=? WHERE id = ? and enable = true";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, user.getUsername());
 			ps.setString(2, user.getPassword());
@@ -120,7 +120,7 @@ public class UserDao implements UserService {
 			ps.setInt(10, user.getId());
 			if (ps.executeUpdate() > 0) {
 				System.out.println("success with updated");
-				con.commit();
+				//con.commit();
 				return true;
 			}
 			System.out.println("fail with updated");
@@ -137,32 +137,10 @@ public class UserDao implements UserService {
 	}
 
 	@Override
-	public boolean deleteUser(int id) {
-		try {
-			con = dataSource.getConnection();
-			//String sql = "UPDATE tbuser SET enable='false' WHERE id=?";
-			String sql="UPDATE tbuser SET enable = NOT ENABLE where id=?";
-			PreparedStatement ps = con.prepareStatement(sql);
-			ps.setInt(1, id);
-			if (ps.executeUpdate() > 0)
-				return true;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return false;
-	}
-
-	@Override
 	public UserDto getUser(int id) {
 		try {
 			con = dataSource.getConnection();
-			String sql = "SELECT * FROM tbuser WHERE id=? Limit 1";
+			String sql = "SELECT * FROM tbuser WHERE id=? and enable = true Limit 1";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
@@ -200,7 +178,7 @@ public class UserDao implements UserService {
 		begin = (page * limit) - limit;
 		try {
 			con = dataSource.getConnection();
-			String sql = "SELECT * FROM tbuser OFFSET " + begin + " LIMIT "
+			String sql = "SELECT * FROM tbuser where enable = true OFFSET " + begin + " LIMIT "
 					+ limit;
 			PreparedStatement ps = con.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
@@ -239,7 +217,7 @@ public class UserDao implements UserService {
 		int total_page;
 		try {
 			con = dataSource.getConnection();
-			String sql = "SELECT * FROM tbuser";
+			String sql = "SELECT * FROM tbuser where enable = true";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 			rs.next();
@@ -262,7 +240,7 @@ public class UserDao implements UserService {
 	public UserDto showUser(String usrName) {
 		try {
 			con = dataSource.getConnection();
-			String sql = "SELECT * FROM tbuser WHERE username=? Limit 1";
+			String sql = "SELECT * FROM tbuser WHERE username=? and enable = true Limit 1";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, usrName);
 			ResultSet rs = ps.executeQuery();
@@ -292,23 +270,7 @@ public class UserDao implements UserService {
 		}
 		return null;
 	}
-	
-	@Override
-	public boolean toggle(int artId) {		
-		String sql = "UPDATE tbuser SET enable = not enable WHERE id = ?";
-		try (Connection cnn = dataSource.getConnection(); 
-				PreparedStatement ps = cnn.prepareStatement(sql);) {
-			ps.setInt(1, artId);
-			if (ps.executeUpdate() > 0){
-				System.out.println(ps);
-				return true; //update successfully //not the state of article
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return false;
-	}
-	
+		
 	@Override
 	public ArrayList<UserDto> search(String columnName, String keyword, int limitrow, int page) {
 		if(page<=0) page=1;
@@ -317,8 +279,8 @@ public class UserDao implements UserService {
 		UserDto user = null;
 		String sql = "SELECT id,username,password,enable,email,address,phone,name,gender,image"
 				+ " FROM tbuser"
-				+ " WHERE Lower(" + columnName + ")"
-				+ " LIKE ? LIMIT ? OFFSET ?";
+				+ " WHERE Lower(" + columnName + ") LIKE ? AND enable = true"
+				+ " LIMIT ? OFFSET ?";
 		try (Connection conn = dataSource.getConnection(); 
 			PreparedStatement ps = conn.prepareStatement(sql);) {
 			ps.setString(1, "%" + keyword.toLowerCase() + "%");
@@ -351,10 +313,9 @@ public class UserDao implements UserService {
 		int id = 0;
 		try {
 			con = dataSource.getConnection();
-			String sql = "SELECT MAX(id) FROM tbuser";
+			String sql = "SELECT MAX(id) FROM tbuser where enable = true";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
-			ArrayList<UserDto> users = new ArrayList<UserDto>();
 			while (rs.next()) {
 				id=rs.getInt(1);
 				System.out.println(id);
@@ -371,6 +332,22 @@ public class UserDao implements UserService {
 			}
 		}
 		return 0;
+	}
+
+	@Override
+	public boolean toggle(int artId) {
+		String sql = "UPDATE tbuser SET enable = not enable WHERE id = ?";
+		try (Connection cnn = dataSource.getConnection(); 
+				PreparedStatement ps = cnn.prepareStatement(sql);) {
+			ps.setInt(1, artId);
+			if (ps.executeUpdate() > 0){
+				System.out.println(ps);
+				return true; //update successfully //not the state of article
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 }

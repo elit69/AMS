@@ -11,27 +11,25 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>View User</title>
+<!-- CSS Library -->
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/lib/bootstrap.min.css" />
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/lib/bootstrap-select.min.css" />
+	href="${pageContext.request.contextPath}/resources/css/lib/jasny-bootstrap.css" />
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/userstyle.css" />
+	href="${pageContext.request.contextPath}/resources/css/lib/font-awesome-4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/lib/font-awesome-4.3.0/css/font-awesome.min.css">	
+	href="${pageContext.request.contextPath}/resources/css/lib/sidebar.css" />
+<!-- End CSS Library -->
 
-<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/js/lib/jquery-2.1.4.min.js"></script>	
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resources/js/bootstrap.js"></script>
-<script
-	src="${pageContext.request.contextPath}/resources/js/lib/jasny-bootstrap.js"></script>
+<!-- Custom StyleSheet -->
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/default.css">
+<!-- End Custom StyleSheet -->
 
 </head>
 <body>
-	<nav class="navbar navbar-inverse">
+	<nav class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container-fluid">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle collapsed"
@@ -40,13 +38,15 @@
 					class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="${pageContext.request.contextPath}/"><i
-				class="fa fa-list"></i>&nbsp;&nbsp;&nbsp;Article Informations</a>
+			<a class="navbar-brand" id="menu-toggle"><i class="fa fa-list"></i></a>
+			<a class="navbar-brand">Admin Page</a>
 		</div>
 
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-2">
 			<ul class="nav navbar-nav navbar-right">
+				<li><a href="${pageContext.request.contextPath}/"><i
+						class="fa fa-home fa-lg"></i> Home </a></li>
 				<li><a href="${pageContext.request.contextPath}/help"><i
 						class="fa fa-question-circle fa-lg"></i> Help </a></li>
 				<c:choose>
@@ -65,17 +65,39 @@
 		</div>
 	</div>
 	</nav>
-	<h1>Users Information</h1>
-	<br />
-	<br />
-	<div id="show"></div>
-	<!-- Trigger the modal with a button -->
-	<!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button> -->
-
+	<div id="wrapper" class="main">
+		<div id="sidebar-wrapper">
+			<ul class="sidebar-nav">
+				<li><a href="#"><i class="fa fa-user fa-lg"></i> Profile</a>
+				<li><a href="#"><i class="fa fa-users fa-lg"></i> User</a>
+					<ul>
+						<li class="active"><a href="${pageContext.request.contextPath}/admin/user"><i class="fa fa-list fa-lg"></i> List</a></li>
+						<li><a href="${pageContext.request.contextPath}/admin/user/add"><i class="fa fa-plus fa-lg"></i> Add</a></li>
+						<li><a href="#"><i class="fa fa-search fa-lg"></i> Search</a></li>
+					</ul>
+				</li>
+				<li><a href="#"><i class="fa fa-newspaper-o fa-lg"></i> Article</a>
+					<ul>
+						<li><a href="#"><i class="fa fa-list fa-lg"></i> List</a></li>
+						<li><a href="#"><i class="fa fa-plus fa-lg"></i> Add</a></li>
+						<li><a href="#"><i class="fa fa-search fa-lg"></i> Search</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<div id="page-content-wrapper">
+			<div class="container-fluid">
+				<div class="row col-sm-12 center-block card">
+					<h3>Users Information</h3>
+					<hr>
+					<div id="show"></div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- Modal -->
 	<div id="myModal" class="modal fade" role="dialog">
 		<div class="modal-dialog">
-
 			<!-- Modal content-->
 			<div class="modal-content">
 				<div class="modal-header"
@@ -91,133 +113,27 @@
 						<!-- Some text in the modal. -->
 					</div>
 				</div>
-
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
 				</div>
 			</div>
-
 		</div>
 	</div>
 
+	<!-- Javascript Library -->
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/js/lib/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/js/lib/bootstrap.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/js/lib/jasny-bootstrap.js"></script>
+	<!-- End Javascript Library -->
 
-	<script type="text/javascript">
-		startPage();
-		function startPage() {
-			//alert("start page");
-			$
-					.ajax({
-						type : "GET",
-						url : "${pageContext.request.contextPath}/api/admin/user/list/" + 10,
-						dataType : 'json',
-						data : null,
-						success : function(data) {
-							//alert("Success :" + data.MESSAGE);
-							displayData(data);
-						},
-						error : function(data) {
-							alert("Unsuccess: " + data.MESSAGE);
-							console.log("ERROR..." + data);
-						}
-					});
-
-		}
-
-		function displayData(data) {
-			var table = "<table class='table table-bordered table table-hover'><tr>"
-					+ "<th>ID</th><th>Name</th><th>Gender</th>"
-					+ "<th>email</th><th>username</th><th>password</th><th>Enable</th><th>address</th><th>phone</th>"
-					+ "<th>Image</th><th>Action</th></tr>";
-
-			for (var i = 0; i < data.RESPONSE_DATA.length; i++) {
-				table += "<tr><td>"
-						+ data.RESPONSE_DATA[i].id
-						+ "</td><td>"
-						+ data.RESPONSE_DATA[i].name
-						+ "</td><td>"
-						+ data.RESPONSE_DATA[i].gender
-						+ "</td><td>"
-						+ data.RESPONSE_DATA[i].email
-						+ "</td><td>"
-						+ data.RESPONSE_DATA[i].username
-						+ "</td><td>"
-						+ data.RESPONSE_DATA[i].password
-						+ "</td><td>"
-						+ data.RESPONSE_DATA[i].enable
-						+ "</td><td>"
-						+ data.RESPONSE_DATA[i].address
-						+ "</td><td>"
-						+ data.RESPONSE_DATA[i].phone
-						+ "</td><td><img class='img-rounded' style='width:50px; height:50px' src='${pageContext.request.contextPath}/resources/upload/profile/"
-						+data.RESPONSE_DATA[i].image+"' /></td>"
-						+ "<td class='col-sm-3'><input type='button' value='Detail' class='btn btn-info'"
-						+ "data-toggle='modal' data-target='#myModal' onclick='detailuser("
-						+ data.RESPONSE_DATA[i].id
-						+ ")' />&nbsp;&nbsp;"
-						+ "<input type='button' value='Edit' class='btn btn-warning' onclick='edituser("
-						+ data.RESPONSE_DATA[i].id
-						+ ")' />&nbsp;&nbsp;"
-						+ "<input type='button' value='Delete' class='btn btn-danger' onclick='deleteuser("
-						+ data.RESPONSE_DATA[i].id + ")' />" + "</td></tr>";
-			}
-			table += "</table>";
-			$("#show").html(table);
-			//${pageContext.request.contextPath}/resources/upload/profile/
-		}
-
-		function detailuser(id) {
-			//alert(id);
-			var str = "";
-			$.ajax({
-				type : "GET",
-				url : "api/admin/user/get/" + id,
-				success : function(data) {
-					//alert("Success detail:" + data.MESSAGE);
-					//alert(data.RESPONSE_DATA.name);
-					$("#image").attr(
-							"src",
-							"${pageContext.request.contextPath}/resources/upload/profile/"
-									+ data.RESPONSE_DATA.image);
-					str = "Name: " + data.RESPONSE_DATA.name + "<br/>"
-							+ "Gender: " + data.RESPONSE_DATA.gender + "<br/>"
-							+ "Email: " + data.RESPONSE_DATA.email + "<br/>"
-							+ "Username: " + data.RESPONSE_DATA.username
-							+ "<br/>" + "Password: "
-							+ data.RESPONSE_DATA.password + "<br/>"
-							+ "address: " + data.RESPONSE_DATA.address
-							+ "<br/>" + "Phone: " + data.RESPONSE_DATA.phone
-							+ "<br/>";
-					$("#showdetail").html(str);
-				},
-				error : function(data) {
-					alert("Unsuccess:" + data.MESSAGE);
-					console.log("ERROR..." + data);
-				}
-			});
-		}
-
-		function edituser(id) {
-			location.href = "${pageContext.request.contextPath}/admin/user/edit/"
-					+ id;
-		}
-
-		function deleteuser(id) {
-			alert("delete user.");
-			$.ajax({
-				type : "DELETE",
-				url : "api/admin/user/delete/" + id,
-				dataType : 'json',
-				success : function(data) {
-					alert("Success: " + data.MESSAGE);
-					startPage();
-				},
-				error : function(data) {
-					alert("Unsuccess:" + data.MESSAGE);
-					console.log("ERROR..." + data);
-				}
-			});
-
-		}
-	</script>
+	<!-- Custom Javascript -->
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/js/default.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/js/admin/user/viewuser.js"></script>
+	<!-- End Custom Javascript -->
 </body>
 </html>

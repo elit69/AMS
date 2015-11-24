@@ -22,7 +22,7 @@
 
 <!-- Custom StyleSheet -->
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/index.css">
+	href="${pageContext.request.contextPath}/resources/css/home.css">
 <!-- End Custom StyleSheet -->
 <!--javacript library  -->
 <script type="text/javascript"
@@ -32,6 +32,8 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/lib/bootpag.js"></script>
 <!--end javascript library  -->
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/js/default.js"></script>
 <style>
 * {
 	padding: 0px;
@@ -81,9 +83,9 @@ color: white;
 					<ul class="nav nav-tabs nav-justified"
 						style="padding: 0px; margin: 0px;">
 						<li role="presentation" class="mystyle"><a
-							href="add">Add New Article</a></li>
+							href="${pageContext.request.contextPath}/author/add">Add New Article</a></li>
 						<li role="presentation" class="active mystyle"><a
-							href="../author/">View Your Article</a></li>
+							href="${pageContext.request.contextPath}/author">View Your Article</a></li>
 					</ul>
 				</div>
 			</div>
@@ -174,7 +176,7 @@ color: white;
 			};
 			$.ajax({
 				type : "POST",
-				url : "api/author/authorworkarticle",
+				url : domainname +  "api/author/authorworkarticle",
 				dataType : 'json',
 				data : json,
 				success : function(data) {
@@ -224,7 +226,7 @@ color: white;
 			};
 			$.ajax({
 				type : "POST",
-				url : "api/author/authorworkarticle",
+				url : domainname +  "api/author/authorworkarticle",
 				dataType : 'json',
 				data : json,
 				success : function(data) {
@@ -293,7 +295,7 @@ color: white;
 					};
 			$.ajax({
 				type : "POST",
-				url : "api/author/authorworkarticle",
+				url : domainname +  "api/author/authorworkarticle",
 				dataType : 'json',
 				data : json,
 				success : function(data) {
@@ -312,7 +314,7 @@ color: white;
 					};
 			$.ajax({
 				type : "POST",
-				url : "api/author/authorworkarticle",
+				url : domainname +  "api/author/authorworkarticle",
 				dataType : 'json',
 				data : json,
 				success : function(data) {
@@ -330,7 +332,7 @@ color: white;
 					};
 			$.ajax({
 				type : "POST",
-				url : "api/author/authorworkarticle",
+				url : domainname +  "api/author/authorworkarticle",
 				dataType : 'json',
 				data : json,
 				success : function(data) {

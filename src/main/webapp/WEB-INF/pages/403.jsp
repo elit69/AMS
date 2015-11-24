@@ -20,7 +20,7 @@
 
 <!-- Custom StyleSheet -->
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/home.css">
+	href="${pageContext.request.contextPath}/resources/css/default.css">
 <!-- End Custom StyleSheet -->
 </head>
 <body>

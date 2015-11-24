@@ -24,7 +24,7 @@
 
 <!-- Custom StyleSheet -->
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/index.css">
+	href="${pageContext.request.contextPath}/resources/css/home.css">
 <!-- End Custom StyleSheet -->
 <!--javacript library  -->
 <script type="text/javascript"
@@ -36,6 +36,8 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/resources/js/lib/jasny-bootstrap.js"></script>
 <!--end javascript library  -->
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/js/default.js"></script>
 <style>
 * {
 	padding: 0px;
@@ -77,9 +79,9 @@
 					<ul class="nav nav-tabs nav-justified"
 						style="padding: 0px; margin: 0px;">
 						<li role="presentation" class="active mystyle"><a
-							href="add">Add New Article</a></li>
+							href="${pageContext.request.contextPath}/author/add">Add New Article</a></li>
 						<li role="presentation" class="mystyle"><a
-							href="../author/">View Your Article</a></li>
+							href="${pageContext.request.contextPath}/author">View Your Article</a></li>
 					</ul>
 				</div>
 			</div>
@@ -141,7 +143,7 @@
 			oMyForm.append('file', $('#artimg')[0].files[0]);
 			$.ajax({
 				dataType : 'json',
-				url : "uploadfile",
+				url : domainname + "api/author/uploadfile",
 				data : oMyForm,
 				type : "POST",
 				enctype : 'multipart/form-data',
@@ -159,13 +161,13 @@
 			json = {
 				key : "C",
 				title : $("#title").val(),
-				image : "${pageContext.request.contextPath}/resources/upload/images/"+$("#artimg").val().replace(/^.*[\\\/]/, ''),
+				image : domainname +  "resources/upload/images/"+$("#artimg").val().replace(/^.*[\\\/]/, ''),
 				content : $("#content").val(),
 				userid : $("#userid").val()
 			};
 			$.ajax({
 				type : "POST",
-				url : "authorworkarticle",
+				url : domainname +  "api/author/authorworkarticle",
 				dataType : 'json',
 				data : json,
 				success : function(data) {
@@ -188,7 +190,7 @@
 			};
 			$.ajax({
 				type : "POST",
-				url : "authorworkarticle",
+				url : domainname +  "api/author/authorworkarticle",
 				dataType : 'json',
 				data : json,
 				success : function(data) {
@@ -207,7 +209,7 @@
 
 		function updateArticle() {
 			if (change) {
-				img = "${pageContext.request.contextPath}/resources/upload/images/"+$("#artimg").val().replace(/^.*[\\\/]/, '');
+				img = domainname +  "resources/upload/images/"+$("#artimg").val().replace(/^.*[\\\/]/, '');
 				processUpload();
 			}
 			json = {
@@ -219,7 +221,7 @@
 			};
 			$.ajax({
 				type : "POST",
-				url : "authorworkarticle",
+				url : domainname +  "api/author/authorworkarticle",
 				dataType : 'json',
 				data : json,
 				success : function(data) {
