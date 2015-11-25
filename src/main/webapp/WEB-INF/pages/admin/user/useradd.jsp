@@ -46,17 +46,19 @@
 			id="bs-example-navbar-collapse-2">
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="${pageContext.request.contextPath}/"><i
-						class="fa fa-home fa-lg"></i> Home </a></li>
-				<li><a href="${pageContext.request.contextPath}/help"><i
-						class="fa fa-question-circle fa-lg"></i> Help </a></li>
+						class="fa fa-home fa-lg"></i> Home Page</a></li>
 				<c:choose>
 					<c:when test="${not login}">
+						<li><a href="${pageContext.request.contextPath}/help"><i
+						class="fa fa-question-circle fa-lg"></i> Help </a></li>
 						<li><a href="${pageContext.request.contextPath}/login"><i
 								class="fa fa-sign-in fa-lg"></i> Login </a></li>
 					</c:when>
 					<c:otherwise>
 						<li><a href="#"><i class="fa fa-user fa-lg"></i> Hi,
 								${name } </a></li>
+						<li><a href="${pageContext.request.contextPath}/help"><i
+						class="fa fa-question-circle fa-lg"></i> Help </a></li>
 						<li><a href="${pageContext.request.contextPath}/logout"><i
 								class="fa fa-sign-out fa-lg"></i> Logout </a></li>
 					</c:otherwise>

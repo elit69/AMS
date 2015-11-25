@@ -20,7 +20,7 @@ function startPage() {
 }
 
 function displayData(data) {
-	var table = "<table class='table table-striped table-bordered table-condensed table-hover'><thead><tr class='btn-primary'>"
+	var table = "<table class='table table-striped table-condensed table-hover'><thead><tr class='btn-primary'>"
 			+ "<th>ID</th><th>Name</th><th>Gender</th>"
 			+ "<th>email</th><th>username</th><th>password</th><th>address</th><th>phone</th>"
 			+ "<th>Image</th><th>Action</th></tr></thead>";

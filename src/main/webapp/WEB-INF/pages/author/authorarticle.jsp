@@ -1,270 +1,159 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="mvc"%>
+<%@ page isELIgnored="false"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql"%>
+<%@ taglib prefix="x" uri="http://java.sun.com/jsp/jstl/xml"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="author" content="Chhorn Elit">
-<meta lang="en">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>View User</title>
 <!-- CSS Library -->
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/lib/bootstrap.min.css" />
 <link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/lib/jasny-bootstrap.css" />
+<link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/lib/font-awesome-4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/lib/bootstrap-select.min.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/lib/jasny-bootstrap.css">
+	href="${pageContext.request.contextPath}/resources/css/lib/sidebar.css" />
 <!-- End CSS Library -->
 
 <!-- Custom StyleSheet -->
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/home.css">
+	href="${pageContext.request.contextPath}/resources/css/default.css">
 <!-- End Custom StyleSheet -->
-<!--javacript library  -->
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/lib/jquery-2.1.4.min.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/lib/bootstrap.min.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/lib/bootpag.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/resources/js/lib/jasny-bootstrap.js"></script>
-<!--end javascript library  -->
-	<script type="text/javascript"
-		src="${pageContext.request.contextPath}/resources/js/default.js"></script>
-<style>
-* {
-	padding: 0px;
-	margin: 0px;
-}
-
-.mywraper {
-	background: white;
-	box-shadow: -1px -1px 3px gray;
-}
-
-.mystyle {
-	color: #0277BD;
-	font-family: "Khmer OS Muol";
-	font-weight: bold;
-}
-</style>
 
 </head>
+<body>
 <c:set var="sesslogin" value="${sessionScope.user }"></c:set>
-<body style="background: white;">
-	<div id="main" class="container-fluid"
-		style="margin: 10px auto; width: 90%; padding-bottom: 20px; box-shadow: -1px -1px 3px gray; background: #EEEEEE;">
-		<div class="col-sm-12">
-			<div class="row col-sm-12" style="margin: auto;">
-				<!--row1  -->
-				<h2
-					style="color: rgb(63, 72, 204); font-family: 'Monotype Corsiva'; padding: 10px; font-weight: bolder; border-bottom: 3px solid rgb(63, 72, 204); height: 100%;">
-					<i class="fa fa-folder-open"></i>&nbsp;&nbsp;&nbsp;Add New Article
-				</h2>
-			</div>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed"
+				data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+				<span class="sr-only">Toggle navigation</span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" id="menu-toggle"><i class="fa fa-list"></i></a>
+			<a class="navbar-brand">Author Page</a>
 		</div>
-		<!--end row1  -->
-		<div class="row col-sm-12" style="margin: auto;" class="mywraper">
-			<!--row wraper  -->
-			<div class="row col-sm-12" style="margin: 0px auto;">
-				<!--row1  -->
-				<div class="col-sm-12" style="margin: 0px auto; padding: 0px;">
-					<ul class="nav nav-tabs nav-justified"
-						style="padding: 0px; margin: 0px;">
-						<li role="presentation" class="active mystyle"><a
-							href="${pageContext.request.contextPath}/author/add">Add New Article</a></li>
-						<li role="presentation" class="mystyle"><a
-							href="${pageContext.request.contextPath}/author">View Your Article</a></li>
-					</ul>
-				</div>
-			</div>
-			<!--end row1  -->
-			<form id="frmAdd" method="POST">
-				<input type="hidden" value="${sesslogin.id}" name="userid"
-					id="userid" /> <input type="hidden" value="${param.id}"
-					name="userid" id="id" />
-				<div class="row col-sm-12" style="margin: auto;">
-					<!--row2  -->
-					<div class="col-sm-12" style="padding: 0px;">
-						<div class="form-group">
-							<label for="email">Title:</label> <input type="text"
-								class="form-control" id="title" name="title">
-						</div>
-					</div>
-				</div>
-				<!--row2  -->
-				<div class="row col-sm-12" style="margin: auto;">
-					<!--row3  -->
-					<div class="col-sm-3" style="padding: 0px;">
-						<div class="fileinput fileinput-new" data-provides="fileinput"
-							style="margin: 0px; padding: 0px;">
-							<div id="disp" class="fileinput-preview thumbnail" data-trigger="fileinput"
-								style="width: 250px; height: 250px;">
-							<img alt="" src="">	
-							</div>
-							<div>
-								<span class="btn btn-primary btn-file"><span
-									class="fileinput-new">Select image</span><span
-									class="fileinput-exists">Change</span><input type="file"
-									name="file" id="artimg"></span> <a href="#"
-									class="btn btn-danger fileinput-exists"
-									data-dismiss="fileinput">Remove</a>
-							</div>
-						</div>
-					</div>
-					<div class="col-sm-9" style="padding: 0px;">
-						<div class="form-group">
-							<textarea rows="12" cols="50" class="form-control"
-								placeholder="Add Content Here" id="content" name="content"></textarea>
-						</div>
-					</div>
-				</div>
-				<!--row3  -->
-				<div class="row col-sm-12" style="margin: auto; text-align: right;">
-					<button type="button" class="btn btn-primary"
-						onclick="saveArticle()" id="btnsave">
-						<b>S</b>ave
-					</button>
-				</div>
-			</form>
+
+		<div class="collapse navbar-collapse"
+			id="bs-example-navbar-collapse-2">
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="${pageContext.request.contextPath}/"><i
+						class="fa fa-home fa-lg"></i> Home Page</a></li>
+				<c:choose>
+					<c:when test="${not login}">
+						<li><a href="${pageContext.request.contextPath}/help"><i
+						class="fa fa-question-circle fa-lg"></i> Help </a></li>
+						<li><a href="${pageContext.request.contextPath}/login"><i
+								class="fa fa-sign-in fa-lg"></i> Login </a></li>
+					</c:when>
+					<c:otherwise>
+						<li><a href="#"><i class="fa fa-user fa-lg"></i> Hi,
+								${name } </a></li>
+						<li><a href="${pageContext.request.contextPath}/help"><i
+						class="fa fa-question-circle fa-lg"></i> Help </a></li>
+						<li><a href="${pageContext.request.contextPath}/logout"><i
+								class="fa fa-sign-out fa-lg"></i> Logout </a></li>
+					</c:otherwise>
+				</c:choose>
+			</ul>
 		</div>
-		<!--end wraper -->
 	</div>
-	<script type="text/javascript">
-		function processUpload() {
-			var oMyForm = new FormData();
-			oMyForm.append('file', $('#artimg')[0].files[0]);
-			$.ajax({
-				dataType : 'json',
-				url : domainname + "api/author/uploadfile",
-				data : oMyForm,
-				type : "POST",
-				enctype : 'multipart/form-data',
-				processData : false,
-				contentType : false,
-				success : function(result) {
-						alert("Save and Upload Successful..!");
-				},
-				error:function(result){
-					alert(result.MESSAGE);
-				}
-			});
-		}
-		function saveArticle() {
-			json = {
-				key : "C",
-				title : $("#title").val(),
-				image : domainname +  "resources/upload/images/"+$("#artimg").val().replace(/^.*[\\\/]/, ''),
-				content : $("#content").val(),
-				userid : $("#userid").val()
-			};
-			$.ajax({
-				type : "POST",
-				url : domainname +  "api/author/authorworkarticle",
-				dataType : 'json',
-				data : json,
-				success : function(data) {
-					processUpload();
-				},
-				error : function(data) {
-					alert("Unsuccess" + data.MESSAGE);
-				}
-			});
-		}
-		var img = "";
-		var change = false;
-		$("#artimg").change(function() {
-			change = true;
-		});
-		function toControls() {
-			json = {
-				key : "TC",
-				id : $("#id").val()
-			};
-			$.ajax({
-				type : "POST",
-				url : domainname +  "api/author/authorworkarticle",
-				dataType : 'json',
-				data : json,
-				success : function(data) {
-					$("#title").val(data.RESPONE_DATA.title);
-					$("#content").val(data.RESPONE_DATA.content);
-					$("#disp img").attr("src",data.RESPONE_DATA.image);
-					img = data.RESPONE_DATA.image;
-					$("#btnsave").html("<b>U</b>pdate");
-					$("#btnsave").attr("onclick", "updateArticle()");
-				},
-				error : function(data) {
-					alert("Unsuccess" + data.MESSAGE);
-				}
-			});
-		}
+	</nav>
+	<div id="wrapper" class="main">
+		<div id="sidebar-wrapper">
+			<ul class="sidebar-nav">
+				<li><a href="#"><i class="fa fa-user fa-lg"></i> Profile</a>
+				<li><a href="#"><i class="fa fa-newspaper-o fa-lg"></i>Article</a>
+					<ul>
+						<li><a href="${pageContext.request.contextPath}/author"><i class="fa fa-list fa-lg"></i> List</a></li>
+						<li class="active"><a href="${pageContext.request.contextPath}/author/add"><i class="fa fa-plus fa-lg"></i> Add</a></li>
+						<li><a href="#"><i class="fa fa-search fa-lg"></i> Search</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<div id="page-content-wrapper">
+			<div class="container-fluid">
+				<div class="row col-sm-12 center-block card">
+					<h3>Add New Article</h3>
+					<hr>
+					<form id="frmAdd" method="POST">
+						<!--row2  -->
+						<div class="row col-sm-12" style="margin: auto;">
+							<!--row3  -->
+							<div class="col-sm-3" style="padding: 0px;">
+								<div class="fileinput fileinput-new" data-provides="fileinput"
+									style="margin: 0px; padding: 0px;">
+									<div id="disp" class="fileinput-preview thumbnail"
+										data-trigger="fileinput" style="width: 250px; height: 250px;">
+										<img alt="" src="">
+									</div>
+									<div>
+										<span class="btn btn-primary btn-file"><span
+											class="fileinput-new">Select image</span><span
+											class="fileinput-exists">Change</span><input type="file"
+											name="file" id="artimg"></span> <a href="#"
+											class="btn btn-danger fileinput-exists"
+											data-dismiss="fileinput">Remove</a>
+									</div>
+								</div>
+							</div>
+							<div class="col-sm-9" style="padding: 0px;">
+								<input type="hidden" value="${sesslogin.id}" name="userid"
+									id="userid" /> <input type="hidden" value="${param.id}"
+									name="userid" id="id" />
+								<div class="form-group" style="margin-bottom: 40px;">
+									<label for="title">Title:</label> <input type="text"
+										placeholder="Add Title Here" class="form-control" id="title"
+										name="title" autofocus>
+								</div>
+								<div class="form-group">
+									<label for="content">Content:</label>
+									<textarea rows="12" cols="50" class="form-control"
+										placeholder="Add Content Here" id="content" name="content" style="border: 1px solid #ddd;"></textarea>
+								</div>
+							</div>
+						</div>
+						<!--row3  -->
 
-		function updateArticle() {
-			if (change) {
-				img = domainname +  "resources/upload/images/"+$("#artimg").val().replace(/^.*[\\\/]/, '');
-				processUpload();
-			}
-			json = {
-				key : "U",
-				id : $("#id").val(),
-				title : $("#title").val(),
-				image : img,
-				content : $("#content").val()
-			};
-			$.ajax({
-				type : "POST",
-				url : domainname +  "api/author/authorworkarticle",
-				dataType : 'json',
-				data : json,
-				success : function(data) {
-					$("#btnsave").html("<b>S</b>ave");
-					$("#btnsave").attr("onclick", "saveArticle()");
-				},
-				error : function(data) {
-					alert("Unsuccess" + data.MESSAGE);
-				}
-			});
-		}
+							<button type="button" class="btn btn-primary pull-right"
+								onclick="saveArticle()" id="btnsave">
+								<b>S</b>ave
+							</button>
+			
+					</form>
 
-		function testCondition() {
-			if ($("#id").val() != "") {
-				toControls();
-			}
-		}
-		testCondition();
-	</script>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Javascript Library -->
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/js/lib/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/js/lib/bootstrap.min.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/js/lib/jasny-bootstrap.js"></script>
+	<script type="text/javascript"
+	src="${pageContext.request.contextPath}/resources/js/lib/bootpag.js"></script>		
+	<!-- End Javascript Library -->
+
+	<!-- Custom Javascript -->
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/js/default.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/js/author/authorarticle.js"></script>
+	<!-- End Custom Javascript -->
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

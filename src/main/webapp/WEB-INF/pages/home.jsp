@@ -37,20 +37,29 @@
 			<a class="navbar-brand" href="${pageContext.request.contextPath}/"><i
 				class="fa fa-list"></i>&nbsp;&nbsp;&nbsp;Article Informations</a>
 		</div>
-
 		<div class="collapse navbar-collapse"
 			id="bs-example-navbar-collapse-2">
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="${pageContext.request.contextPath}/help"><i
-						class="fa fa-question-circle fa-lg"></i> Help </a></li>
 				<c:choose>
 					<c:when test="${not login}">
+						<li><a href="${pageContext.request.contextPath}/help"><i
+								class="fa fa-question-circle fa-lg"></i> Help </a></li>
 						<li><a href="${pageContext.request.contextPath}/login"><i
 								class="fa fa-sign-in fa-lg"></i> Login </a></li>
 					</c:when>
 					<c:otherwise>
+						<c:choose>
+							<c:when test="${role=='ROLE_ADMIN'}">
+								<li><a href="admin/user"><i class="fa fa-users fa-lg"></i> Admin Page</a></li>
+							</c:when>
+							<c:otherwise>
+								<li><a href="author"><i class="fa fa-newspaper-o fa-lg"></i> Author Page</a></li>
+							</c:otherwise>
+						</c:choose>						
 						<li><a href="#"><i class="fa fa-user fa-lg"></i> Hi,
 								${name } </a></li>
+						<li><a href="${pageContext.request.contextPath}/help"><i
+								class="fa fa-question-circle fa-lg"></i> Help </a></li>
 						<li><a href="${pageContext.request.contextPath}/logout"><i
 								class="fa fa-sign-out fa-lg"></i> Logout </a></li>
 					</c:otherwise>

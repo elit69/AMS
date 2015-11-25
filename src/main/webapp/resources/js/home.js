@@ -44,7 +44,7 @@
 		}
 
 		function getList(data) {
-			var tbl = "<table class='table table-striped table-bordered table-condensed table-hover' style='margin-top: 10px;'>"
+			var tbl = "<table class='table table-striped table-condensed table-hover' style='margin-top: 10px;'>"
 					+ "<thead>"
 					+ "<tr class=btn-primary>"
 					+ "<th>ID</th>"

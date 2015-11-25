@@ -94,15 +94,19 @@ public class MainController {
 	
 	/////////////////////////////////////////////////////////author page
 	@RequestMapping(value="/author/add")
-	public String authorArticleLoggin(HttpServletRequest request) {
+	public String authorArticleLoggin(ModelMap m, HttpServletRequest request) {
 		HttpSession session=request.getSession();
 		session.setAttribute("user",dao.checkUser(getUsername()));
+		m.addAttribute("name", getUsername());
+		m.addAttribute("login", isAuthenticated());
 		return "author/authorarticle";
 	}
 	@RequestMapping(value="/author")
-	public String authorListArticle(HttpServletRequest request) {
+	public String authorListArticle(ModelMap m, HttpServletRequest request) {
 		HttpSession session=request.getSession();
 		session.setAttribute("user",dao.checkUser(getUsername()));
+		m.addAttribute("name", getUsername());
+		m.addAttribute("login", isAuthenticated());
 		return "author/authorlistarticle";
 	}
 	

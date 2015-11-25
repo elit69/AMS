@@ -21,9 +21,9 @@ public class AuthorArticleDao implements AuthorArticleService {
 	
 	@Override
 	public boolean add(ArticleDto art) {
-	    String sql="INSERT INTO tbarticle(title,content,image,userid,publish_date) "
-	    		 + "VALUES(?,?,?,?,Now())";
-	    Object obj[]=new Object[]{art.getTitle(),art.getContent(),art.getImage(),art.getUserid()};
+	    String sql="INSERT INTO tbarticle(title,content,image,userid,publish_date,enable) "
+	    		 + "VALUES(?,?,?,?,Now(),?)";
+	    Object obj[]=new Object[]{art.getTitle(),art.getContent(),art.getImage(),art.getUserid(),art.getEnable()};
 	    
 	    int insert=jdbcTemplate.update(sql,obj);
 	    if(insert>0)
