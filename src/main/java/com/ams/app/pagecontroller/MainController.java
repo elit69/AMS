@@ -177,6 +177,7 @@ public class MainController {
 			map.put("MESSAGE", e.getMessage());
 			status = HttpStatus.NOT_FOUND;
 			e.printStackTrace();
+			return new ResponseEntity<Map<String, Object>>(map, status);
 		}
 		System.out.println(isAuthenticated());
 		System.out.println(getRole());
@@ -200,6 +201,7 @@ public class MainController {
 			map.put("MESSAGE", e.getMessage());
 			status = HttpStatus.NOT_FOUND;
 			e.printStackTrace();
+			return new ResponseEntity<Map<String, Object>>(map, status);
 		}
 		System.out.println(isAuthenticated());
 		System.out.println(getRole());
@@ -223,6 +225,7 @@ public class MainController {
 			map.put("MESSAGE", e.getMessage());
 			status = HttpStatus.NOT_FOUND;
 			e.printStackTrace();
+			return new ResponseEntity<Map<String, Object>>(map, status);
 		}
 		System.out.println(isAuthenticated());
 		System.out.println(getRole());
@@ -249,6 +252,7 @@ public class MainController {
 			map.put("MESSAGE", e.getMessage());
 			status = HttpStatus.NOT_FOUND;
 			e.printStackTrace();
+			return new ResponseEntity<Map<String, Object>>(map, status);
 		}
 		return new ResponseEntity<Map<String, Object>>(map, status);
 	}

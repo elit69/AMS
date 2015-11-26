@@ -28,7 +28,7 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
 			System.out.println(request.getHeader("Referer"));*/
 			if (getURLWithContextPath(request).equals(redirectUrl)) {
 				redirectUrl+="successlogin";
-				System.out.println(redirectUrl);
+				//System.out.println("sdfsdfsdfddddddddddddddddddddddddd"+redirectUrl);
 				session.removeAttribute("url_prior_login");
 				getRedirectStrategy().sendRedirect(request, response, redirectUrl);
 			}			
