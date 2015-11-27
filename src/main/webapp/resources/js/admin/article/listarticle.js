@@ -94,9 +94,9 @@ function getList(data) {
 				+ data.RESPONSE_DATA[i].pdate
 				+ "</td >";
 				if(data.RESPONSE_DATA[i].enable){
-					tbl+="<td ><span class='label label-success'>Enable</span></td>";
+					tbl+="<td style='vertical-align:middle'><span class='label label-success'>Enable</span></td>";
 				}else{
-					tbl+="<td ><span class='label label-danger'>Disable</span></td>";
+					tbl+="<td style='vertical-align:middle'><span class='label label-danger'>Disable</span></td>";
 				}
 				tbl+= "<td style='text-align:center;'><button type='button' data-toggle='modal' data-target='#myModal' style='margin-right: 5px;'"
 				+ "class='btn btn-primary btn-sm' onclick=getArticleDetail("
