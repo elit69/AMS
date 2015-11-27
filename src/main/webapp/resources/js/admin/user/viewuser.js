@@ -135,13 +135,13 @@ function changeStatus(id){
 	 
 }
 //pagination
-var limit;
+/*var limit;
 var cur_page;
 var total_pages;
 
 function pagination(){
 	
-}
+}*/
 /*$('#page-selection').bootpag({
     total: 50,
     page: 2,

@@ -105,20 +105,20 @@ public class UserDao implements UserService {
 		//System.out.println("user enable "+user.isEnable());
 		try {
 			con = dataSource.getConnection();
-			String sql = "UPDATE tbuser SET username=? , password=? , enable = ?,"
+			String sql = "UPDATE tbuser SET username=? , password=? ," //enable = ?,"
 					+ "email=?, address=?, phone=?, name=?,"
-					+ "gender=?, image=? WHERE id = ? and enable = true";
+					+ "gender=?, image=? WHERE id = ?";// and enable = true";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, user.getUsername());
 			ps.setString(2, user.getPassword());
-			ps.setBoolean(3, user.isEnable());
-			ps.setString(4, user.getEmail());
-			ps.setString(5, user.getAddress());
-			ps.setString(6, user.getPhone());
-			ps.setString(7, user.getName());
-			ps.setString(8, user.getGender());
-			ps.setString(9, user.getImage());
-			ps.setInt(10, user.getId());
+			//ps.setBoolean(3, user.isEnable());
+			ps.setString(3, user.getEmail());
+			ps.setString(4, user.getAddress());
+			ps.setString(5, user.getPhone());
+			ps.setString(6, user.getName());
+			ps.setString(7, user.getGender());
+			ps.setString(8, user.getImage());
+			ps.setInt(9, user.getId());
 			if (ps.executeUpdate() > 0) {
 				System.out.println("success with updated");
 				//con.commit();

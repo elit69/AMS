@@ -123,8 +123,8 @@
 	</div>
 	
 	<!-- pagination -->
-	<div id="content">Dynamic Content goes here</div>
-    <div id="page-selection">Pagination goes here</div>
+	<!-- <div id="content">Dynamic Content goes here</div>
+    <div id="page-selection">Pagination goes here</div> -->
 
 
 	<!-- Javascript Library -->
