@@ -102,6 +102,7 @@ public class UserDao implements UserService {
 
 	@Override
 	public boolean updateUser(UserDto user) {
+		//System.out.println("user enable "+user.isEnable());
 		try {
 			con = dataSource.getConnection();
 			String sql = "UPDATE tbuser SET username=? , password=? , enable = ?,"

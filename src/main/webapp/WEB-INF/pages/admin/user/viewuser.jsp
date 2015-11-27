@@ -105,7 +105,7 @@
 				<div class="modal-header"
 					style="background-color: #009688; color: white;">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">Modal Header</h4>
+					<h4 class="modal-title">User Information</h4>
 				</div>
 				<div>
 					<div>
@@ -121,6 +121,11 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- pagination -->
+	<div id="content">Dynamic Content goes here</div>
+    <div id="page-selection">Pagination goes here</div>
+
 
 	<!-- Javascript Library -->
 	<script type="text/javascript"
@@ -129,6 +134,8 @@
 		src="${pageContext.request.contextPath}/resources/js/lib/bootstrap.min.js"></script>
 	<script type="text/javascript"
 		src="${pageContext.request.contextPath}/resources/js/lib/jasny-bootstrap.js"></script>
+	<script type="text/javascript"
+		src="${pageContext.request.contextPath}/resources/js/lib/bootpag.js"></script>
 	<!-- End Javascript Library -->
 
 	<!-- Custom Javascript -->

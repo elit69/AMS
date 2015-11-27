@@ -102,6 +102,12 @@ public class AdminUserController {
 	public ResponseEntity<Map<String, Object>> updateUser(@RequestBody UserDto user) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (userService.updateUser(user)) {
+			UserRoleDto ur=new UserRoleDto();
+			ur.setId(user.getRole_id());
+			ur.setUser_id(user.getId());
+			if(userRoleService.updateUserRole(ur)){
+				System.out.println("success update user role");
+			}
 			map.put("MESSAGE", "USER HAS BEEN UPDATED.");
 			map.put("STATUS", HttpStatus.FOUND.value());
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
@@ -111,7 +117,7 @@ public class AdminUserController {
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_FOUND);
 		}
 	}
-
+	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getUser(@PathVariable("id") int id) {
 		System.out.println("detail controller");

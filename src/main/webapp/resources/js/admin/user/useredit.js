@@ -1,5 +1,5 @@
 var img=0;
-		var img_temp;
+var img_temp;
 		
 		startPage();
 		function startPage(){
@@ -10,7 +10,6 @@ var img=0;
 				url : domainname + "api/admin/user/"+id,
 				success : function(data) {
 					//alert("Success detail:" + data.MESSAGE);
-					//alert(data.RESPONSE_DATA.name);
 					$("#id").val(data.RESPONSE_DATA.id);
 					$("#name").val(data.RESPONSE_DATA.name);
 					if(data.RESPONSE_DATA.gender=="f"){
@@ -25,11 +24,11 @@ var img=0;
 					$("#phone").val(data.RESPONSE_DATA.phone);
 					img_temp=data.RESPONSE_DATA.image;
 					
-					if(data.RESPONSE_DATA.enable==true){
+					/*if(data.RESPONSE_DATA.enable==true){
 						$("#e").attr('checked',true);
 					}else{
 						$("#d").attr('checked',true);
-					} 
+					} */
 				},
 				error : function(data) {
 					alert("Unsuccess get user:" + data.MESSAGE);
@@ -42,7 +41,7 @@ var img=0;
 			img = 1;
 		});
 		function uploadImage() {
-			alert("upload image");
+			//alert("upload image");
 			var data1;
 			data1 = new FormData();
 			data1.append('file', $('#image')[0].files[0]);
@@ -73,6 +72,7 @@ var img=0;
 					password : $("#password").val(),
 					address : $("#address").val(),
 					phone : $("#phone").val(),
+					role_id: $('select[name="role_id"] option:selected').val(),
 					//enable : $('input:radio[name=enable]:checked').val(),
 					image : img
 				};

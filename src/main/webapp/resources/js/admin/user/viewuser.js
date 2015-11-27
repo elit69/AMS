@@ -22,7 +22,7 @@ function startPage() {
 function displayData(data) {
 	var table = "<table class='table table-striped table-condensed table-hover'><thead><tr class='btn-primary'>"
 			+ "<th>ID</th><th>Name</th><th>Gender</th>"
-			+ "<th>email</th><th>username</th><th>password</th><th>address</th><th>phone</th>"
+			+ "<th>email</th><th>username</th><th>password</th><th>enable</th><th>address</th><th>phone</th>"
 			+ "<th>Image</th><th>Action</th></tr></thead>";
 
 	for (var i = 0; i < data.RESPONSE_DATA.length; i++) {
@@ -37,8 +37,15 @@ function displayData(data) {
 				+ "</td><td>"
 				+ data.RESPONSE_DATA[i].username
 				+ "</td><td>"
-				+ data.RESPONSE_DATA[i].password
-				+ "</td><td>"
+				+data.RESPONSE_DATA[i].password
+				+"</td><td>";
+			if(data.RESPONSE_DATA[i].enable==true){
+				table+="<input type='checkbox' onchange='changeStatus("+data.RESPONSE_DATA[i].id+")' checked />";
+			}
+			else{
+				table+="<input type='checkbox' onchange='changeStatus("+data.RESPONSE_DATA[i].id+")' />";
+			}
+			table+="</td><td>"
 				+ data.RESPONSE_DATA[i].address
 				+ "</td><td>"
 				+ data.RESPONSE_DATA[i].phone
@@ -96,7 +103,7 @@ function edituser(id) {
 }
 
 function deleteuser(id) {
-	alert("delete user.");
+	//alert("delete user.");
 	$.ajax({
 		type : "DELETE",
 		url : domainname + "api/admin/user/" + id,
@@ -110,3 +117,49 @@ function deleteuser(id) {
 		}
 	});
 }
+ 
+function changeStatus(id){
+	//alert(id);
+	$.ajax({
+		type : "DELETE",
+		url : domainname + "api/admin/user/" + id,
+		success : function(data) {
+			alert("Success: " + data.MESSAGE);
+			startPage();
+		},
+		error : function(data) {
+			alert("Unsuccess:" + data.MESSAGE);
+			console.log("ERROR..." + data);
+		}
+	});
+	 
+}
+//pagination
+var limit;
+var cur_page;
+var total_pages;
+
+function pagination(){
+	
+}
+/*$('#page-selection').bootpag({
+    total: 50,
+    page: 2,
+    maxVisible: 5,
+    leaps: true,
+    firstLastUse: true,
+    first: 'First',
+    last: 'Last',
+    wrapClass: 'pagination',
+    activeClass: 'active',
+    disabledClass: 'disabled',
+    nextClass: 'next',
+    prevClass: 'prev',
+    lastClass: 'last',
+    firstClass: 'first'
+}).on("page", function(event, num){
+    //$(".content4").html("Page " + num); // or some ajax content loading...
+}); 
+
+
+*/

@@ -1,5 +1,5 @@
 		function addUser(){
-			alert("add user");
+			//alert("add user");
 			json = {
 					name : $("#name").val(),
 					gender : $('input:radio[name=gender]:checked').val(),
