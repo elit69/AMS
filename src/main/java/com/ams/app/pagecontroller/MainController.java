@@ -92,6 +92,20 @@ public class MainController {
 		return "admin/user/useredit";
 	}
 	
+	/////////////////////////////////////////////////////admin mange article
+	@RequestMapping(value = {"/admin/","/admin/article"}, method = RequestMethod.GET)
+	public String listArticle(ModelMap m) {
+		System.out.println("show form list articles controller");
+		System.out.println(getUsername());
+		System.out.println(getRole());
+		System.out.println(isAuthenticated());
+		m.addAttribute("name", getUsername());
+		m.addAttribute("role", getRole());
+		m.addAttribute("login", isAuthenticated());
+		return "admin/article/listarticle";
+	}
+	
+	
 	/////////////////////////////////////////////////////////author page
 	@RequestMapping(value="/author/add")
 	public String authorArticleLoggin(ModelMap m, HttpServletRequest request) {
