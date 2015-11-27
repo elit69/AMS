@@ -50,15 +50,15 @@
 			<version>3.1.0</version>
 		</dependency>
 		<dependency>
-			<groupId>javax.servlet.jsp.jstl</groupId>
-			<artifactId>jstl-api</artifactId>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-		<!-- <dependency>
+		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>javax.servlet.jsp-api</artifactId>
-			<version>2.3.1</version>
-		</dependency> -->
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version>
+		</dependency>
 
 		<!-- JDBC -->
 		<dependency>
