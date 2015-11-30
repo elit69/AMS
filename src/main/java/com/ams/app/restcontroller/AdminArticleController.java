@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.ams.app.entities.ArticleDto;
 import com.ams.app.services.ArticleService;
 
@@ -33,38 +31,29 @@ public class AdminArticleController {
 	@Autowired
 	private ArticleService artservice;
 
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public ModelAndView viewListArticle(ModelAndView mav) {
-		mav.setViewName("/admin/article/test_upload");
-		//mav.setViewName("/admin/article/test_list_article");
-		return mav;
-	}
-	@RequestMapping(value = { "/list/{limit}/{page}", "/list/{limit}" }, method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Object>> listArticle(@PathVariable Map<String, String> pathVariables) {
+	@RequestMapping(method = RequestMethod.GET)
+	public ResponseEntity<Map<String, Object>> listArticle(
+			@RequestParam(value = "limit") Integer limit,
+			@RequestParam(value = "page", required = false) Integer page) {
+
 		System.out.println("list article");
-		ArrayList<ArticleDto> list = null;
-		if (pathVariables.containsKey("limit") && pathVariables.containsKey("page")) {
-			list = artservice.list(Integer.parseInt(pathVariables.get("limit")),
-					Integer.parseInt(pathVariables.get("page")));
-		} else if (pathVariables.containsKey("limit")) {
-			list = artservice.list(Integer.parseInt(pathVariables.get("limit")), 0);
-		}
+		ArrayList<ArticleDto> list = new ArrayList<ArticleDto>();
 		Map<String, Object> map = new HashMap<String, Object>();
-		try {
-			list.equals(null);
+		if (page == null)	list = artservice.list(limit, 0);
+		else 				list = artservice.list(limit, page);
+		if (list.isEmpty()) {
+			map.put("MESSAGE", "LIST EMPTY");
+			map.put("STATUS", HttpStatus.NOT_FOUND.value());
+			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_FOUND);
+		} else {
 			map.put("MESSAGE", "SUCCESS");
-			map.put("STATUS", HttpStatus.OK.value());			
+			map.put("STATUS", HttpStatus.OK.value());
 			map.put("RESPONSE_DATA", list);
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
-		} catch (Exception e) {
-			// TODO: handle exception
-			map.put("MESSAGE", "LIST EMPTY");
-			map.put("STATUS", HttpStatus.NOT_FOUND.value());			
-			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_FOUND);
 		}
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.POST)
+	@RequestMapping(method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> addArticle(ArticleDto art, @RequestParam("file") MultipartFile file,
 			HttpServletRequest request) {
 		// file upload
@@ -135,7 +124,7 @@ public class AdminArticleController {
 		}
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.PUT)
+	@RequestMapping(method = RequestMethod.PUT)
 	public ResponseEntity<Map<String, Object>> updateArticle(@RequestBody ArticleDto art) {
 		System.out.println("update article");
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -181,7 +170,7 @@ public class AdminArticleController {
 			listUser = artservice.search(pathVariables.get("type").toString(), pathVariables.get("keyword").toString(),
 					Integer.parseInt(pathVariables.get("limit")), 0);
 		}
-		if (listUser.isEmpty()) {			
+		if (listUser.isEmpty()) {
 			map.put("MESSAGE", "RECORD NOT FOUND.");
 			map.put("STATUS", HttpStatus.NOT_FOUND.value());
 			status = HttpStatus.NOT_FOUND;
