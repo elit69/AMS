@@ -15,18 +15,20 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import com.ams.app.serviceimplement.ArticleDao;
-import com.ams.app.serviceimplement.AuthorArticleDao;
-import com.ams.app.serviceimplement.ClientDao;
-import com.ams.app.serviceimplement.UserDao;
-import com.ams.app.serviceimplement.UserRoleDao;
+import com.ams.app.serviceimplement.ArticleImpl;
+import com.ams.app.serviceimplement.AuthorArticleImpl;
+import com.ams.app.serviceimplement.ClientImpl;
+import com.ams.app.serviceimplement.UserImpl;
+import com.ams.app.serviceimplement.UserRoleImpl;
 import com.ams.app.services.ArticleService;
 import com.ams.app.services.UserService;
+import com.mangofactory.swagger.plugin.EnableSwagger;
 
 
 @Configuration
 @ComponentScan(basePackages="com.ams.app")
 @EnableWebMvc
+@EnableSwagger
 public class WebConfig extends WebMvcConfigurerAdapter {
 	
 	@Bean
@@ -47,29 +49,29 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
         
-      dataSource.setUrl("jdbc:postgresql://ec2-54-83-53-120.compute-1.amazonaws.com:5432/df0rndbs2m5j95?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory");
+/*        dataSource.setUrl("jdbc:postgresql://ec2-54-83-53-120.compute-1.amazonaws.com:5432/df0rndbs2m5j95?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory");
         dataSource.setUsername("zvupnhuombgswl");
-        dataSource.setPassword("-kobcgryVQZKMWcEYKs5jblNgX");
+        dataSource.setPassword("-kobcgryVQZKMWcEYKs5jblNgX");*/
         
-//        dataSource.setUrl("jdbc:postgresql://localhost:5432/articledb");
-//        dataSource.setUsername("postgres");
-//        dataSource.setPassword("12345");
+        dataSource.setUrl("jdbc:postgresql://localhost:5432/articledb");
+        dataSource.setUsername("postgres");
+        dataSource.setPassword("12345");
         return dataSource;
     }
 	
 	@Bean
-	public ClientDao getClientDao(){
-		return new ClientDao(this.getDataSource());
+	public ClientImpl getClientDao(){
+		return new ClientImpl(this.getDataSource());
 	}
 	
 	@Bean
 	public UserService getUserDao(){
-		return new UserDao(this.getDataSource());
+		return new UserImpl(this.getDataSource());
 	}
 	
 	@Bean
 	public ArticleService getArticleDao(){
-		return new ArticleDao(this.getDataSource());
+		return new ArticleImpl(this.getDataSource());
 	}
 		
 	@Bean
@@ -81,12 +83,12 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 		return new JdbcTemplate(this.getDataSource());
 	}
 	@Bean
-	public AuthorArticleDao getAuthorArticleDao(){
-		return new AuthorArticleDao(this.getJdbcTemplate());
+	public AuthorArticleImpl getAuthorArticleDao(){
+		return new AuthorArticleImpl(this.getJdbcTemplate());
 	}
 	@Bean
-	public UserRoleDao getUserRoleDao(){
-		return new UserRoleDao(this.getDataSource());
+	public UserRoleImpl getUserRoleDao(){
+		return new UserRoleImpl(this.getDataSource());
 	}
 	
 	// Upload File 

@@ -8,24 +8,24 @@ import java.util.ArrayList;
 
 import javax.sql.DataSource;
 
-import com.ams.app.entities.UserDto;
+import com.ams.app.entities.User;
 import com.ams.app.services.UserService;
 
 
-public class UserDao implements UserService {
+public class UserImpl implements UserService {
 
 
 	private DataSource dataSource;
 	private Connection con;
-	public UserDao(DataSource dataSource2) {
+	public UserImpl(DataSource dataSource2) {
 		this.dataSource = dataSource2;
 	}
 
 	@Override
-	public ArrayList<UserDto> list(int limitrow, int page) {
+	public ArrayList<User> list(int limitrow, int page) {
 		if(page<=0) page=1;
 		int offset = limitrow * page - limitrow;
-		UserDto user = null;
+		User user = null;
 		try {
 			con = dataSource.getConnection();
 			String sql = "SELECT * FROM tbuser where enable = true ORDER BY id LIMIT ? OFFSET ?";
@@ -33,9 +33,9 @@ public class UserDao implements UserService {
 			ps.setInt(1, limitrow);
 			ps.setInt(2, offset);
 			ResultSet rs = ps.executeQuery();
-			ArrayList<UserDto> users = new ArrayList<UserDto>();
+			ArrayList<User> users = new ArrayList<User>();
 			while (rs.next()) {
-				user = new UserDto();
+				user = new User();
 				user.setId(rs.getInt(1));
 				user.setUsername(rs.getString(2));
 				user.setPassword(rs.getString(3));
@@ -64,7 +64,7 @@ public class UserDao implements UserService {
 	}
 
 	@Override
-	public boolean insertUser(UserDto user) {
+	public boolean insertUser(User user) {
 		System.out.println("user dao."+user.getName());
 		
 		try {
@@ -101,7 +101,7 @@ public class UserDao implements UserService {
 	}
 
 	@Override
-	public boolean updateUser(UserDto user) {
+	public boolean updateUser(User user) {
 		//System.out.println("user enable "+user.isEnable());
 		try {
 			con = dataSource.getConnection();
@@ -138,16 +138,16 @@ public class UserDao implements UserService {
 	}
 
 	@Override
-	public UserDto getUser(int id) {
+	public User getUser(int id) {
 		try {
 			con = dataSource.getConnection();
 			String sql = "SELECT * FROM tbuser WHERE id=? and enable = true Limit 1";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
-			UserDto user = null;
+			User user = null;
 			if (rs.next()) {
-				user = new UserDto();
+				user = new User();
 				user.setId(rs.getInt(1));
 				user.setUsername(rs.getString(2));
 				user.setPassword(rs.getString(3));
@@ -173,8 +173,8 @@ public class UserDao implements UserService {
 	}
 
 	@Override
-	public ArrayList<UserDto> getPagination(int page, int limit) {
-		UserDto user = null;
+	public ArrayList<User> getPagination(int page, int limit) {
+		User user = null;
 		int begin;
 		begin = (page * limit) - limit;
 		try {
@@ -183,9 +183,9 @@ public class UserDao implements UserService {
 					+ limit;
 			PreparedStatement ps = con.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
-			ArrayList<UserDto> users = new ArrayList<UserDto>();
+			ArrayList<User> users = new ArrayList<User>();
 			while (rs.next()) {
-				user = new UserDto();
+				user = new User();
 				user.setId(rs.getInt(1));
 				user.setUsername(rs.getString(2));
 				user.setPassword(rs.getString(3));
@@ -238,16 +238,16 @@ public class UserDao implements UserService {
 	}
 
 	@Override
-	public UserDto showUser(String usrName) {
+	public User showUser(String usrName) {
 		try {
 			con = dataSource.getConnection();
 			String sql = "SELECT * FROM tbuser WHERE username=? and enable = true Limit 1";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, usrName);
 			ResultSet rs = ps.executeQuery();
-			UserDto user = null;
+			User user = null;
 			if (rs.next()) {
-				user = new UserDto();
+				user = new User();
 				user.setId(rs.getInt(1));
 				user.setUsername(rs.getString(2));
 				user.setPassword(rs.getString(3));
@@ -273,11 +273,11 @@ public class UserDao implements UserService {
 	}
 		
 	@Override
-	public ArrayList<UserDto> search(String columnName, String keyword, int limitrow, int page) {
+	public ArrayList<User> search(String columnName, String keyword, int limitrow, int page) {
 		if(page<=0) page=1;
 		int offset = limitrow * page - limitrow;
-		ArrayList<UserDto> list = new ArrayList<>();
-		UserDto user = null;
+		ArrayList<User> list = new ArrayList<>();
+		User user = null;
 		String sql = "SELECT id,username,password,enable,email,address,phone,name,gender,image"
 				+ " FROM tbuser"
 				+ " WHERE Lower(" + columnName + ") LIKE ? AND enable = true"
@@ -290,7 +290,7 @@ public class UserDao implements UserService {
 			ResultSet rs = ps.executeQuery();
 			System.out.println(ps);
 			while (rs.next()) {
-				user = new UserDto();
+				user = new User();
 				user.setId(rs.getInt(1));
 				user.setUsername(rs.getString(2));
 				user.setPassword(rs.getString(3));

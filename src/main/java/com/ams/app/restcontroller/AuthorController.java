@@ -20,20 +20,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.ams.app.entities.ArticleDto;
-import com.ams.app.serviceimplement.AuthorArticleDao;
+import com.ams.app.entities.Article;
+import com.ams.app.services.AuthorArticleService;
 
 @RestController
 @RequestMapping(value = "/api/author/")
 public class AuthorController {
 	@Autowired
-	private AuthorArticleDao dao;
+	private AuthorArticleService dao;
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(AuthorController.class);
 
 	@RequestMapping(value = "authorworkarticle", method = RequestMethod.POST)
-	public Object authorArticleFuntion(ArticleDto art) {
+	public Object authorArticleFuntion(Article art) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		ResponseEntity<Map<String, Object>> resentity = null;
 		switch (art.getKey()) {
@@ -67,7 +67,7 @@ public class AuthorController {
 			}
 			break;
 		case "R":
-			List<ArticleDto> list = dao.search(art);
+			List<Article> list = dao.search(art);
 			if (list.isEmpty()) {
 				map.put("MESSAGE", "ARTICLE NOT FOUND");
 				map.put("STATUS", HttpStatus.NOT_FOUND.value());
@@ -95,7 +95,7 @@ public class AuthorController {
 			}
 			break;
 		case "TC":
-			ArticleDto article = dao.show(art);
+			Article article = dao.show(art);
 			if (article != null) {
 				map.put("MESSAGE", "ARTICLE HAS BEEN FOUND");
 				map.put("STATUS", HttpStatus.FOUND.value());

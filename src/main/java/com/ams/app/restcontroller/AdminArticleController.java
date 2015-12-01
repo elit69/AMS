@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import com.ams.app.entities.ArticleDto;
+import com.ams.app.entities.Article;
 import com.ams.app.services.ArticleService;
 
 @RestController
@@ -37,7 +37,7 @@ public class AdminArticleController {
 			@RequestParam(value = "page", required = false) Integer page) {
 
 		System.out.println("list article");
-		ArrayList<ArticleDto> list = new ArrayList<ArticleDto>();
+		ArrayList<Article> list = new ArrayList<Article>();
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (page == null)	list = artservice.list(limit, 0);
 		else 				list = artservice.list(limit, page);
@@ -54,7 +54,7 @@ public class AdminArticleController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> addArticle(ArticleDto art, @RequestParam("file") MultipartFile file,
+	public ResponseEntity<Map<String, Object>> addArticle(Article art, @RequestParam("file") MultipartFile file,
 			HttpServletRequest request) {
 		// file upload
 		if (!file.isEmpty()) {
@@ -125,7 +125,7 @@ public class AdminArticleController {
 	}
 
 	@RequestMapping(method = RequestMethod.PUT)
-	public ResponseEntity<Map<String, Object>> updateArticle(@RequestBody ArticleDto art) {
+	public ResponseEntity<Map<String, Object>> updateArticle(@RequestBody Article art) {
 		System.out.println("update article");
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (artservice.update(art)) {
@@ -142,7 +142,7 @@ public class AdminArticleController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getArticle(@PathVariable("id") int id) {
 		System.out.println("get article");
-		ArticleDto art = artservice.show(id);
+		Article art = artservice.show(id);
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (art != null) {
 			map.put("MESSAGE", "SUCCESS");
@@ -158,7 +158,7 @@ public class AdminArticleController {
 
 	@RequestMapping(value = { "/search/{type}/{keyword}/{limit}/{page}", "/search/{type}/{keyword}/{limit}" }, method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> search(@PathVariable Map<String, String> pathVariables) {
-		List<ArticleDto> listUser = null;
+		List<Article> listUser = null;
 		Map<String, Object> map = new HashMap<String, Object>();
 		HttpStatus status = null;
 		if (pathVariables.containsKey("type") && pathVariables.containsKey("keyword")
@@ -183,7 +183,7 @@ public class AdminArticleController {
 		return new ResponseEntity<Map<String, Object>>(map, status);
 	}
 
-	@RequestMapping(value = "/toggle/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}/toggle", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> toggle(@PathVariable("id") int id) {
 		System.out.println("toggle " + id);
 		Map<String, Object> map = new HashMap<String, Object>();

@@ -1,6 +1,6 @@
 package com.ams.app.entities;
 
-public class UserRoleDto {
+public class UserRole {
 	private int id;
 	private int user_id;
 	public int getId() {

@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import com.ams.app.entities.UserDto;
-import com.ams.app.entities.UserRoleDto;
+import com.ams.app.entities.User;
+import com.ams.app.entities.UserRole;
 import com.ams.app.services.UserRoleService;
 import com.ams.app.services.UserService;
 
@@ -41,7 +41,7 @@ public class AdminUserController {
 	@RequestMapping(value = { "/list/{limit}/{page}", "/list/{limit}" }, method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> listUser(@PathVariable Map<String, String> pathVariables) {
 		System.out.println("list user controller.");
-		ArrayList<UserDto> users = null;
+		ArrayList<User> users = null;
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (pathVariables.containsKey("limit") && pathVariables.containsKey("page")) {
 			users = userService.list(Integer.parseInt(pathVariables.get("limit")),
@@ -61,12 +61,12 @@ public class AdminUserController {
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> addUser(@RequestBody UserDto user) {
+	public ResponseEntity<Map<String, Object>> addUser(@RequestBody User user) {
 		System.out.println("add controller.");		
 		Map<String, Object> map = new HashMap<String, Object>();
 		user.setEnable(true);
 		if (userService.insertUser(user)) {			
-			UserRoleDto ur=new UserRoleDto();
+			UserRole ur=new UserRole();
 			ur.setId(user.getRole_id());
 			ur.setUser_id(userService.getLastID());
 			
@@ -99,10 +99,10 @@ public class AdminUserController {
 	}
 
 	@RequestMapping(value = "/", method = RequestMethod.PUT)
-	public ResponseEntity<Map<String, Object>> updateUser(@RequestBody UserDto user) {
+	public ResponseEntity<Map<String, Object>> updateUser(@RequestBody User user) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (userService.updateUser(user)) {
-			UserRoleDto ur=new UserRoleDto();
+			UserRole ur=new UserRole();
 			ur.setId(user.getRole_id());
 			ur.setUser_id(user.getId());
 			if(userRoleService.updateUserRole(ur)){
@@ -122,7 +122,7 @@ public class AdminUserController {
 	public ResponseEntity<Map<String, Object>> getUser(@PathVariable("id") int id) {
 		System.out.println("detail controller");
 		Map<String, Object> map = new HashMap<String, Object>();
-		UserDto user = userService.getUser(id);
+		User user = userService.getUser(id);
 		if (user != null) {
 			map.put("MESSAGE", "USER HAS BEEN FOUND.");
 			map.put("STATUS", HttpStatus.FOUND.value());
@@ -139,7 +139,7 @@ public class AdminUserController {
 							"/search/{type}/{keyword}/{limit}" }, 
 					method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> search(@PathVariable Map<String, String> pathVariables) {
-		List<UserDto> listUser = null;
+		List<User> listUser = null;
 		Map<String, Object> map = new HashMap<String, Object>();
 		HttpStatus status = null;
 		if (pathVariables.containsKey("type") && pathVariables.containsKey("keyword")

@@ -22,14 +22,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ams.app.entities.UserDto;
-import com.ams.app.serviceimplement.AuthorArticleDao;
+import com.ams.app.entities.User;
+import com.ams.app.services.AuthorArticleService;
 
 @Controller
 public class MainController {
 	
 	@Autowired
-	private AuthorArticleDao dao;
+	private AuthorArticleService dao;
 	
 	@RequestMapping(value = "/")
 	public String homePage(ModelMap m) {
@@ -52,7 +52,7 @@ public class MainController {
 		m.addAttribute("name", getUsername());
 		m.addAttribute("role", getRole());
 		m.addAttribute("login", isAuthenticated());
-		return "help";
+		return "swagger";
 	}
 	
 	/////////////////////////////////////////////////////////admin page
@@ -224,7 +224,7 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/api/login", method = RequestMethod.POST)
-	public @ResponseBody ResponseEntity<Map<String, Object>> login(@RequestBody UserDto usr, HttpServletRequest request) {
+	public @ResponseBody ResponseEntity<Map<String, Object>> login(@RequestBody User usr, HttpServletRequest request) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		HttpStatus status = null;
 		try {

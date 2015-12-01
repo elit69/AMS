@@ -12,18 +12,18 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ams.app.entities.ArticleDto;
-import com.ams.app.serviceimplement.ClientDao;
+import com.ams.app.entities.Article;
+import com.ams.app.services.ClientService;
 
 @RestController
 public class ClientController {
 	@Autowired
-	private ClientDao dao;
+	private ClientService dao;
     
 	@RequestMapping(value="/getarticlelist")
 	public ResponseEntity<Map<String,Object>> getArticleList(@RequestParam("page") int page,@RequestParam("numrow") int rownumber){
 		  Map<String,Object> map=new HashMap<String,Object>();
-		  ArrayList<ArticleDto> list=dao.getArticleList(page,rownumber);
+		  ArrayList<Article> list=dao.getArticleList(page,rownumber);
 		  if(list.isEmpty()){
 			  map.put("MESSAGE","ARTICLE NOT FOUND");
 			  map.put("STATUS",HttpStatus.NOT_FOUND.value());
@@ -39,7 +39,7 @@ public class ClientController {
    public ResponseEntity<Map<String,Object>> getArticleSearchList(@RequestParam("rowname") String rowname,@RequestParam("search") String search,
 		                                                          @RequestParam("page") int page,@RequestParam("numberrow") int numberrow) {
 	   Map<String,Object> map=new HashMap<String,Object>();
-		  ArrayList<ArticleDto> list=dao.searchArticle(rowname, search, page, numberrow);
+		  ArrayList<Article> list=dao.searchArticle(rowname, search, page, numberrow);
 		  if(list.isEmpty()){
 			  map.put("MESSAGE","ARTICLE NOT FOUND");
 			  map.put("STATUS",HttpStatus.NOT_FOUND.value());
@@ -70,7 +70,7 @@ public class ClientController {
    @RequestMapping(value="/articleviewdetial",method=RequestMethod.POST)
    public ResponseEntity<Map<String,Object>> getArticle(@RequestParam("id") int id){
 	   Map<String,Object> map=new HashMap<String,Object>();
-	   ArticleDto article=dao.getArticle(id);
+	   Article article=dao.getArticle(id);
 	  map.put("MESSAGE","ARTICLE DETAIL");
 	  map.put("STATUS",HttpStatus.FOUND.value());
 	  map.put("RESPONE_DATA",article);

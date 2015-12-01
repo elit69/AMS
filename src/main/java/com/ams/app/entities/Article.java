@@ -2,7 +2,7 @@ package com.ams.app.entities;
 
 import java.sql.Date;
 
-public class ArticleDto {
+public class Article {
 	
 	private int id;
 	private String title;

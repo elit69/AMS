@@ -1,10 +1,8 @@
 package com.ams.app.services;
 
-import java.util.ArrayList;
-import com.ams.app.entities.UserRoleDto;
+import com.ams.app.entities.UserRole;
 
 public interface UserRoleService {
-	public ArrayList<UserRoleDto> getAllRoles();
-	public boolean insertUserRole(UserRoleDto role);
-	public boolean updateUserRole(UserRoleDto role);
+	public boolean insertUserRole(UserRole role);
+	public boolean updateUserRole(UserRole role);
 }

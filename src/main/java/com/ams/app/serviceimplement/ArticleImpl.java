@@ -8,22 +8,22 @@ import java.util.ArrayList;
 
 import javax.sql.DataSource;
 
-import com.ams.app.entities.ArticleDto;
+import com.ams.app.entities.Article;
 import com.ams.app.services.ArticleService;
 
 
-public class ArticleDao implements ArticleService {
+public class ArticleImpl implements ArticleService {
 
 
 	private DataSource dataSource;
 
-	public ArticleDao(DataSource dataSource2) {
+	public ArticleImpl(DataSource dataSource2) {
 		this.dataSource = dataSource2;
 	}
 
-	public ArrayList<ArticleDto> list(int limitrow, int page) {
-		ArrayList<ArticleDto> arr = new ArrayList<ArticleDto>();
-		ArticleDto a = null;
+	public ArrayList<Article> list(int limitrow, int page) {
+		ArrayList<Article> arr = new ArrayList<Article>();
+		Article a = null;
 		if(page<=0) page=1;
 		int offset = limitrow * page - limitrow;
 		String sql = "SELECT tbarticle. ID, tbarticle.title, tbarticle.publish_date, tbarticle. ENABLE, tbarticle.image, tbarticle. CONTENT, tbarticle.userid, tbuser. NAME "
@@ -39,7 +39,7 @@ public class ArticleDao implements ArticleService {
 			ResultSet rs = ps.executeQuery();
 			System.out.println(ps);
 			while(rs.next()){
-				a = new ArticleDto();
+				a = new Article();
 				a.setTitle(rs.getString("title"));
 				a.setContent(rs.getString("content"));
 				a.setEnable(rs.getBoolean("enable"));
@@ -58,7 +58,7 @@ public class ArticleDao implements ArticleService {
 		return null;
 	}
 
-	public boolean add(ArticleDto art) {
+	public boolean add(Article art) {
 		String sql = "INSERT INTO tbarticle(title,userid,content,publish_date,enable,image) VALUES(?,?,?,?,?,?)";
 		try (Connection cnn = dataSource.getConnection(); PreparedStatement ps = cnn.prepareStatement(sql);) {
 			ps.setString(1, art.getTitle());
@@ -77,7 +77,7 @@ public class ArticleDao implements ArticleService {
 		return false;
 	}
 
-	public boolean update(ArticleDto art) {
+	public boolean update(Article art) {
 		String sql = "UPDATE tbarticle set title=?,userid=?,content=?,publish_date=?,enable=?,image=? WHERE id =?";
 		try (Connection cnn = dataSource.getConnection(); PreparedStatement ps = cnn.prepareStatement(sql);) {
 			ps.setString(1, art.getTitle());
@@ -112,8 +112,8 @@ public class ArticleDao implements ArticleService {
 		return false;
 	}
 
-	public ArticleDto show(int artId) {
-		ArticleDto a = new ArticleDto();
+	public Article show(int artId) {
+		Article a = new Article();
 		String sql = "SELECT tbarticle. ID, tbarticle.title, tbarticle.publish_date, tbarticle. ENABLE, tbarticle.image, tbarticle. CONTENT, tbarticle.userid, tbuser. NAME "
 				+ "FROM ( tbarticle JOIN tbuser ON ((tbarticle.userid = tbuser. ID))) "
 				+ "WHERE tbarticle. ID = ?";
@@ -139,11 +139,11 @@ public class ArticleDao implements ArticleService {
 		return null;
 	}
 
-	public ArrayList<ArticleDto> search(String columnName, String keyword, int limitrow, int page) {
+	public ArrayList<Article> search(String columnName, String keyword, int limitrow, int page) {
 		if(page<=0) page=1;
 		int offset = limitrow * page - limitrow;
-		ArrayList<ArticleDto> list = new ArrayList<>();
-		ArticleDto s = null;
+		ArrayList<Article> list = new ArrayList<>();
+		Article s = null;
 		String sql = "SELECT id,title,name,publish_date,userid,content,enable,image"
 				+ " FROM v_list_all_article"
 				+ " WHERE Lower(" + columnName + ")"
@@ -156,7 +156,7 @@ public class ArticleDao implements ArticleService {
 			ResultSet rs = ps.executeQuery();
 			System.out.println(ps);
 			while (rs.next()) {
-				s = new ArticleDto();
+				s = new Article();
 				s.setId(rs.getInt("id"));
 				s.setTitle(rs.getString("title"));
 				s.setUserid(rs.getInt("userid"));
@@ -173,11 +173,11 @@ public class ArticleDao implements ArticleService {
 		return list;
 	}
 
-	public ArrayList<ArticleDto> listByUser(int userid, int limitrow, int page) {
+	public ArrayList<Article> listByUser(int userid, int limitrow, int page) {
 		if(page<=0) page=1;
 		int offset = limitrow * page - limitrow;
-		ArrayList<ArticleDto> list = new ArrayList<>();
-		ArticleDto s = new ArticleDto();
+		ArrayList<Article> list = new ArrayList<>();
+		Article s = new Article();
 		String sql = "SELECT id,title,name,publish_date,userid,content,enable,image"
 				+ " FROM v_list_all_article"
 				+ " WHERE userid = ?"
@@ -190,7 +190,7 @@ public class ArticleDao implements ArticleService {
 			ResultSet rs = ps.executeQuery();
 			System.out.println(ps);
 			while (rs.next()) {
-				s = new ArticleDto();
+				s = new Article();
 				s.setId(rs.getInt("id"));
 				s.setTitle(rs.getString("title"));
 				s.setUserid(rs.getInt("userid"));
@@ -223,4 +223,6 @@ public class ArticleDao implements ArticleService {
 		}
 		return false;
 	}
+
+
 }
