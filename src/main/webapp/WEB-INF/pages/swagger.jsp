@@ -35,7 +35,7 @@
       if (url && url.length > 1) {
         url = decodeURIComponent(url[1]);
       } else {
-        url = "http://localhost:8080/ArticleManagement/api-docs";
+        url = "${pageContext.request.contextPath}/api-docs";
       }
 
       // Pre load translate...
