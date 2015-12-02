@@ -1,33 +1,48 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
+	pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="mvc"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Swagger UI</title>
-  <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/swagger-ui/images/favicon-32x32.png" sizes="32x32" />
-  <link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/swagger-ui/images/favicon-16x16.png" sizes="16x16" />
-  <link href='${pageContext.request.contextPath}/resources/swagger-ui/css/typography.css' media='screen' rel='stylesheet' type='text/css'/>
-  <link href='${pageContext.request.contextPath}/resources/swagger-ui/css/reset.css' media='screen' rel='stylesheet' type='text/css'/>
-  <link href='${pageContext.request.contextPath}/resources/swagger-ui/css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
-  <link href='${pageContext.request.contextPath}/resources/swagger-ui/css/reset.css' media='print' rel='stylesheet' type='text/css'/>
-  <link href='${pageContext.request.contextPath}/resources/swagger-ui/css/print.css' media='print' rel='stylesheet' type='text/css'/>
-  <script src='${pageContext.request.contextPath}/resources/swagger-ui/lib/jquery-1.8.0.min.js' type='text/javascript'></script>
-  <script src='${pageContext.request.contextPath}/resources/swagger-ui/lib/jquery.slideto.min.js' type='text/javascript'></script>
-  <script src='${pageContext.request.contextPath}/resources/swagger-ui/lib/jquery.wiggle.min.js' type='text/javascript'></script>
-  <script src='${pageContext.request.contextPath}/resources/swagger-ui/lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
-  <script src='${pageContext.request.contextPath}/resources/swagger-ui/lib/handlebars-2.0.0.js' type='text/javascript'></script>
-  <script src='${pageContext.request.contextPath}/resources/swagger-ui/lib/underscore-min.js' type='text/javascript'></script>
-  <script src='${pageContext.request.contextPath}/resources/swagger-ui/lib/backbone-min.js' type='text/javascript'></script>
-  <script src='${pageContext.request.contextPath}/resources/swagger-ui/swagger-ui.js' type='text/javascript'></script>
-  <script src='${pageContext.request.contextPath}/resources/swagger-ui/lib/highlight.7.3.pack.js' type='text/javascript'></script>
-  <script src='${pageContext.request.contextPath}/resources/swagger-ui/lib/marked.js' type='text/javascript'></script>
-  <script src='${pageContext.request.contextPath}/resources/swagger-ui/lib/swagger-oauth.js' type='text/javascript'></script>
+	<meta charset="UTF-8">
+	<title>Swagger UI</title>
+	<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/swagger-ui/images/favicon-32x32.png" sizes="32x32" />
+	<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/swagger-ui/images/favicon-16x16.png" sizes="16x16" />
+	<link href='${pageContext.request.contextPath}/resources/swagger-ui/css/typography.css' media='screen' rel='stylesheet' type='text/css'/>
+	<link href='${pageContext.request.contextPath}/resources/swagger-ui/css/reset.css' media='screen' rel='stylesheet' type='text/css'/>
+	<link href='${pageContext.request.contextPath}/resources/swagger-ui/css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
+	<link href='${pageContext.request.contextPath}/resources/swagger-ui/css/reset.css' media='print' rel='stylesheet' type='text/css'/>
+	<link href='${pageContext.request.contextPath}/resources/swagger-ui/css/print.css' media='print' rel='stylesheet' type='text/css'/>
+	<script src='${pageContext.request.contextPath}/resources/swagger-ui/lib/jquery-1.8.0.min.js' type='text/javascript'></script>
+	<script src='${pageContext.request.contextPath}/resources/swagger-ui/lib/jquery.slideto.min.js' type='text/javascript'></script>
+	<script src='${pageContext.request.contextPath}/resources/swagger-ui/lib/jquery.wiggle.min.js' type='text/javascript'></script>
+	<script src='${pageContext.request.contextPath}/resources/swagger-ui/lib/jquery.ba-bbq.min.js' type='text/javascript'></script>
+	<script src='${pageContext.request.contextPath}/resources/swagger-ui/lib/handlebars-2.0.0.js' type='text/javascript'></script>
+	<script src='${pageContext.request.contextPath}/resources/swagger-ui/lib/underscore-min.js' type='text/javascript'></script>
+	<script src='${pageContext.request.contextPath}/resources/swagger-ui/lib/backbone-min.js' type='text/javascript'></script>
+	<script src='${pageContext.request.contextPath}/resources/swagger-ui/swagger-ui.js' type='text/javascript'></script>
+	<script src='${pageContext.request.contextPath}/resources/swagger-ui/lib/highlight.7.3.pack.js' type='text/javascript'></script>
+	<script src='${pageContext.request.contextPath}/resources/swagger-ui/lib/marked.js' type='text/javascript'></script>
+	<script src='${pageContext.request.contextPath}/resources/swagger-ui/lib/swagger-oauth.js' type='text/javascript'></script>
+	
+	<!-- Some basic translations -->
+	<!-- <script src='lang/translator.js' type='text/javascript'></script> -->
+	<!-- <script src='lang/ru.js' type='text/javascript'></script> -->
+	<!-- <script src='lang/en.js' type='text/javascript'></script> -->
 
-  <!-- Some basic translations -->
-  <!-- <script src='lang/translator.js' type='text/javascript'></script> -->
-  <!-- <script src='lang/ru.js' type='text/javascript'></script> -->
-  <!-- <script src='lang/en.js' type='text/javascript'></script> -->
+	<!-- CSS Library -->
+	<link rel="stylesheet"
+		href="${pageContext.request.contextPath}/resources/css/lib/bootstrap.min.css" />
+	<link rel="stylesheet"
+		href="${pageContext.request.contextPath}/resources/css/lib/font-awesome-4.3.0/css/font-awesome.min.css">
+	<!-- End CSS Library -->
+	<!-- Custom StyleSheet -->
+	<link rel="stylesheet" href="resources/css/default.css">
+	<!-- End Custom StyleSheet -->
+
+
 
   <script type="text/javascript">
     $(function () {
@@ -104,19 +119,59 @@
 </head>
 
 <body class="swagger-section">
-<div id='header'>
-  <div class="swagger-ui-wrap">
-    <a id="logo" href="http://swagger.io">swagger</a>
-    <form id='api_selector'>
-      <div class='input'><input placeholder="http://example.com/api" id="input_baseUrl" name="baseUrl" type="text"/></div>
-      <div class='input'><input placeholder="api_key" id="input_apiKey" name="apiKey" type="text"/></div>
-      <div class='input'><a id="explore" href="#" data-sw-translate>Explore</a></div>
-    </form>
-  </div>
-</div>
+	<nav class="navbar navbar-inverse">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed"
+				data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
+				<span class="sr-only">Toggle navigation</span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="${pageContext.request.contextPath}/"><i
+				class="fa fa-list"></i>&nbsp;&nbsp;&nbsp;Article Informations</a>
+		</div>
 
-<div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
-<div id="swagger-ui-container" class="swagger-ui-wrap"></div>
+		<div class="collapse navbar-collapse"
+			id="bs-example-navbar-collapse-2">
 
+
+			<ul class="nav navbar-nav navbar-right">
+				<c:choose>
+					<c:when test="${not login}">
+						<li class="active"><a href="${pageContext.request.contextPath}/help"><i
+								class="fa fa-question-circle fa-lg"></i> Help </a></li>
+						<li><a href="${pageContext.request.contextPath}/login"><i
+								class="fa fa-sign-in fa-lg"></i> Login </a></li>
+					</c:when>
+					<c:otherwise>
+						<c:choose>
+							<c:when test="${role=='ROLE_ADMIN'}">
+								<li><a href="admin/user"><i class="fa fa-users fa-lg"></i> Admin Page</a></li>
+							</c:when>
+							<c:otherwise>
+								<li><a href="author"><i class="fa fa-newspaper-o fa-lg"></i> Author Page</a></li>
+							</c:otherwise>
+						</c:choose>						
+						<li><a href="#"><i class="fa fa-user fa-lg"></i> Hi,
+								${name } </a></li>
+						<li><a href="${pageContext.request.contextPath}/help"><i
+								class="fa fa-question-circle fa-lg"></i> Help </a></li>
+						<li><a href="${pageContext.request.contextPath}/logout"><i
+								class="fa fa-sign-out fa-lg"></i> Logout </a></li>
+					</c:otherwise>
+				</c:choose>
+			</ul>
+		</div>
+	</div>
+	</nav>
+	<div id="main" class="container-fluid">
+		<div class="row col-sm-12 center-block">
+			<div class="col-sm-12 card form-horizontal">
+				<div id="message-bar" class="swagger-ui-wrap" data-sw-translate>&nbsp;</div>
+				<div id="swagger-ui-container" class="swagger-ui-wrap"></div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

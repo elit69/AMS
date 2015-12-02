@@ -1,3 +1,14 @@
+#swagger-ui-container{
+	margin: 0px;
+	font-size: 16px;
+}
+.info_email{
+	display: none;
+}
+ul#resources{
+	border: 1px solid #dddddd;
+}
+
 .navbar-brand:hover{
 	cursor: pointer;
 }
