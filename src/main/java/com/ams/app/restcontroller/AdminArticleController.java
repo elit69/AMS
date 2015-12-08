@@ -33,14 +33,21 @@ public class AdminArticleController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> listArticle(
-			@RequestParam(value = "limit") Integer limit,
+			@RequestParam(value = "limit", required = false) Integer limit,
 			@RequestParam(value = "page", required = false) Integer page) {
 
 		System.out.println("list article");
 		ArrayList<Article> list = new ArrayList<Article>();
 		Map<String, Object> map = new HashMap<String, Object>();
-		if (page == null)	list = artservice.list(limit, 0);
-		else 				list = artservice.list(limit, page);
+		
+		if (page == null && limit == null) list = artservice.list(0, 0);
+		else{
+			if (page == null)	list = artservice.list(limit, 0);		
+			else if (limit == null)  list = artservice.list(0, page);
+		}
+		
+		//else list = artservice.list(limit, page);
+		
 		if (list.isEmpty()) {
 			map.put("MESSAGE", "LIST EMPTY");
 			map.put("STATUS", HttpStatus.NOT_FOUND.value());
@@ -52,52 +59,49 @@ public class AdminArticleController {
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 		}
 	}
-
-	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> addArticle(Article art, @RequestParam("file") MultipartFile file,
+	
+	@RequestMapping(value = "{id}/img", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> uploadImage(
+			@PathVariable(value="id") int id,
+			@RequestParam("file") MultipartFile file,
 			HttpServletRequest request) {
-		// file upload
-		if (!file.isEmpty()) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Article art = artservice.show(id);
 			try {
-
-				UUID uuid = UUID.randomUUID();
-				String originalFilename = file.getOriginalFilename();
-				String extension = originalFilename.substring(originalFilename.lastIndexOf(".") + 1);
-				String randomUUIDFileName = uuid.toString();
-
-				String filename = randomUUIDFileName + "." + extension;
-
-				art.setImage(filename);
-
-				byte[] bytes = file.getBytes();
-
-				// creating the directory to store file
-				String savePath = request.getSession().getServletContext().getRealPath("/resources/upload/profile/");
-				System.out.println(savePath);
-				File path = new File(savePath);
-				if (!path.exists()) {
-					path.mkdir();
+				String extension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
+				String randomUUIDFileName = UUID.randomUUID().toString() + "." + extension;				
+				File path = new File(request.getSession().getServletContext().getRealPath("/resources/upload/profile/"));
+				if (!path.exists())		path.mkdir();
+				File serverFile = new File(path + File.separator + randomUUIDFileName);								
+				while(serverFile.exists()){
+					randomUUIDFileName = UUID.randomUUID().toString() + "." + extension;
+					serverFile = new File(path + File.separator + randomUUIDFileName);
+					System.out.println("hrersdf");
 				}
-
-				// creating the file on server
-				File serverFile = new File(savePath + File.separator + filename);
 				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+				byte[] bytes = file.getBytes();
 				stream.write(bytes);
 				stream.close();
-
-				System.out.println(serverFile.getAbsolutePath());
-				System.out.println("You are successfully uploaded file " + filename);
+				
+				System.out.println(serverFile.getAbsolutePath());				
+				art.setImage(randomUUIDFileName);
+				artservice.update(art);
+				map.put("MESSAGE", "ARTICLE HAS BEEN INSERTED.");
+				map.put("STATUS", HttpStatus.CREATED.value());
+				return new ResponseEntity<Map<String, Object>>(map, HttpStatus.CREATED);
 			} catch (Exception e) {
+				art.setImage("default.jpg");
 				System.out.println("You are failed to upload  => " + e.getMessage());
+				map.put("MESSAGE", "ARTICLE HAS NOT BEEN INSERTED.");
+				map.put("STATUS", HttpStatus.NOT_FOUND.value());
+				return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_FOUND);
 			}
-		} else {
-			art.setImage("abc.jpg");
-			System.out.println("The file was empty!");
-		}
-
-		// end file upload
-
+	}
+	
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> addArticle(@RequestBody Article art) {
 		Map<String, Object> map = new HashMap<String, Object>();
+		System.out.println(art.getContent());
 		if (artservice.add(art)) {
 			map.put("MESSAGE", "ARTICLE HAS BEEN INSERTED.");
 			map.put("STATUS", HttpStatus.CREATED.value());

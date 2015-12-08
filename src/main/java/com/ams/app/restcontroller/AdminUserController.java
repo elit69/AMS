@@ -183,6 +183,11 @@ public class AdminUserController {
 
 				// creating the file on server
 				File serverFile = new File(savePath + File.separator + filename);
+				while(serverFile.exists()){
+					map.put("MESSAGE", "UPLAOD FAIL.");
+					map.put("STATUS", HttpStatus.FORBIDDEN.value());
+					return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_ACCEPTABLE);
+				}
 				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
 				stream.write(bytes);
 				stream.close();

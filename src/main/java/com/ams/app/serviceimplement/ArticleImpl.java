@@ -24,8 +24,11 @@ public class ArticleImpl implements ArticleService {
 	public ArrayList<Article> list(int limitrow, int page) {
 		ArrayList<Article> arr = new ArrayList<Article>();
 		Article a = null;
-		if(page<=0) page=1;
-		int offset = limitrow * page - limitrow;
+		if(page<=0) page = 1;
+		if(limitrow<=0) limitrow = 15;
+		if(limitrow > 100) limitrow = 100;
+		System.out.println(limitrow);
+		int offset = limitrow * page - limitrow;		
 		String sql = "SELECT tbarticle. ID, tbarticle.title, tbarticle.publish_date, tbarticle. ENABLE, tbarticle.image, tbarticle. CONTENT, tbarticle.userid, tbuser. NAME "
 				+ "FROM ( tbarticle JOIN tbuser ON ((tbarticle.userid = tbuser. ID))) "
 				+ "ORDER BY tbarticle. ID "
