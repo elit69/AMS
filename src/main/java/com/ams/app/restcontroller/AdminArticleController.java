@@ -91,6 +91,7 @@ public class AdminArticleController {
 				return new ResponseEntity<Map<String, Object>>(map, HttpStatus.CREATED);
 			} catch (Exception e) {
 				art.setImage("default.jpg");
+				artservice.update(art);
 				System.out.println("You are failed to upload  => " + e.getMessage());
 				map.put("MESSAGE", "ARTICLE HAS NOT BEEN INSERTED.");
 				map.put("STATUS", HttpStatus.NOT_FOUND.value());
