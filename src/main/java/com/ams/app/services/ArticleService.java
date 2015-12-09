@@ -9,7 +9,7 @@ import com.ams.app.entities.Article;
 @Service
 public interface ArticleService {
 
-	public ArrayList<Article> list(int limit, int page);
+	public ArrayList<Article> list(Integer limit, Integer page);
 	
 	public ArrayList<Article> listByUser(int userid, int limit, int page);
 
@@ -23,6 +23,6 @@ public interface ArticleService {
 	
 	public Article show(int artId);
 
-	public ArrayList<Article> search(String type, String keyword, int limit, int page);
+	public ArrayList<Article> search(String type, String keyword, Integer limit, Integer page);
 	
 }

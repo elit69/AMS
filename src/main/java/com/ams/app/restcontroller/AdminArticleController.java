@@ -37,8 +37,6 @@ public class AdminArticleController {
 			@RequestParam(value = "page", required = false) Integer page) {
 
 		System.out.println("list article");
-		if (page == null)	page = 0;		
-		if (limit == null)  limit = 0;
 		ArrayList<Article> list = artservice.list(limit, page);
 		Map<String, Object> map = new HashMap<String, Object>();
 		HttpStatus status = null;
@@ -104,7 +102,6 @@ public class AdminArticleController {
 				status = HttpStatus.NOT_FOUND;
 				map.put("MESSAGE", "IMAGE HAS NOT BEEN UPLOADED.");
 				map.put("STATUS", status);
-				
 			}
 			return new ResponseEntity<Map<String, Object>>(map, status);
 	}
@@ -178,8 +175,6 @@ public class AdminArticleController {
 			@RequestParam(value = "limit", required = false) Integer limit,
 			@RequestParam(value = "page", required = false) Integer page) {
 
-		if (page == null)	page = 0;		
-		if (limit == null)  limit = 0;
 		List<Article> list = artservice.search(type, keyword, limit, page);
 		Map<String, Object> map = new HashMap<String, Object>();
 		HttpStatus status = null;

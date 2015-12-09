@@ -21,9 +21,9 @@ public class ArticleImpl implements ArticleService {
 		this.dataSource = dataSource2;
 	}
 
-	public ArrayList<Article> list(int limit, int page) {		
-		if(page < 1) page = 1;
-		if(limit < 1) limit = 15;
+	public ArrayList<Article> list(Integer limit, Integer page) {		
+		if(page == null) page = 1;
+		if(limit == null) limit = 15;
 		if(limit > 100) limit = 100;
 		System.out.println(limit);
 		int offset = limit * page - limit;		
@@ -142,9 +142,9 @@ public class ArticleImpl implements ArticleService {
 		return null;
 	}
 
-	public ArrayList<Article> search(String type, String keyword, int limit, int page) {
-		if(page < 1) page = 1;
-		if(limit < 1) limit = 15;
+	public ArrayList<Article> search(String type, String keyword, Integer limit, Integer page) {
+		if(page == null) page = 1;
+		if(limit == null) limit = 15;
 		if(limit > 100) limit = 100;
 		int offset = limit * page - limit;
 		ArrayList<Article> list = new ArrayList<>();
