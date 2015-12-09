@@ -21,14 +21,12 @@ public class ArticleImpl implements ArticleService {
 		this.dataSource = dataSource2;
 	}
 
-	public ArrayList<Article> list(int limitrow, int page) {
-		ArrayList<Article> arr = new ArrayList<Article>();
-		Article a = null;
-		if(page<=0) page = 1;
-		if(limitrow<=0) limitrow = 15;
-		if(limitrow > 100) limitrow = 100;
-		System.out.println(limitrow);
-		int offset = limitrow * page - limitrow;		
+	public ArrayList<Article> list(int limit, int page) {		
+		if(page < 1) page = 1;
+		if(limit < 1) limit = 15;
+		if(limit > 100) limit = 100;
+		System.out.println(limit);
+		int offset = limit * page - limit;		
 		String sql = "SELECT tbarticle. ID, tbarticle.title, tbarticle.publish_date, tbarticle. ENABLE, tbarticle.image, tbarticle. CONTENT, tbarticle.userid, tbuser. NAME "
 				+ "FROM ( tbarticle JOIN tbuser ON ((tbarticle.userid = tbuser. ID))) "
 				+ "ORDER BY tbarticle. ID "
@@ -37,10 +35,12 @@ public class ArticleImpl implements ArticleService {
 				PreparedStatement ps = cnn.prepareStatement(sql);		
 		)
 		{
-			ps.setInt(1, limitrow);
+			ps.setInt(1, limit);
 			ps.setInt(2, offset);
 			ResultSet rs = ps.executeQuery();
 			System.out.println(ps);
+			ArrayList<Article> arr = new ArrayList<Article>();
+			Article a = null;
 			while(rs.next()){
 				a = new Article();
 				a.setTitle(rs.getString("title"));
@@ -142,19 +142,21 @@ public class ArticleImpl implements ArticleService {
 		return null;
 	}
 
-	public ArrayList<Article> search(String columnName, String keyword, int limitrow, int page) {
-		if(page<=0) page=1;
-		int offset = limitrow * page - limitrow;
+	public ArrayList<Article> search(String type, String keyword, int limit, int page) {
+		if(page < 1) page = 1;
+		if(limit < 1) limit = 15;
+		if(limit > 100) limit = 100;
+		int offset = limit * page - limit;
 		ArrayList<Article> list = new ArrayList<>();
 		Article s = null;
 		String sql = "SELECT id,title,name,publish_date,userid,content,enable,image"
 				+ " FROM v_list_all_article"
-				+ " WHERE Lower(" + columnName + ")"
+				+ " WHERE Lower(" + type + ")"
 				+ " LIKE ? LIMIT ? OFFSET ?";
 		try (Connection conn = dataSource.getConnection(); 
 			PreparedStatement ps = conn.prepareStatement(sql);) {
 			ps.setString(1, "%" + keyword.toLowerCase() + "%");
-			ps.setInt(2, limitrow);
+			ps.setInt(2, limit);
 			ps.setInt(3, offset);
 			ResultSet rs = ps.executeQuery();
 			System.out.println(ps);

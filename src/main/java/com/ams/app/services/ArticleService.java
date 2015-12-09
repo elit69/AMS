@@ -23,6 +23,6 @@ public interface ArticleService {
 	
 	public Article show(int artId);
 
-	public ArrayList<Article> search(String columnName, String keyword, int limitrow, int page);
+	public ArrayList<Article> search(String type, String keyword, int limit, int page);
 	
 }
