@@ -34,7 +34,7 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 			//.httpBasic()
 			//.and()
 			.formLogin()
-                  .loginPage("/login")
+                  .loginPage("/api/user/denied")
                	  .successHandler(successHandler)
               //  .usernameParameter("username")
               //  .passwordParameter("password")
@@ -45,10 +45,10 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/api/admin/**").hasRole("ADMIN")
 				.antMatchers("/author/**").hasRole("AUTHOR")
 				.antMatchers("/api/author/**").hasRole("AUTHOR")
-				.antMatchers("/api/**").permitAll()
+				.antMatchers("/api/user/**").permitAll()
 				//.antMatchers("/login").permitAll()
 			.and().csrf().disable();						
-		http.exceptionHandling().accessDeniedPage("/403");
+		http.exceptionHandling().accessDeniedPage("/api/user/denied");
 	}
 	
 }

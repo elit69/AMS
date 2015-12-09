@@ -67,15 +67,15 @@ public class AdminArticleController {
 			try {				
 				//make dir and naming file
 				String extension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
-				String randomUUIDFileName = UUID.randomUUID().toString() + "." + extension;				
+				String newFileName = UUID.randomUUID().toString() + "." + extension;				
 				File path = new File(request.getSession().getServletContext().getRealPath("/resources/upload/profile/"));
 				if (!path.exists())		path.mkdir();
-				File newFile = new File(path + File.separator + randomUUIDFileName);
+				File newFile = new File(path + File.separator + newFileName);
 				
 				//check if duplicate name with other file
 				while(newFile.exists()){
-					randomUUIDFileName = UUID.randomUUID().toString() + "." + extension;
-					newFile = new File(path + File.separator + randomUUIDFileName);
+					newFileName = UUID.randomUUID().toString() + "." + extension;
+					newFile = new File(path + File.separator + newFileName);
 				}
 				
 				//uploading image
@@ -90,7 +90,7 @@ public class AdminArticleController {
 				
 				//update to database
 				System.out.println(newFile.getAbsolutePath());				
-				art.setImage(randomUUIDFileName);
+				art.setImage(newFileName);
 				artservice.update(art);
 				
 				//return json
