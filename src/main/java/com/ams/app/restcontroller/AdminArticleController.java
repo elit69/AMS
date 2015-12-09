@@ -88,7 +88,7 @@ public class AdminArticleController {
 				
 				//deleting old file
 				File oldFile = new File(path + File.separator + art.getImage());
-				if(oldFile.exists()) oldFile.delete();
+				if(oldFile.exists() && !art.getImage().equals("default.jpg")) oldFile.delete();
 				
 				//update to database
 				System.out.println(newFile.getAbsolutePath());				
