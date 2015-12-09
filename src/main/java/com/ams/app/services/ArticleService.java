@@ -9,9 +9,9 @@ import com.ams.app.entities.Article;
 @Service
 public interface ArticleService {
 
-	public ArrayList<Article> list(int limitrow, int page);
+	public ArrayList<Article> list(int limit, int page);
 	
-	public ArrayList<Article> listByUser(int userid, int limitrow, int page);
+	public ArrayList<Article> listByUser(int userid, int limit, int page);
 
 	public boolean add(Article art);
 
