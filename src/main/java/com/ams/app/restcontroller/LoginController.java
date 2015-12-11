@@ -31,10 +31,8 @@ public class LoginController {
 	public @ResponseBody ResponseEntity<Map<String, Object>> accessDenied() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		HttpStatus status = HttpStatus.FORBIDDEN;
-		map.put("MESSAGE", "Access Denied. Please Log in.");
-		map.put("IS_LOGIN", isAuthenticated());
-		map.put("ROLE", getRole());
-		map.put("USERNAME", getUsername());
+		map.put("MESSAGE", "Access Denied. Please Log in as different role.");
+		map.put("STATUS", "403");
 		return  new ResponseEntity<Map<String, Object>>(map, status);
 	}
 
