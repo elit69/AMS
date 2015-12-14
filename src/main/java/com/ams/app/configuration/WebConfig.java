@@ -75,10 +75,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	}
 		
 	@Bean
-	public AuthenticationSuccessHandler successHandler() {
-	    return new LoginSuccessHandler("/successlogin");
-	}
-	@Bean
 	public JdbcTemplate getJdbcTemplate(){
 		return new JdbcTemplate(this.getDataSource());
 	}
