@@ -7,7 +7,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Swagger UI</title>
+	<title>Article Management API</title>
 	<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/swagger-ui/images/favicon-32x32.png" sizes="32x32" />
 	<link rel="icon" type="image/png" href="${pageContext.request.contextPath}/resources/swagger-ui/images/favicon-16x16.png" sizes="16x16" />
 	<link href='${pageContext.request.contextPath}/resources/swagger-ui/css/typography.css' media='screen' rel='stylesheet' type='text/css'/>
@@ -119,52 +119,6 @@
 </head>
 
 <body class="swagger-section">
-	<nav class="navbar navbar-inverse">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed"
-				data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
-				<span class="sr-only">Toggle navigation</span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span> <span
-					class="icon-bar"></span>
-			</button>
-			<a class="navbar-brand" href="${pageContext.request.contextPath}/"><i
-				class="fa fa-list"></i>&nbsp;&nbsp;&nbsp;Article Informations</a>
-		</div>
-
-		<div class="collapse navbar-collapse"
-			id="bs-example-navbar-collapse-2">
-
-
-			<ul class="nav navbar-nav navbar-right">
-				<c:choose>
-					<c:when test="${not login}">
-						<li class="active"><a href="${pageContext.request.contextPath}/help"><i
-								class="fa fa-question-circle fa-lg"></i> Help </a></li>
-						<li><a href="${pageContext.request.contextPath}/login"><i
-								class="fa fa-sign-in fa-lg"></i> Login </a></li>
-					</c:when>
-					<c:otherwise>
-						<c:choose>
-							<c:when test="${role=='ROLE_ADMIN'}">
-								<li><a href="admin/user"><i class="fa fa-users fa-lg"></i> Admin Page</a></li>
-							</c:when>
-							<c:otherwise>
-								<li><a href="author"><i class="fa fa-newspaper-o fa-lg"></i> Author Page</a></li>
-							</c:otherwise>
-						</c:choose>						
-						<li><a href="#"><i class="fa fa-user fa-lg"></i> Hi,
-								${name } </a></li>
-						<li><a href="${pageContext.request.contextPath}/help"><i
-								class="fa fa-question-circle fa-lg"></i> Help </a></li>
-						<li><a href="${pageContext.request.contextPath}/logout"><i
-								class="fa fa-sign-out fa-lg"></i> Logout </a></li>
-					</c:otherwise>
-				</c:choose>
-			</ul>
-		</div>
-	</div>
-	</nav>
 	<div id="main" class="container-fluid">
 		<div class="row col-sm-12 center-block">
 			<div class="col-sm-12 card form-horizontal">
