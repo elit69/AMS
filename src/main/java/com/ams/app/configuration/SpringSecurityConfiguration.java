@@ -62,13 +62,14 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.and().csrf().disable();						
 		http.exceptionHandling().authenticationEntryPoint(new AuthenticationEntryPoint() {
 			@Override
-			public void commence(HttpServletRequest request,
-					HttpServletResponse response, AuthenticationException authException)
-					throws IOException, ServletException {				
+			public void commence(
+				HttpServletRequest request,	HttpServletResponse response, 
+				AuthenticationException authException)	throws IOException, ServletException {	
+				
 				response.setContentType("application/json");
 				response.setStatus(HttpServletResponse.SC_FORBIDDEN);
 				Map<String, Object> map = new HashMap<String, Object>();
-				map.put("MESSAGE", "Access Denied. Please Log in.");
+				map.put("MESSAGE", authException.getMessage());
 				map.put("STATUS", "403");
 				response.getWriter().print(new Gson().toJson(map));
 			}
@@ -80,4 +81,5 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 		//	.maximumSessions(1);
 		
 	}
+
 }
