@@ -11,12 +11,14 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.AccessDeniedHandler;
 
 import com.google.gson.Gson;
 
@@ -59,7 +61,10 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/author/**").hasRole("AUTHOR")
 				.antMatchers("/api/author/**").hasRole("AUTHOR")				
 				//.antMatchers("/login").permitAll()
-		.and().csrf().disable();						
+		.and().csrf().disable();
+		
+		//is invoked when an unauthenticated user attempts to access a protected resource.
+		//The default behaviour for unauthenticated users is to redirect to the login page 
 		http.exceptionHandling().authenticationEntryPoint(new AuthenticationEntryPoint() {
 			@Override
 			public void commence(
@@ -73,8 +78,24 @@ public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
 				map.put("STATUS", "403");
 				response.getWriter().print(new Gson().toJson(map));
 			}
-		})
-			.accessDeniedPage("/api/user/denied");
+		});
+		
+		//The AccessDeniedHandler only applies to authenticated users.
+		http.exceptionHandling().accessDeniedHandler(new AccessDeniedHandler (){
+			@Override
+			public void handle(
+				HttpServletRequest request, HttpServletResponse response, 
+				AccessDeniedException accessException)	throws IOException, ServletException {
+	
+				response.setContentType("application/json");
+				response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("MESSAGE", accessException.getMessage());
+				map.put("STATUS", "403");
+				response.getWriter().print(new Gson().toJson(map));
+			}
+		});
+		
 		//http.httpBasic();
 		//http.sessionManagement()
 		//	.sessionCreationPolicy(SessionCreationPolicy.STATELESS)

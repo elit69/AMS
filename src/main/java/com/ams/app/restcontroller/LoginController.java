@@ -27,14 +27,14 @@ public class LoginController {
 	@Autowired
 	private AuthorArticleImpl dao;
 	
-	@RequestMapping(value = "/denied", method = RequestMethod.GET)
+/*	@RequestMapping(value = "/denied", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<Map<String, Object>> accessDenied() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		HttpStatus status = HttpStatus.FORBIDDEN;
 		map.put("MESSAGE", "Access Denied. Please Log in.");
 		map.put("STATUS", "403");
 		return  new ResponseEntity<Map<String, Object>>(map, status);
-	}
+	}*/
 
 	@RequestMapping(value = "/autologin/admin", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<Map<String, Object>> autologin(HttpServletRequest request) {
@@ -119,7 +119,7 @@ public class LoginController {
 		return new ResponseEntity<Map<String, Object>>(map, status);
 	}
 
-	@RequestMapping(value = "/login/status", method = RequestMethod.GET)
+	@RequestMapping(value = "/status", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<Map<String, Object>> status(HttpServletRequest request) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		HttpStatus status = HttpStatus.OK;
