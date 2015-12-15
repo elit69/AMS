@@ -18,23 +18,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.ams.app.entities.User;
-import com.ams.app.serviceimplement.AuthorArticleImpl;
+import com.ams.app.serviceimplement.UserImpl;
 
 @RestController
 @RequestMapping(value = "/api/user")
 public class LoginController {
 	
 	@Autowired
-	private AuthorArticleImpl dao;
-	
-/*	@RequestMapping(value = "/denied", method = RequestMethod.GET)
-	public @ResponseBody ResponseEntity<Map<String, Object>> accessDenied() {
-		Map<String, Object> map = new HashMap<String, Object>();
-		HttpStatus status = HttpStatus.FORBIDDEN;
-		map.put("MESSAGE", "Access Denied. Please Log in.");
-		map.put("STATUS", "403");
-		return  new ResponseEntity<Map<String, Object>>(map, status);
-	}*/
+	private UserImpl dao;
 
 	@RequestMapping(value = "/autologin/admin", method = RequestMethod.GET)
 	public @ResponseBody ResponseEntity<Map<String, Object>> autologin(HttpServletRequest request) {
@@ -130,7 +121,7 @@ public class LoginController {
 		map.put("STATUS", "200");
 		map.put("IS_LOGIN", isAuthenticated());
 		map.put("ROLE", getRole());
-		map.put("DETAIL", dao.checkUser(getUsername()));
+		map.put("DETAIL", dao.show(getUsername()));
 		return new ResponseEntity<Map<String, Object>>(map, status);
 	}
 	

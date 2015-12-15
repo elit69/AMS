@@ -12,13 +12,7 @@ public class Article {
 	private Date pdate;
 	private boolean enable;
 	private String image;
-	
-	private String columnName;
-	private int limitRow;
-	private int page;
-	private String search;
-	private String key;
-	
+
 	public int getId() {
 		return id;
 	}
@@ -43,7 +37,6 @@ public class Article {
 	public void setContent(String content) {
 		this.content = content;
 	}
-
 	public boolean getEnable() {
 		return enable;
 	}
@@ -55,19 +48,12 @@ public class Article {
 	}
 	public void setImage(String image) {
 		this.image = image;
-	}
-	
+	}	
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
-	}
-	@Override
-	public String toString() {
-		return "Article [id=" + id + ", title=" + title + ", userid=" + userid
-				+ ", content=" + content + ", pubdaye=" + pdate + ", enable="
-				+ enable + ", image=" + image + "]";
 	}
 	public Date getPdate() {
 		return pdate;
@@ -75,35 +61,10 @@ public class Article {
 	public void setPdate(Date pdate) {
 		this.pdate = pdate;
 	}
-	public String getKey() {
-		return key;
-	}
-	public void setKey(String key) {
-		this.key = key;
-	}
-	public String getColumnName() {
-		return columnName;
-	}
-	public void setColumnName(String columnName) {
-		this.columnName = columnName;
-	}
-	public int getLimitRow() {
-		return limitRow;
-	}
-	public void setLimitRow(int limitRow) {
-		this.limitRow = limitRow;
-	}
-	public int getPage() {
-		return page;
-	}
-	public void setPage(int page) {
-		this.page = page;
-	}
-	public String getSearch() {
-		return search;
-	}
-	public void setSearch(String search) {
-		this.search = search;
+	@Override
+	public String toString() {
+		return "Article [id=" + id + ", title=" + title + ", userid=" + userid + ", name=" + name + ", content="
+				+ content + ", pdate=" + pdate + ", enable=" + enable + ", image=" + image + "]";
 	}
 	
 }

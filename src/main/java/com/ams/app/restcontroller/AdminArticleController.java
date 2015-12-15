@@ -64,46 +64,47 @@ public class AdminArticleController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		HttpStatus status = null;
 		Article art = artservice.show(id);
-			try {				
-				//make dir and naming file
-				String extension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
-				String newFileName = UUID.randomUUID().toString() + "." + extension;				
-				File path = new File(request.getSession().getServletContext().getRealPath("/resources/upload/profile/"));
-				if (!path.exists())		path.mkdir();
-				File newFile = new File(path + File.separator + newFileName);
-				
-				//check if duplicate name with other file
-				while(newFile.exists()){
-					newFileName = UUID.randomUUID().toString() + "." + extension;
-					newFile = new File(path + File.separator + newFileName);
-				}
-				
-				//uploading image
-				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(newFile));
-				byte[] bytes = file.getBytes();
-				stream.write(bytes);
-				stream.close();
-				
-				//deleting old file
-				File oldFile = new File(path + File.separator + art.getImage());
-				if(oldFile.exists() && !art.getImage().equals("default.jpg")) oldFile.delete();
-				
-				//update to database
-				System.out.println(newFile.getAbsolutePath());				
-				art.setImage(newFileName);
-				artservice.update(art);
-				
-				//return json
-				status = HttpStatus.CREATED;
-				map.put("MESSAGE", "IMAGE HAS BEEN UPLOADED.");
-				map.put("STATUS", status);				
-			} catch (Exception e) {
-				System.out.println("You are failed to upload  => " + e.getMessage());
-				status = HttpStatus.NOT_FOUND;
-				map.put("MESSAGE", "IMAGE HAS NOT BEEN UPLOADED.");
-				map.put("STATUS", status);
+		try {				
+			//make dir and naming file
+			String extension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
+			String newFileName = UUID.randomUUID().toString() + "." + extension;				
+			File path = new File(request.getSession().getServletContext().getRealPath("/resources/upload/profile/"));
+			if (!path.exists())		path.mkdir();
+			File newFile = new File(path + File.separator + newFileName);
+			
+			//check if duplicate name with other file
+			while(newFile.exists()){
+				newFileName = UUID.randomUUID().toString() + "." + extension;
+				newFile = new File(path + File.separator + newFileName);
 			}
-			return new ResponseEntity<Map<String, Object>>(map, status);
+			
+			//uploading image
+			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(newFile));
+			byte[] bytes = file.getBytes();
+			stream.write(bytes);
+			stream.close();
+			
+			//deleting old file
+			File oldFile = new File(path + File.separator + art.getImage());
+			if(oldFile.exists() && !art.getImage().equals("default.jpg")) oldFile.delete();
+			
+			//update to database
+			System.out.println(newFile.getAbsolutePath());				
+			art.setImage(newFileName);
+			artservice.update(art);
+			
+			//return json
+			status = HttpStatus.CREATED;
+			map.put("MESSAGE", "IMAGE HAS BEEN UPLOADED.");
+			map.put("STATUS", status);				
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("You are failed to upload  => " + e.getMessage());
+			status = HttpStatus.NOT_FOUND;
+			map.put("MESSAGE", "IMAGE HAS NOT BEEN UPLOADED.");
+			map.put("STATUS", status);
+		}
+		return new ResponseEntity<Map<String, Object>>(map, status);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)

@@ -1,5 +1,6 @@
 package com.ams.app.entities;
 
+import java.util.List;
 
 public class User {
 	private int id;
@@ -11,9 +12,8 @@ public class User {
 	private String phone;
 	private String name;
 	private String gender;
-	private String image;
-	
-	private int role_id;
+	private String image;	
+	private List<Role> roles;
 	
 	public int getId() {
 		return id;
@@ -75,11 +75,17 @@ public class User {
 	public void setImage(String image) {
 		this.image = image;
 	}
-	public int getRole_id() {
-		return role_id;
+	public List<Role> getRoles() {
+		return roles;
 	}
-	public void setRole_id(int role_id) {
-		this.role_id = role_id;
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", enable=" + enable
+				+ ", email=" + email + ", address=" + address + ", phone=" + phone + ", name=" + name + ", gender="
+				+ gender + ", image=" + image + ", roles=" + roles + "]";
 	}
 	
 }

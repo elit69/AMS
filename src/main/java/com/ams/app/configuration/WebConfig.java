@@ -15,8 +15,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import com.ams.app.serviceimplement.ArticleImpl;
-import com.ams.app.serviceimplement.AuthorArticleImpl;
-import com.ams.app.serviceimplement.ClientImpl;
 import com.ams.app.serviceimplement.UserImpl;
 import com.ams.app.serviceimplement.UserRoleImpl;
 import com.ams.app.services.ArticleService;
@@ -57,11 +55,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     }
 	
 	@Bean
-	public ClientImpl getClientDao(){
-		return new ClientImpl(this.getDataSource());
-	}
-	
-	@Bean
 	public UserService getUserDao(){
 		return new UserImpl(this.getDataSource());
 	}
@@ -75,10 +68,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 	public JdbcTemplate getJdbcTemplate(){
 		return new JdbcTemplate(this.getDataSource());
 	}
-	@Bean
-	public AuthorArticleImpl getAuthorArticleDao(){
-		return new AuthorArticleImpl(this.getJdbcTemplate());
-	}
+
 	@Bean
 	public UserRoleImpl getUserRoleDao(){
 		return new UserRoleImpl(this.getDataSource());

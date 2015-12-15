@@ -7,36 +7,32 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.ams.app.entities.User;
-import com.ams.app.entities.UserRole;
-import com.ams.app.services.UserRoleService;
 import com.ams.app.services.UserService;
 
 @RestController
 @RequestMapping(value = "/api/admin/user")
 public class AdminUserController {
-	private static final Logger logger = LoggerFactory.getLogger(AdminArticleController.class);
 
 	@Autowired
 	private UserService userService;
 	
-	@Autowired
-	private UserRoleService userRoleService;
+	/*@Autowired
+	private UserRoleService userRoleService;*/
 
 	@RequestMapping(value = { "/list/{limit}/{page}", "/list/{limit}" }, method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> listUser(@PathVariable Map<String, String> pathVariables) {
@@ -60,7 +56,7 @@ public class AdminUserController {
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.POST)
+/*	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> addUser(@RequestBody User user) {
 		System.out.println("add controller.");		
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -81,7 +77,7 @@ public class AdminUserController {
 			map.put("STATUS", HttpStatus.NOT_FOUND.value());
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_FOUND);
 		}
-	}
+	}*/
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Map<String, Object>> deleteUser(@PathVariable("id") int id) {
@@ -98,7 +94,7 @@ public class AdminUserController {
 		}
 	}
 
-	@RequestMapping(value = "/", method = RequestMethod.PUT)
+/*	@RequestMapping(value = "/", method = RequestMethod.PUT)
 	public ResponseEntity<Map<String, Object>> updateUser(@RequestBody User user) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if (userService.updateUser(user)) {
@@ -116,13 +112,13 @@ public class AdminUserController {
 			map.put("STATUS", HttpStatus.NOT_FOUND.value());
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_FOUND);
 		}
-	}
+	}*/
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> getUser(@PathVariable("id") int id) {
 		System.out.println("detail controller");
 		Map<String, Object> map = new HashMap<String, Object>();
-		User user = userService.getUser(id);
+		User user = userService.show(id);
 		if (user != null) {
 			map.put("MESSAGE", "USER HAS BEEN FOUND.");
 			map.put("STATUS", HttpStatus.FOUND.value());
@@ -163,52 +159,56 @@ public class AdminUserController {
 		return new ResponseEntity<Map<String, Object>>(map, status);
 	}
 
-	@RequestMapping(value = "/uploadimage", method = RequestMethod.POST)
-	public ResponseEntity<Map<String, Object>> uploadImage(@RequestParam("file") MultipartFile file,
+	@RequestMapping(value = "{id}/img", method = RequestMethod.POST)
+	public ResponseEntity<Map<String, Object>> uploadImage(
+			@PathVariable(value="id") int id,
+			@RequestParam("file") MultipartFile file,
 			HttpServletRequest request) {
-		String filename = file.getOriginalFilename();
-		System.out.println(file);
+		
 		Map<String, Object> map = new HashMap<String, Object>();
-		if (!file.isEmpty()) {
-			try {
-
-				byte[] bytes = file.getBytes();
-
-				// creating the directory to store file
-				String savePath = request.getSession().getServletContext().getRealPath("resources/upload/profile");
-				File path = new File(savePath);
-				if (!path.exists()) {
-					path.mkdir();
-				}
-
-				// creating the file on server
-				File serverFile = new File(savePath + File.separator + filename);
-				while(serverFile.exists()){
-					map.put("MESSAGE", "UPLAOD FAIL.");
-					map.put("STATUS", HttpStatus.FORBIDDEN.value());
-					return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_ACCEPTABLE);
-				}
-				BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
-				stream.write(bytes);
-				stream.close();
-
-				logger.info("Server File Location=" + serverFile.getAbsolutePath());
-				System.out.println(serverFile.getAbsolutePath());
-				System.out.println("You are successfully uploaded file " + filename);
-
-				map.put("MESSAGE", "UPLAOD SUCCESSED.");
-				map.put("STATUS", HttpStatus.CREATED.value());
-				return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
-
-			} catch (Exception e) {
-				System.out.println("You are failed to upload " + filename + " => " + e.getMessage());
+		HttpStatus status = null;
+		User usr = userService.show(id);
+		try {	
+			//make dir and naming file
+			String extension = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".") + 1);
+			String newFileName = UUID.randomUUID().toString() + "." + extension;				
+			File path = new File(request.getSession().getServletContext().getRealPath("/resources/upload/profile/"));
+			if (!path.exists())		path.mkdir();
+			File newFile = new File(path + File.separator + newFileName);
+			
+			//check if duplicate name with other file
+			while(newFile.exists()){
+				newFileName = UUID.randomUUID().toString() + "." + extension;
+				newFile = new File(path + File.separator + newFileName);
 			}
-		} else {
-			System.out.println("You are failed to upload " + filename + " because the file was empty!");
-			map.put("MESSAGE", "UPLAOD FAIL.");
-			map.put("STATUS", HttpStatus.FORBIDDEN.value());
-			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_ACCEPTABLE);
+			
+			//uploading image
+			BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(newFile));
+			byte[] bytes = file.getBytes();
+			stream.write(bytes);
+			stream.close();
+			
+			System.out.println(usr.getImage());
+			//deleting old file
+			File oldFile = new File(path + File.separator + usr.getImage());
+			if(oldFile.exists() && !usr.getImage().equals("default.jpg")) oldFile.delete();
+			
+			//update to database
+			System.out.println(newFile.getAbsolutePath());				
+			usr.setImage(newFileName);
+			//userService.update(usr);
+			
+			//return json
+			status = HttpStatus.CREATED;
+			map.put("MESSAGE", "IMAGE HAS BEEN UPLOADED.");
+			map.put("STATUS", status);				
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("You are failed to upload  => " + e.toString());			
+			status = HttpStatus.NOT_FOUND;
+			map.put("MESSAGE", "IMAGE HAS NOT BEEN UPLOADED.");
+			map.put("STATUS", status);
 		}
-		return null;
+		return new ResponseEntity<Map<String, Object>>(map, status);
 	}
 }

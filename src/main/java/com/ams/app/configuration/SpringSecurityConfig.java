@@ -24,7 +24,7 @@ import com.google.gson.Gson;
 
 @Configuration
 @EnableWebSecurity
-public class SpringSecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private DataSource dataSource;

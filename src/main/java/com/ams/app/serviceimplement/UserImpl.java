@@ -64,7 +64,7 @@ public class UserImpl implements UserService {
 	}
 
 	@Override
-	public boolean insertUser(User user) {
+	public boolean insert(User user) {
 		System.out.println("user dao."+user.getName());
 		
 		try {
@@ -101,7 +101,7 @@ public class UserImpl implements UserService {
 	}
 
 	@Override
-	public boolean updateUser(User user) {
+	public boolean update(User user) {
 		//System.out.println("user enable "+user.isEnable());
 		try {
 			con = dataSource.getConnection();
@@ -138,7 +138,7 @@ public class UserImpl implements UserService {
 	}
 
 	@Override
-	public User getUser(int id) {
+	public User show(int id) {
 		try {
 			con = dataSource.getConnection();
 			String sql = "SELECT * FROM tbuser WHERE id=? and enable = true Limit 1";
@@ -173,72 +173,7 @@ public class UserImpl implements UserService {
 	}
 
 	@Override
-	public ArrayList<User> getPagination(int page, int limit) {
-		User user = null;
-		int begin;
-		begin = (page * limit) - limit;
-		try {
-			con = dataSource.getConnection();
-			String sql = "SELECT * FROM tbuser where enable = true OFFSET " + begin + " LIMIT "
-					+ limit;
-			PreparedStatement ps = con.prepareStatement(sql);
-			ResultSet rs = ps.executeQuery();
-			ArrayList<User> users = new ArrayList<User>();
-			while (rs.next()) {
-				user = new User();
-				user.setId(rs.getInt(1));
-				user.setUsername(rs.getString(2));
-				user.setPassword(rs.getString(3));
-				user.setEnable(rs.getBoolean(4));
-				user.setEmail(rs.getString(5));
-				user.setAddress(rs.getString(6));
-				user.setPhone(rs.getString(7));
-				user.setName(rs.getString(8));
-				user.setGender(rs.getString(9));
-				user.setImage(rs.getString(10));
-
-				users.add(user);
-			}
-			rs.close();
-			return users;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return null;
-	}
-
-	@Override
-	public int getTotalPage(int limit) {
-		int total_page;
-		try {
-			con = dataSource.getConnection();
-			String sql = "SELECT * FROM tbuser where enable = true";
-			PreparedStatement ps = con.prepareStatement(sql);
-			ResultSet rs = ps.executeQuery();
-			rs.next();
-			total_page = rs.getInt(1) / limit;
-			rs.close();
-			return total_page;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return 0;
-	}
-
-	@Override
-	public User showUser(String usrName) {
+	public User show(String usrName) {
 		try {
 			con = dataSource.getConnection();
 			String sql = "SELECT * FROM tbuser WHERE username=? and enable = true Limit 1";
@@ -307,32 +242,6 @@ public class UserImpl implements UserService {
 			System.out.println(ex.getMessage());
 		}
 		return list;
-	}
-
-	@Override
-	public int getLastID() {
-		int id = 0;
-		try {
-			con = dataSource.getConnection();
-			String sql = "SELECT MAX(id) FROM tbuser where enable = true";
-			PreparedStatement ps = con.prepareStatement(sql);
-			ResultSet rs = ps.executeQuery();
-			while (rs.next()) {
-				id=rs.getInt(1);
-				System.out.println(id);
-			}
-			rs.close();
-			return id;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return 0;
 	}
 
 	@Override
