@@ -13,7 +13,7 @@ public class User {
 	private String name;
 	private String gender;
 	private String image;	
-	private List<Role> roles;
+	private List<String> roles;
 	
 	public int getId() {
 		return id;
@@ -75,10 +75,10 @@ public class User {
 	public void setImage(String image) {
 		this.image = image;
 	}
-	public List<Role> getRoles() {
+	public List<String> getRoles() {
 		return roles;
 	}
-	public void setRoles(List<Role> roles) {
+	public void setRoles(List<String> roles) {
 		this.roles = roles;
 	}
 	@Override

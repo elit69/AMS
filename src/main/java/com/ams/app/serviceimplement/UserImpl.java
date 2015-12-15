@@ -66,11 +66,10 @@ public class UserImpl implements UserService {
 	@Override
 	public boolean insert(User user) {
 		System.out.println("user dao."+user.getName());
-		
-		try {
-			con = dataSource.getConnection();
+		user.setEnable(true);
+		try(Connection con = dataSource.getConnection();){			
 			String sql = "INSERT INTO tbuser(username,password,enable,email,address,phone,name,gender,image) "
-					+ "VALUES(?,?,?,?,?,?,?,?,?)";
+					+ "VALUES(?,?,?,?,?,?,?,?,?) RETURNING ID";
 			PreparedStatement ps = con.prepareStatement(sql);
 			ps.setString(1, user.getUsername());
 			ps.setString(2, user.getPassword());
@@ -80,22 +79,16 @@ public class UserImpl implements UserService {
 			ps.setString(6, user.getPhone());
 			ps.setString(7, user.getName());
 			ps.setString(8, user.getGender());
-			if (user.getImage() != null) {
-				ps.setString(9, user.getImage());
-			} else {
-				ps.setString(9, "default.jpg");
-			}
-			if (ps.executeUpdate() > 0)
+			if (user.getImage() != null)	ps.setString(9, user.getImage());
+			else							ps.setString(9, "default.jpg");
+			ResultSet rs = ps.executeQuery();
+			System.out.println(ps);
+			if(rs.next() && rs.getInt(1) > 0){	
+				user.setId(rs.getInt(1));
 				return true;
-
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				con.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		return false;
 	}

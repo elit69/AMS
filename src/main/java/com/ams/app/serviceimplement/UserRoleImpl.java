@@ -9,7 +9,6 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import com.ams.app.entities.Role;
 import com.ams.app.services.UserRoleService;
 
 public class UserRoleImpl implements UserRoleService{
@@ -21,12 +20,13 @@ public class UserRoleImpl implements UserRoleService{
 	}
 
 	@Override
-	public boolean insertUserRole(int roleid, int userid) {
+	public boolean insert(int userid, String role) {
 		try(Connection con = dataSource.getConnection();) {			
-			String sql = "INSERT INTO tbuser_role(id,user_id) VALUES(?,?)";
-			PreparedStatement ps = con.prepareStatement(sql);
-			System.out.println("role id="+roleid+"user id="+userid);
-			ps.setInt(1, roleid);
+			String sql = "WITH roleID AS ( SELECT ID FROM tbrole WHERE ROLE = ?)"
+						+" insert into tbuser_role"
+						+" SELECT ID, ? FROM roleID";
+			PreparedStatement ps = con.prepareStatement(sql);			
+			ps.setString(1, role);
 			ps.setInt(2, userid);
 			if (ps.executeUpdate() > 0){
 				return true;
@@ -37,7 +37,7 @@ public class UserRoleImpl implements UserRoleService{
 		return false;
 	}
 
-	@Override
+/*	@Override
 	public boolean updateUserRole(int roleid, int userid) {
 		try(Connection con = dataSource.getConnection();){			
 			String sql = "UPDATE tbuser_role SET id=? WHERE user_id = ?";
@@ -55,9 +55,9 @@ public class UserRoleImpl implements UserRoleService{
 		} 
 		return false;
 	}
-
+*/
 	@Override
-	public List<Role> getUserRoles(int usrId) {
+	public List<String> list(int usrId) {
 		String sql = "SELECT ROLE FROM	v_get_user_roles WHERE	ID = ?";
 		try (Connection cnn = dataSource.getConnection();
 				PreparedStatement ps = cnn.prepareStatement(sql);		
@@ -66,13 +66,9 @@ public class UserRoleImpl implements UserRoleService{
 			ps.setInt(1, usrId);
 			ResultSet rs = ps.executeQuery();
 			System.out.println(ps);
-			List<Role> arr = new ArrayList<Role>();
-			Role a = null;
-			while(rs.next()){
-				a = new Role();
-				a.setId(rs.getInt("id"));
-				a.setRole(rs.getString("role"));
-				arr.add(a);
+			List<String> arr = new ArrayList<String>();
+			while(rs.next()){				
+				arr.add(rs.getString("role"));
 			}
 			return arr;
 

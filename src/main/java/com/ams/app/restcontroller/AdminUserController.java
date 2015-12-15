@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ams.app.entities.User;
+import com.ams.app.services.UserRoleService;
 import com.ams.app.services.UserService;
 
 @RestController
@@ -31,8 +33,8 @@ public class AdminUserController {
 	@Autowired
 	private UserService userService;
 	
-	/*@Autowired
-	private UserRoleService userRoleService;*/
+	@Autowired
+	private UserRoleService userRoleService;
 
 	@RequestMapping(value = { "/list/{limit}/{page}", "/list/{limit}" }, method = RequestMethod.GET)
 	public ResponseEntity<Map<String, Object>> listUser(@PathVariable Map<String, String> pathVariables) {
@@ -56,17 +58,12 @@ public class AdminUserController {
 		return new ResponseEntity<Map<String, Object>>(map, HttpStatus.OK);
 	}
 
-/*	@RequestMapping(value = "/", method = RequestMethod.POST)
+	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public ResponseEntity<Map<String, Object>> addUser(@RequestBody User user) {
 		System.out.println("add controller.");		
-		Map<String, Object> map = new HashMap<String, Object>();
-		user.setEnable(true);
-		if (userService.insertUser(user)) {			
-			UserRole ur=new UserRole();
-			ur.setId(user.getRole_id());
-			ur.setUser_id(userService.getLastID());
-			
-			if(userRoleService.insertUserRole(ur)){
+		Map<String, Object> map = new HashMap<String, Object>();				
+		if(userService.insert(user)) {				
+			if(userRoleService.insert(user.getId(), "ROLE_ADMIN")){
 				System.out.println("success insert to user role.");
 			}
 			map.put("MESSAGE", "USER HAS BEEN CREATED.");
@@ -77,7 +74,7 @@ public class AdminUserController {
 			map.put("STATUS", HttpStatus.NOT_FOUND.value());
 			return new ResponseEntity<Map<String, Object>>(map, HttpStatus.NOT_FOUND);
 		}
-	}*/
+	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Map<String, Object>> deleteUser(@PathVariable("id") int id) {
