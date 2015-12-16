@@ -63,7 +63,7 @@ public class AdminUserController {
 		System.out.println("add controller.");		
 		Map<String, Object> map = new HashMap<String, Object>();				
 		if(userService.insert(user)) {				
-			if(userRoleService.insert(user.getId(), "ROLE_ADMIN")){
+			if(userRoleService.insert(user.getId(), user.getRoles())){
 				System.out.println("success insert to user role.");
 			}
 			map.put("MESSAGE", "USER HAS BEEN CREATED.");

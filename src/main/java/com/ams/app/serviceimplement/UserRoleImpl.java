@@ -20,17 +20,20 @@ public class UserRoleImpl implements UserRoleService{
 	}
 
 	@Override
-	public boolean insert(int userid, String role) {
-		try(Connection con = dataSource.getConnection();) {			
-			String sql = "WITH roleID AS ( SELECT ID FROM tbrole WHERE ROLE = ?)"
-						+" insert into tbuser_role"
-						+" SELECT ID, ? FROM roleID";
-			PreparedStatement ps = con.prepareStatement(sql);			
-			ps.setString(1, role);
-			ps.setInt(2, userid);
-			if (ps.executeUpdate() > 0){
-				return true;
+	public boolean insert(int userid, List<String> roles) {
+		String sql = "WITH roleID AS ( SELECT ID FROM tbrole WHERE ROLE = ?)"
+				+" insert into tbuser_role"
+				+" SELECT ID, ? FROM roleID";
+		try(Connection con = dataSource.getConnection();
+			PreparedStatement ps = con.prepareStatement(sql);) {		
+			for(String role : roles){
+				ps.setString(1, role);
+				ps.setInt(2, userid);
+				if (ps.executeUpdate() == 0){					
+					return false;
+				}
 			}
+			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -60,9 +63,7 @@ public class UserRoleImpl implements UserRoleService{
 	public List<String> list(int usrId) {
 		String sql = "SELECT ROLE FROM	v_get_user_roles WHERE	ID = ?";
 		try (Connection cnn = dataSource.getConnection();
-				PreparedStatement ps = cnn.prepareStatement(sql);		
-		)
-		{
+			PreparedStatement ps = cnn.prepareStatement(sql);){			
 			ps.setInt(1, usrId);
 			ResultSet rs = ps.executeQuery();
 			System.out.println(ps);
@@ -71,7 +72,6 @@ public class UserRoleImpl implements UserRoleService{
 				arr.add(rs.getString("role"));
 			}
 			return arr;
-
 		} catch (SQLException e) {
 		e.printStackTrace();
 		}
